@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portal - Inscription & Connexion</title>
+  <style>
+    body {
+      background: #000000;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      font-family: 'Arial', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      overflow-x: hidden;
+    }
+    
+    /* Animation de fond améliorée */
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 20% 80%, rgba(139, 0, 0, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(139, 0, 0, 0.15) 0%, transparent 50%),
+        linear-gradient(180deg, rgba(0,0,0,0.9) 0%, rgba(20,0,0,0.8) 100%);
+      z-index: 1;
+      animation: bgPulse 15s infinite alternate ease-in-out;
+    }
+    
+    @keyframes bgPulse {
+      0% { 
+        opacity: 0.8;
+        filter: hue-rotate(0deg);
+      }
+      50% { 
+        opacity: 1;
+        filter: hue-rotate(10deg);
+      }
+      100% { 
+        opacity: 0.8;
+        filter: hue-rotate(0deg);
+      }
+    }
+    
+    /* Bouton Menu */
+    .menu-button {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      background: linear-gradient(135deg, #8b0000, #a00000);
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      font-size: 18px;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      z-index: 100;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(139, 0, 0, 0.4);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    
+    .menu-button:hover {
+      background: linear-gradient(135deg, #a00000, #c00000);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(139, 0, 0, 0.6);
+    }
+    
+    /* Overlay */
+    .menu-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      z-index: 98;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.4s ease;
+      backdrop-filter: blur(5px);
+    }
+    
+    .menu-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    /* Menu latéral */
+    .side-menu {
+      position: fixed;
+      top: 0;
+      left: -300px;
+      width: 280px;
+      height: 100vh;
+      background: linear-gradient(180deg, #1a1a1a 0%, #0a0a0a 100%);
+      backdrop-filter: blur(20px);
+      border-right: 3px solid #8b0000;
+      z-index: 99;
+      transition: left 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+      padding-top: 80px;
+      box-shadow: 10px 0 40px rgba(0, 0, 0, 0.8);
+    }
+    
+    .side-menu.open {
+      left: 0;
+    }
+    
+    .menu-header {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: linear-gradient(90deg, #8b0000, #a00000);
+      padding: 20px;
+      text-align: center;
+      border-bottom: 2px solid #ffd700;
+    }
+    
+    .menu-title {
+      color: white;
+      font-size: 24px;
+      font-weight: bold;
+      letter-spacing: 2px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+    
+    .menu-list {
+      list-style: none;
+      padding: 20px 0;
+      margin: 0;
+    }
+    
+    .menu-list li {
+      border-bottom: 1px solid rgba(139, 0, 0, 0.2);
+      transition: all 0.3s;
+      opacity: 0;
+      transform: translateX(-20px);
+      animation: slideIn 0.5s forwards;
+    }
+    
+    .menu-list li:nth-child(1) { animation-delay: 0.1s; }
+    .menu-list li:nth-child(2) { animation-delay: 0.2s; }
+    .menu-list li:nth-child(3) { animation-delay: 0.3s; }
+    .menu-list li:nth-child(4) { animation-delay: 0.4s; }
+    .menu-list li:nth-child(5) { animation-delay: 0.5s; }
+    
+    @keyframes slideIn {
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+    
+    .menu-list li:hover {
+      transform: translateX(5px);
+    }
+    
+    .menu-list li:last-child {
+      border-bottom: none;
+    }
+    
+    .menu-list a {
+      display: flex;
+      align-items: center;
+      color: white;
+      text-decoration: none;
+      padding: 18px 30px;
+      font-size: 18px;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .menu-list a:hover {
+      background: linear-gradient(90deg, rgba(139, 0, 0, 0.2), transparent);
+      color: #ff4444;
+      padding-left: 40px;
+    }
+    
+    .menu-list a::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #8b0000, #ff0000);
+      transition: width 0.3s;
+    }
+    
+    .menu-list a:hover::after {
+      width: 100%;
+    }
+    
+    .menu-list a::before {
+      content: '▶';
+      margin-right: 15px;
+      color: #8b0000;
+      font-size: 12px;
+      transition: all 0.3s;
+    }
+    
+    .menu-list a:hover::before {
+      content: '➤';
+      color: #ff0000;
+      transform: rotate(90deg);
+      margin-right: 20px;
+    }
+    
+    /* Style spécial pour le bouton Journal */
+    .menu-list .journal-btn {
+      background: linear-gradient(90deg, rgba(139, 0, 0, 0.3), transparent);
+      color: #ffd700 !important;
+      font-weight: bold;
+      border-left: 4px solid #ffd700;
+      animation: journalPulse 3s infinite;
+      position: relative;
+    }
+    
+    .menu-list .journal-btn:hover {
+      background: linear-gradient(90deg, rgba(139, 0, 0, 0.5), transparent) !important;
+      color: #ffcc00 !important;
+      border-left: 4px solid #ffcc00;
+    }
+    
+    .menu-list .journal-btn::before {
+      content: '📖';
+      font-size: 20px;
+      color: #ffd700 !important;
+      animation: bookFloat 2s infinite ease-in-out;
+    }
+    
+    @keyframes journalPulse {
+      0%, 100% { 
+        box-shadow: inset 0 0 0 rgba(255, 215, 0, 0.1); 
+      }
+      50% { 
+        box-shadow: inset 0 0 20px rgba(255, 215, 0, 0.2); 
+      }
+    }
+    
+    @keyframes bookFloat {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-3px) rotate(5deg); }
+    }
+    
+    /* Conteneur principal - FORMULAIRE D'INSCRIPTION/CONNEXION */
+    .auth-container {
+      text-align: center;
+      position: relative;
+      z-index: 10;
+      padding: 50px;
+      background: rgba(20, 20, 20, 0.85);
+      border-radius: 20px;
+      border: 2px solid #8b0000;
+      box-shadow: 0 0 60px rgba(139, 0, 0, 0.4);
+      backdrop-filter: blur(15px);
+      min-width: 400px;
+      max-width: 500px;
+      animation: containerFloat 6s infinite ease-in-out;
+    }
+    
+    @keyframes containerFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    
+    .auth-title {
+      color: #8b0000;
+      font-size: 42px;
+      font-weight: bold;
+      margin-bottom: 40px;
+      letter-spacing: 2px;
+      text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+      position: relative;
+      padding-bottom: 20px;
+    }
+    
+    .auth-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 150px;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, #8b0000, transparent);
+    }
+    
+    /* Formulaire */
+    .auth-form {
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+      margin-bottom: 30px;
+    }
+    
+    .form-group {
+      position: relative;
+    }
+    
+    .form-input {
+      width: 100%;
+      padding: 16px 20px;
+      background: rgba(30, 30, 30, 0.8);
+      border: 2px solid #8b0000;
+      border-radius: 10px;
+      color: white;
+      font-size: 16px;
+      transition: all 0.3s;
+      box-sizing: border-box;
+    }
+    
+    .form-input:focus {
+      outline: none;
+      border-color: #ff0000;
+      box-shadow: 0 0 15px rgba(139, 0, 0, 0.5);
+      background: rgba(40, 40, 40, 0.9);
+    }
+    
+    .form-input::placeholder {
+      color: rgba(255, 255, 255, 0.5);
+    }
+    
+    /* Boutons de formulaire */
+    .form-buttons {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      margin-top: 20px;
+    }
+    
+    .form-button {
+      padding: 16px 40px;
+      font-size: 18px;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      min-width: 160px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, #8b0000, #a00000);
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #a00000, #c00000);
+      transform: translateY(-3px);
+      box-shadow: 0 5px 20px rgba(139, 0, 0, 0.6);
+    }
+    
+    .btn-secondary {
+      background: rgba(139, 0, 0, 0.2);
+      color: #8b0000;
+      border: 2px solid #8b0000;
+    }
+    
+    .btn-secondary:hover {
+      background: rgba(139, 0, 0, 0.4);
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(139, 0, 0, 0.4);
+    }
+    
+    /* Lien de bascule */
+    .auth-toggle {
+      color: rgba(255, 255, 255, 0.7);
+      margin-top: 25px;
+      font-size: 16px;
+    }
+    
+    .toggle-link {
+      color: #8b0000;
+      text-decoration: none;
+      font-weight: bold;
+      margin-left: 10px;
+      transition: all 0.3s;
+    }
+    
+    .toggle-link:hover {
+      color: #ff0000;
+      text-decoration: underline;
+    }
+    
+    /* Footer */
+    .footer {
+      position: fixed;
+      bottom: 20px;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      color: rgba(255, 255, 255, 0.3);
+      font-size: 14px;
+      z-index: 1;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .auth-container {
+        min-width: 300px;
+        padding: 30px;
+        margin: 20px;
+      }
+      
+      .auth-title {
+        font-size: 32px;
+      }
+      
+      .form-buttons {
+        flex-direction: column;
+        gap: 15px;
+      }
+      
+      .form-button {
+        width: 100%;
+      }
+      
+      .side-menu {
+        width: 250px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .auth-container {
+        min-width: 280px;
+        padding: 25px;
+      }
+      
+      .auth-title {
+        font-size: 28px;
+      }
+      
+      .form-input {
+        padding: 14px 16px;
+      }
+      
+      .menu-button {
+        padding: 10px 20px;
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Bouton menu -->
+  <button class="menu-button" onclick="toggleMenu()">
+    ☰ MENU
+  </button>
+  
+  <!-- Overlay -->
+  <div class="menu-overlay" id="menuOverlay" onclick="closeMenu()"></div>
+  
+  <!-- Menu latéral -->
+  <div class="side-menu" id="sideMenu">
+    <div class="menu-header">
+      <div class="menu-title">NAVIGATION</div>
+    </div>
+    <ul class="menu-list">
+      <li><a href="index.html" onclick="closeMenu()">🏠 Accueil</a></li>
+      <!-- MODIFICATION ICI : Changé "02/12/25.md" en "journal.html" -->
+      <li><a href="journal.html" class="journal-btn" onclick="closeMenu()">📖 Journal</a></li>
+      <li><a href="https://discord.gg/NMpcTt7P" target="_blank" onclick="closeMenu()">🎮 Discord</a></li>
+      <li><a href="forum.html" onclick="closeMenu()">🛟 Support</a></li>
+      <li><a href="boutique.html" onclick="closeMenu()">🛒 Boutique</a></li>
+    </ul>
+  </div>
+  
+  <!-- Contenu principal avec FORMULAIRE -->
+  <div class="auth-container">
+    <h1 class="auth-title" id="formTitle">INSCRIPTION</h1>
+    
+    <!-- Formulaire d'inscription -->
+    <form id="registerForm" class="auth-form" style="display: block;">
+      <div class="form-group">
+        <input type="text" class="form-input" placeholder="Nom d'utilisateur" required>
+      </div>
+      <div class="form-group">
+        <input type="email" class="form-input" placeholder="Adresse email" required>
+      </div>
+      <div class="form-group">
+        <input type="password" class="form-input" placeholder="Mot de passe" required>
+      </div>
+      <div class="form-group">
+        <input type="password" class="form-input" placeholder="Confirmer le mot de passe" required>
+      </div>
+      
+      <div class="form-buttons">
+        <button type="submit" class="form-button btn-primary">S'inscrire</button>
+        <button type="button" class="form-button btn-secondary" onclick="switchToLogin()">Déjà un compte ?</button>
+      </div>
+    </form>
+    
+    <!-- Formulaire de connexion (caché par défaut) -->
+    <form id="loginForm" class="auth-form" style="display: none;">
+      <div class="form-group">
+        <input type="text" class="form-input" placeholder="Nom d'utilisateur ou Email" required>
+      </div>
+      <div class="form-group">
+        <input type="password" class="form-input" placeholder="Mot de passe" required>
+      </div>
+      
+      <div class="form-buttons">
+        <button type="submit" class="form-button btn-primary">Se connecter</button>
+        <button type="button" class="form-button btn-secondary" onclick="switchToRegister()">Créer un compte</button>
+      </div>
+    </form>
+    
+    <div class="auth-toggle">
+      <span id="toggleText">Déjà un compte ?</span>
+      <a href="#" class="toggle-link" id="toggleLink" onclick="toggleForms()">Se connecter</a>
+    </div>
+  </div>
+  
+  <!-- Footer -->
+  <div class="footer">
+    © 2024 Portal - Tous droits réservés
+  </div>
+  
+  <script>
+    // Variables d'état
+    let menuOpen = false;
+    const sideMenu = document.getElementById('sideMenu');
+    const menuOverlay = document.getElementById('menuOverlay');
+    const registerForm = document.getElementById('registerForm');
+    const loginForm = document.getElementById('loginForm');
+    const formTitle = document.getElementById('formTitle');
+    const toggleLink = document.getElementById('toggleLink');
+    const toggleText = document.getElementById('toggleText');
+    let isLoginForm = false;
+    
+    // Fonctions pour le menu
+    function toggleMenu() {
+      menuOpen = !menuOpen;
+      
+      if (menuOpen) {
+        sideMenu.classList.add('open');
+        menuOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        
+        // Animation des items du menu
+        const menuItems = document.querySelectorAll('.menu-list li');
+        menuItems.forEach((item, index) => {
+          item.style.animationDelay = `${index * 0.1}s`;
+        });
+      } else {
+        closeMenu();
+      }
+    }
+    
+    function closeMenu() {
+      menuOpen = false;
+      sideMenu.classList.remove('open');
+      menuOverlay.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    
+    // Basculer entre inscription et connexion
+    function toggleForms() {
+      isLoginForm = !isLoginForm;
+      
+      if (isLoginForm) {
+        // Afficher formulaire de connexion
+        registerForm.style.display = 'none';
+        loginForm.style.display = 'block';
+        formTitle.textContent = 'CONNEXION';
+        toggleLink.textContent = 'S\'inscrire';
+        toggleText.textContent = 'Pas de compte ?';
+      } else {
+        // Afficher formulaire d'inscription
+        registerForm.style.display = 'block';
+        loginForm.style.display = 'none';
+        formTitle.textContent = 'INSCRIPTION';
+        toggleLink.textContent = 'Se connecter';
+        toggleText.textContent = 'Déjà un compte ?';
+      }
+    }
+    
+    // Fonctions de raccourci
+    function switchToLogin() {
+      isLoginForm = true;
+      registerForm.style.display = 'none';
+      loginForm.style.display = 'block';
+      formTitle.textContent = 'CONNEXION';
+      toggleLink.textContent = 'S\'inscrire';
+      toggleText.textContent = 'Pas de compte ?';
+    }
+    
+    function switchToRegister() {
+      isLoginForm = false;
+      registerForm.style.display = 'block';
+      loginForm.style.display = 'none';
+      formTitle.textContent = 'INSCRIPTION';
+      toggleLink.textContent = 'Se connecter';
+      toggleText.textContent = 'Déjà un compte ?';
+    }
+    
+    // Gestion de la soumission des formulaires
+    registerForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert('Inscription réussie ! (Fonctionnalité à implémenter)');
+      // Ici tu pourrais ajouter un appel API pour l'inscription
+    });
+    
+    loginForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert('Connexion réussie ! (Fonctionnalité à implémenter)');
+      // Ici tu pourrais ajouter un appel API pour la connexion
+    });
+    
+    // Fermer le menu avec la touche Échap
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape' && menuOpen) {
+        closeMenu();
+      }
+    });
+    
+    // Animation d'entrée des champs de formulaire
+    document.addEventListener('DOMContentLoaded', function() {
+      const inputs = document.querySelectorAll('.form-input');
+      inputs.forEach((input, index) => {
+        input.style.opacity = '0';
+        input.style.transform = 'translateY(20px)';
+        
+        setTimeout(() => {
+          input.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+          input.style.opacity = '1';
+          input.style.transform = 'translateY(0)';
+        }, 300 + (index * 100));
+      });
+    });
+  </script>
+</body>
+</html>

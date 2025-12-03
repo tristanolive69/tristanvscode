@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portal - Mon Journal</title>
+  <style>
+    /* STYLES DE BASE - MÊME QUE TA PAGE INSCRIPTION */
+    body {
+      background: #000000;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      font-family: 'Arial', sans-serif;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow-x: hidden;
+    }
+    
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 20% 80%, rgba(139, 0, 0, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(139, 0, 0, 0.15) 0%, transparent 50%),
+        linear-gradient(180deg, rgba(0,0,0,0.9) 0%, rgba(20,0,0,0.8) 100%);
+      z-index: 1;
+      animation: bgPulse 15s infinite alternate ease-in-out;
+    }
+    
+    @keyframes bgPulse {
+      0% { 
+        opacity: 0.8;
+        filter: hue-rotate(0deg);
+      }
+      50% { 
+        opacity: 1;
+        filter: hue-rotate(10deg);
+      }
+      100% { 
+        opacity: 0.8;
+        filter: hue-rotate(0deg);
+      }
+    }
+    
+    /* MENU - IDENTIQUE À TON INSCRIPTION.HTML */
+    .menu-button {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      background: linear-gradient(135deg, #8b0000, #a00000);
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      font-size: 18px;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      z-index: 100;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(139, 0, 0, 0.4);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    
+    .menu-button:hover {
+      background: linear-gradient(135deg, #a00000, #c00000);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(139, 0, 0, 0.6);
+    }
+    
+    .menu-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      z-index: 98;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.4s ease;
+      backdrop-filter: blur(5px);
+    }
+    
+    .menu-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .side-menu {
+      position: fixed;
+      top: 0;
+      left: -300px;
+      width: 280px;
+      height: 100vh;
+      background: linear-gradient(180deg, #1a1a1a 0%, #0a0a0a 100%);
+      backdrop-filter: blur(20px);
+      border-right: 3px solid #8b0000;
+      z-index: 99;
+      transition: left 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+      padding-top: 80px;
+      box-shadow: 10px 0 40px rgba(0, 0, 0, 0.8);
+    }
+    
+    .side-menu.open {
+      left: 0;
+    }
+    
+    .menu-header {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: linear-gradient(90deg, #8b0000, #a00000);
+      padding: 20px;
+      text-align: center;
+      border-bottom: 2px solid #ffd700;
+    }
+    
+    .menu-title {
+      color: white;
+      font-size: 24px;
+      font-weight: bold;
+      letter-spacing: 2px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+    
+    .menu-list {
+      list-style: none;
+      padding: 20px 0;
+      margin: 0;
+    }
+    
+    .menu-list li {
+      border-bottom: 1px solid rgba(139, 0, 0, 0.2);
+      transition: all 0.3s;
+      opacity: 0;
+      transform: translateX(-20px);
+      animation: slideIn 0.5s forwards;
+    }
+    
+    .menu-list li:nth-child(1) { animation-delay: 0.1s; }
+    .menu-list li:nth-child(2) { animation-delay: 0.2s; }
+    .menu-list li:nth-child(3) { animation-delay: 0.3s; }
+    .menu-list li:nth-child(4) { animation-delay: 0.4s; }
+    .menu-list li:nth-child(5) { animation-delay: 0.5s; }
+    
+    @keyframes slideIn {
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+    
+    .menu-list li:hover {
+      transform: translateX(5px);
+    }
+    
+    .menu-list li:last-child {
+      border-bottom: none;
+    }
+    
+    .menu-list a {
+      display: flex;
+      align-items: center;
+      color: white;
+      text-decoration: none;
+      padding: 18px 30px;
+      font-size: 18px;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .menu-list a:hover {
+      background: linear-gradient(90deg, rgba(139, 0, 0, 0.2), transparent);
+      color: #ff4444;
+      padding-left: 40px;
+    }
+    
+    .menu-list a::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #8b0000, #ff0000);
+      transition: width 0.3s;
+    }
+    
+    .menu-list a:hover::after {
+      width: 100%;
+    }
+    
+    .menu-list a::before {
+      content: '▶';
+      margin-right: 15px;
+      color: #8b0000;
+      font-size: 12px;
+      transition: all 0.3s;
+    }
+    
+    .menu-list a:hover::before {
+      content: '➤';
+      color: #ff0000;
+      transform: rotate(90deg);
+      margin-right: 20px;
+    }
+    
+    /* Bouton Journal spécial */
+    .menu-list .journal-btn {
+      background: linear-gradient(90deg, rgba(139, 0, 0, 0.3), transparent);
+      color: #ffd700 !important;
+      font-weight: bold;
+      border-left: 4px solid #ffd700;
+      animation: journalPulse 3s infinite;
+      position: relative;
+    }
+    
+    .menu-list .journal-btn:hover {
+      background: linear-gradient(90deg, rgba(139, 0, 0, 0.5), transparent) !important;
+      color: #ffcc00 !important;
+      border-left: 4px solid #ffcc00;
+    }
+    
+    .menu-list .journal-btn::before {
+      content: '📖';
+      font-size: 20px;
+      color: #ffd700 !important;
+      animation: bookFloat 2s infinite ease-in-out;
+    }
+    
+    @keyframes journalPulse {
+      0%, 100% { 
+        box-shadow: inset 0 0 0 rgba(255, 215, 0, 0.1); 
+      }
+      50% { 
+        box-shadow: inset 0 0 20px rgba(255, 215, 0, 0.2); 
+      }
+    }
+    
+    @keyframes bookFloat {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-3px) rotate(5deg); }
+    }
+    
+    /* HEADER DE LA PAGE JOURNAL */
+    .journal-header {
+      text-align: center;
+      padding: 40px 20px 20px;
+      position: relative;
+      z-index: 10;
+      margin-bottom: 30px;
+    }
+    
+    .journal-title {
+      color: #ffd700;
+      font-size: 48px;
+      font-weight: bold;
+      margin: 0;
+      letter-spacing: 3px;
+      text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7);
+      position: relative;
+      display: inline-block;
+      padding-bottom: 15px;
+    }
+    
+    .journal-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 200px;
+      height: 4px;
+      background: linear-gradient(90deg, transparent, #ffd700, transparent);
+    }
+    
+    .journal-subtitle {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 18px;
+      margin-top: 10px;
+      font-style: italic;
+    }
+    
+    /* CONTENEUR PRINCIPAL DU JOURNAL */
+    .journal-container {
+      position: relative;
+      z-index: 10;
+      max-width: 1000px;
+      margin: 0 auto 60px;
+      padding: 0 20px;
+      flex: 1;
+      overflow-y: auto;
+    }
+    
+    .journal-content {
+      background: rgba(30, 30, 30, 0.85);
+      border-radius: 15px;
+      border: 2px solid #8b0000;
+      padding: 40px;
+      box-shadow: 0 10px 40px rgba(139, 0, 0, 0.3);
+      backdrop-filter: blur(10px);
+      animation: contentAppear 0.8s ease-out;
+    }
+    
+    @keyframes contentAppear {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    /* STYLES POUR LE MARKDOWN */
+    .journal-md {
+      color: #e0e0e0;
+      line-height: 1.8;
+      font-size: 17px;
+    }
+    
+    .journal-md h1 {
+      color: #ff4444;
+      border-bottom: 2px solid #8b0000;
+      padding-bottom: 10px;
+      margin-top: 40px;
+      margin-bottom: 25px;
+      font-size: 32px;
+    }
+    
+    .journal-md h2 {
+      color: #ff6666;
+      margin-top: 35px;
+      margin-bottom: 20px;
+      font-size: 26px;
+      padding-left: 15px;
+      border-left: 4px solid #8b0000;
+    }
+    
+    .journal-md h3 {
+      color: #ff8888;
+      margin-top: 30px;
+      margin-bottom: 15px;
+      font-size: 22px;
+    }
+    
+    .journal-md p {
+      margin-bottom: 20px;
+      text-align: justify;
+    }
+    
+    .journal-md ul, .journal-md ol {
+      margin-bottom: 25px;
+      padding-left: 30px;
+    }
+    
+    .journal-md li {
+      margin-bottom: 8px;
+      position: relative;
+    }
+    
+    .journal-md li::marker {
+      color: #8b0000;
+    }
+    
+    .journal-md strong {
+      color: #ffd700;
+      font-weight: bold;
+    }
+    
+    .journal-md em {
+      color: #ffaaaa;
+      font-style: italic;
+    }
+    
+    .journal-md code {
+      background: rgba(139, 0, 0, 0.2);
+      color: #ff9999;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 15px;
+      border: 1px solid rgba(139, 0, 0, 0.5);
+    }
+    
+    .journal-md pre {
+      background: rgba(20, 20, 20, 0.9);
+      border: 1px solid #8b0000;
+      border-radius: 8px;
+      padding: 20px;
+      overflow-x: auto;
+      margin: 25px 0;
+      box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+    }
+    
+    .journal-md pre code {
+      background: transparent;
+      border: none;
+      padding: 0;
+      color: #e0e0e0;
+      font-size: 15px;
+      line-height: 1.5;
+    }
+    
+    .journal-md blockquote {
+      border-left: 4px solid #8b0000;
+      padding-left: 20px;
+      margin: 25px 0;
+      color: #cccccc;
+      font-style: italic;
+      background: rgba(139, 0, 0, 0.1);
+      padding: 15px 20px;
+      border-radius: 0 8px 8px 0;
+    }
+    
+    .journal-md hr {
+      border: none;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #8b0000, transparent);
+      margin: 40px 0;
+    }
+    
+    /* MÉTADONNÉES */
+    .journal-meta {
+      background: rgba(139, 0, 0, 0.1);
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 40px;
+      border-left: 4px solid #ffd700;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+    
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: rgba(255, 255, 255, 0.8);
+    }
+    
+    .meta-icon {
+      color: #ffd700;
+      font-size: 20px;
+    }
+    
+    /* FOOTER */
+    .footer {
+      position: relative;
+      width: 100%;
+      text-align: center;
+      color: rgba(255, 255, 255, 0.3);
+      font-size: 14px;
+      padding: 20px;
+      z-index: 10;
+      background: rgba(0, 0, 0, 0.5);
+      margin-top: auto;
+    }
+    
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .journal-container {
+        padding: 0 15px;
+        margin-bottom: 40px;
+      }
+      
+      .journal-content {
+        padding: 25px;
+      }
+      
+      .journal-title {
+        font-size: 36px;
+      }
+      
+      .journal-md {
+        font-size: 16px;
+      }
+      
+      .journal-md h1 {
+        font-size: 28px;
+      }
+      
+      .journal-md h2 {
+        font-size: 22px;
+      }
+      
+      .journal-md h3 {
+        font-size: 19px;
+      }
+      
+      .journal-meta {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .journal-content {
+        padding: 20px;
+      }
+      
+      .journal-title {
+        font-size: 28px;
+      }
+      
+      .journal-md {
+        font-size: 15px;
+      }
+      
+      .menu-button {
+        padding: 10px 20px;
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Bouton menu -->
+  <button class="menu-button" onclick="toggleMenu()">
+    ☰ MENU
+  </button>
+  
+  <!-- Overlay -->
+  <div class="menu-overlay" id="menuOverlay" onclick="closeMenu()"></div>
+  
+  <!-- Menu latéral -->
+  <div class="side-menu" id="sideMenu">
+    <div class="menu-header">
+      <div class="menu-title">NAVIGATION</div>
+    </div>
+    <ul class="menu-list">
+      <li><a href="inscription.html" onclick="closeMenu()">🏠 Accueil</a></li>
+      <li><a href="#" class="journal-btn" onclick="closeMenu()">📖 Journal</a></li>
+      <li><a href="https://discord.gg/NMpcTt7P" target="_blank" onclick="closeMenu()">🎮 Discord</a></li>
+      <li><a href="forum.html" onclick="closeMenu()">🛟 Support</a></li>
+      <li><a href="boutique.html" onclick="closeMenu()">🛒 Boutique</a></li>
+    </ul>
+  </div>
+  
+  <!-- Header de la page -->
+  <div class="journal-header">
+    <h1 class="journal-title">MON JOURNAL</h1>
+    <div class="journal-subtitle">L'histoire de notre aventure numérique - 02 Décembre 2025</div>
+  </div>
+  
+  <!-- Contenu principal -->
+  <div class="journal-container">
+    <div class="journal-content">
+      <div class="journal-meta">
+        <div class="meta-item">
+          <span class="meta-icon">📅</span>
+          <span>02/12/2025</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-icon">📝</span>
+          <span>Journal de développement</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-icon">⚡</span>
+          <span>Session avec Sounil</span>
+        </div>
+      </div>
+      
+      <!-- TON JOURNAL .md INTÉGRÉ DIRECTEMENT ICI -->
+      <div class="journal-md">
+        <h1>🌅 MATINÉE : PREMIERS PAS AVEC VS CODE</h1>
+        
+        <p><strong>Tristan :</strong> "Comment télécharger VS Code ?"</p>
+        <p><strong>Moi :</strong> Je donne les instructions détaillées pour télécharger et installer VS Code sur Windows. Téléchargement depuis le site officiel, installation, premiers raccourcis clés.</p>
+        
+        <p><strong>Tristan :</strong> "J'ai ouvert mon dossier VS Code, qu'est-ce que je peux faire du codage ?"</p>
+        <p><strong>Moi :</strong> Je guide la création du premier projet :</p>
+        
+        <ul>
+          <li>Création du dossier <code>projet-1-bouton-magic</code></li>
+          <li>Fichier <code>index.html</code> avec le code du bouton magique</li>
+          <li>Test dans Chrome : "MAGIC ! 🎩✨"</li>
+          <li>Premières personnalisations : changer texte, couleurs, phrases</li>
+        </ul>
+        
+        <p><strong>Problème rencontré :</strong> "Ça marche pas, ça m'ouvre une page blanche sur Google Chrome"</p>
+        <p><strong>Debuggage :</strong></p>
+        <ul>
+          <li>Vérification du nom de fichier (<code>index.html</code> pas <code>index.html.txt</code>)</li>
+          <li>Test avec un code simplifié</li>
+          <li>Solution : Bien enregistrer (Ctrl+S) et rafraîchir (F5)</li>
+        </ul>
+        
+        <h2>☀️ APRÈS-MIDI : CRÉATIONS ET ANIMATIONS</h2>
+        
+        <p><strong>Tristan :</strong> "Super ! Maintenant j'aimerais changer pour que quand je clique sur le bouton une pluie d'étoiles apparaît"</p>
+        <p><strong>Moi :</strong> Je modifie le code pour créer 50 étoiles qui tombent, avec animations CSS, effets aléatoires, et le texte "Bienvenue" qui reste visible.</p>
+        
+        <p><strong>Tristan :</strong> "J'aimerais créer un deuxième bouton qui me permet de créer des cœurs de toutes les couleurs"</p>
+        <p><strong>Moi :</strong> Ajout d'un deuxième bouton arc-en-ciel avec :</p>
+        
+        <ul>
+          <li>30 cœurs multicolores</li>
+          <li>8 couleurs différentes</li>
+          <li>3 types d'animations (tomber, flotter, spirale)</li>
+          <li>Son de battement de cœur</li>
+        </ul>
+        
+        <p><strong>Problème :</strong> "C'est pas du tout ce que je voulais, tu peux me le refaire au propre ?"</p>
+        <p>Je me rends compte que j'ai mis la fonction au mauvais endroit. Je corrige en séparant bien les deux fonctions <code>magic()</code> et <code>createHearts()</code>.</p>
+        
+        <p><strong>Tristan :</strong> "Maintenant j'aimerais créer une nouvelle page"</p>
+        <p>Création successive de :</p>
+        <ul>
+          <li>Page noire simple avec bouton "Bienvenue"</li>
+          <li>Page inscription/connexion avec menu</li>
+          <li>Navigation entre les pages</li>
+        </ul>
+        
+        <h2>🌙 SOIRÉE : DESIGN AVANCÉ ET DÉPLOIEMENT</h2>
+        
+        <p><strong>Tristan :</strong> "Je voudrais des météorites bien faites, pas des trucs de merde !"</p>
+        <p><strong>Moi :</strong> Je crée des météorites réalistes en SVG avec :</p>
+        <ul>
+          <li>Noyau incandescent blanc-jaune</li>
+          <li>Boule de feu orange-rouge</li>
+          <li>Queue lumineuse avec dégradé</li>
+          <li>Rotation et effets de flou</li>
+        </ul>
+        
+        <p><strong>Tristan :</strong> "Rajoute moi en fond de la page Bienvenue un crâne squelette pirate mais un vrai pas des trucs de gamin"</p>
+        <p><strong>Moi :</strong> Création d'un crâne pirate réaliste en SVG avec :</p>
+        <ul>
+          <li>Détails anatomiques (orbites, dents, mâchoire)</li>
+          <li>Texture osseuse avec fissures</li>
+          <li>Bandana pirate et croix d'os</li>
+          <li>Effet vieilli en tons sépia</li>
+        </ul>
+        
+        <p><strong>Tristan :</strong> "Maintenant rajoute moi dans la page inscription un bouton en haut à gauche qui fait qu'en cliquant une liste s'affiche"</p>
+        <p><strong>Moi :</strong> Création d'un menu latéral animé avec :</p>
+        <ul>
+          <li>Bouton ☰ Menu en haut à gauche</li>
+          <li>Liste : Accueil, Discord, Support, Store</li>
+          <li>Animation de glissement fluide</li>
+          <li>Overlay sombre</li>
+        </ul>
+        
+        <p><strong>Tristan :</strong> "Fait en sorte qu'en cliquant sur Discord ça m'amène sur ce lien https://discord.gg/NMpcTt7P"</p>
+        <p>Ajout du lien Discord avec <code>target="_blank"</code> pour ouvrir dans un nouvel onglet.</p>
+        
+        <p><strong>Tristan :</strong> "Maintenant crée moi une nouvelle page Forum"</p>
+        <p>Création de <code>forum.html</code> avec :</p>
+        <ul>
+          <li>Fond bleu marine</li>
+          <li>"☎️ Forum ☎️" clignotant rouge/noir</li>
+          <li>Effets de lueur néon</li>
+        </ul>
+        
+        <p><strong>Tristan :</strong> "Maintenant crée moi une nouvelle page Boutique"</p>
+        <p>Création de <code>boutique.html</code> avec :</p>
+        <ul>
+          <li>Fond vert forêt</li>
+          <li>"💲 Bienvenue dans la boutique 💲" clignotant jaune/noir</li>
+          <li>12 articles animés</li>
+          <li>Pièces qui tombent (💲💰💎)</li>
+        </ul>
+        
+        <p><strong>Problème de navigation :</strong> "Mes boutons Accueil et Support ne marchent plus"</p>
+        <p><strong>Debuggage Netlify :</strong></p>
+        <ul>
+          <li>Problème : Chemins relatifs vs absolus</li>
+          <li>Solution : Changer <code>href="indexsiteoff.html"</code> en <code>href="/"</code></li>
+          <li>Solution : Ajouter <code>/</code> devant les noms de fichiers</li>
+        </ul>
+        
+        <h2>🚀 DÉPLOIEMENT SUR NETLIFY</h2>
+        
+        <p><strong>Tristan :</strong> "J'aimerais déployer tout ce qu'on vient de faire avec NETLIFY"</p>
+        <p>Guide étape par étape :</p>
+        <ul>
+          <li>Création compte Netlify</li>
+          <li>Drag & drop du dossier</li>
+          <li>Attente du déploiement</li>
+          <li>Test de l'URL générée</li>
+        </ul>
+        
+        <p><strong>Message Netlify :</strong> "No redirect rules processed..."</p>
+        <p>Explication : Ces messages sont normaux, pas des erreurs. C'est juste Netlify qui informe qu'il n'y a pas de configuration spéciale.</p>
+        
+        <p><strong>Problème final :</strong> "J'ai 6 problèmes peut-tu m'aider ?"</p>
+        <p>Solutions apportées :</p>
+        <ul>
+          <li>Correction des liens pour Netlify</li>
+          <li>Fix des apostrophes échappées (<code>\\'</code> → <code>\'</code>)</li>
+          <li>Structure HTML propre</li>
+          <li>Navigation fonctionnelle</li>
+        </ul>
+        
+        <h2>🎨 CRÉATION FINALE : PAGE AUTO-ÉVALUATION</h2>
+        
+        <p><strong>Tristan :</strong> "Yo pourrait tu me créer une page en fond vert clair avec écrit en haut au milieu Auto évaluation..."</p>
+        <p>Création de la page d'auto-évaluation avec :</p>
+        <ul>
+          <li>5 lignes avec tirets -</li>
+          <li>Champs texte pour écrire</li>
+          <li>Bouton de sauvegarde</li>
+          <li>Feuilles animées (🍃🌿☘️)</li>
+        </ul>
+        
+        <h2>📖 DEMANDE DE JOURNAL</h2>
+        
+        <p><strong>Tristan :</strong> "Écrit un LOG de ma journée d'hier nos échanges etc, comme un carnet de bord"</p>
+        <p>Création du journal en markdown avec :</p>
+        <ul>
+          <li>Structure détaillée</li>
+          <li>Problèmes et solutions</li>
+          <li>Apprentissages techniques</li>
+          <li>Statistiques de la session</li>
+        </ul>
+        
+        <p><strong>Tristan :</strong> "Raconte nos échanges d'hier en texte markdown !!"</p>
+        <p>Voici ce récit détaillé de nos échanges, heure par heure, problème par problème, solution par solution.</p>
+        
+        <hr>
+        
+        <h2>💭 RÉFLEXION SUR LA SESSION</h2>
+        
+        <p><strong>Ce qui a bien fonctionné :</strong></p>
+        <ul>
+          <li>Progression logique du simple au complexe</li>
+          <li>Résolution systématique des problèmes</li>
+          <li>Création d'un projet complet et fonctionnel</li>
+          <li>Apprentissage par la pratique</li>
+        </ul>
+        
+        <p><strong>Points difficiles :</strong></p>
+        <ul>
+          <li>Compréhension des chemins de fichiers</li>
+          <li>Debuggage des erreurs de syntaxe</li>
+          <li>Adaptation pour Netlify</li>
+          <li>Gestion des attentes vs réalité technique</li>
+        </ul>
+        
+        <p><strong>Satisfaction globale :</strong></p>
+        <p>Un projet abouti en une journée, avec déploiement en ligne et design professionnel. Tristan a passé de "comment télécharger VS Code" à "mon site est en ligne sur Netlify" en moins de 24 heures !</p>
+        
+        <p><strong>📌 Note :</strong> Cette journée montre bien l'apprentissage progressif du développement web, avec ses frustrations (pages blanches, liens cassés) et ses satisfactions (animations réussies, site en ligne). Un parcours typique et enrichissant !</p>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Footer -->
+  <div class="footer">
+    © 2024 Portal - Tous droits réservés | Journal du 02/12/2025
+  </div>
+  
+  <script>
+    // Variables d'état pour le menu (même code que ta page)
+    let menuOpen = false;
+    const sideMenu = document.getElementById('sideMenu');
+    const menuOverlay = document.getElementById('menuOverlay');
+    
+    // Fonctions pour le menu
+    function toggleMenu() {
+      menuOpen = !menuOpen;
+      
+      if (menuOpen) {
+        sideMenu.classList.add('open');
+        menuOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        
+        const menuItems = document.querySelectorAll('.menu-list li');
+        menuItems.forEach((item, index) => {
+          item.style.animationDelay = `${index * 0.1}s`;
+        });
+      } else {
+        closeMenu();
+      }
+    }
+    
+    function closeMenu() {
+      menuOpen = false;
+      sideMenu.classList.remove('open');
+      menuOverlay.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    
+    // Fermer le menu avec Échap
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape' && menuOpen) {
+        closeMenu();
+      }
+    });
+    
+    // Animation d'entrée au chargement
+    document.addEventListener('DOMContentLoaded', function() {
+      document.querySelector('.journal-container').style.opacity = '0';
+      document.querySelector('.journal-container').style.transform = 'translateY(20px)';
+      
+      setTimeout(() => {
+        document.querySelector('.journal-container').style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+        document.querySelector('.journal-container').style.opacity = '1';
+        document.querySelector('.journal-container').style.transform = 'translateY(0)';
+        
+        // Ajouter des effets interactifs
+        const headings = document.querySelectorAll('.journal-md h1, .journal-md h2');
+        headings.forEach(heading => {
+          heading.style.cursor = 'pointer';
+          heading.addEventListener('click', function() {
+            this.style.color = '#ffd700';
+            setTimeout(() => {
+              this.style.color = '';
+            }, 1000);
+          });
+        });
+      }, 300);
+    });
+  </script>
+</body>
+</html>

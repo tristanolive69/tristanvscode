@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      background: #000000;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    /* Bouton Bienvenue */
+    .bienvenue-btn {
+      background: #ff0000;
+      color: white;
+      border: none;
+      padding: 25px 50px;
+      font-size: 24px;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: Arial, sans-serif;
+      position: relative;
+      z-index: 2;
+    }
+    
+    /* Liens en haut à droite */
+    .top-links {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      gap: 20px;
+      z-index: 2;
+    }
+    
+    .top-links a {
+      color: #ff0000;
+      text-decoration: none;
+      font-size: 16px;
+      font-family: Arial, sans-serif;
+      z-index: 2;
+    }
+    
+    .top-links a:hover {
+      text-decoration: underline;
+    }
+    
+    /* Météorites PLUS GROSSES */
+    .meteor {
+      position: absolute;
+      background: radial-gradient(circle, rgba(255,255,255,0.9) 0%, rgba(255,100,100,0.7) 70%, rgba(255,50,50,0.4) 100%);
+      border-radius: 50%;
+      filter: blur(2px);
+      box-shadow: 0 0 30px rgba(255,100,100,0.8);
+      z-index: 1; /* DERRIÈRE le texte */
+    }
+    
+    /* Queue des météorites PLUS LONGUE */
+    .meteor::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: -150px; /* Queue plus longue */
+      width: 150px;
+      height: 6px; /* Plus épaisse */
+      background: linear-gradient(to right, 
+        transparent, 
+        rgba(255,255,255,0.9),
+        rgba(255,200,100,0.8));
+      transform: translateY(-50%);
+      border-radius: 3px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Liens en haut à droite -->
+  <div class="top-links">
+    <a href="#">Inscription</a>
+    <a href="#">Connexion</a>
+  </div>
+  
+  <!-- Bouton Bienvenue au centre -->
+  <button class="bienvenue-btn" onclick="createMeteor()">
+    Bienvenue
+  </button>
+  
+  <script>
+    // Crée des météorites PLUS GROSSES
+    function createMeteor() {
+      const meteor = document.createElement('div');
+      meteor.className = 'meteor';
+      
+      // Taille BEAUCOUP PLUS GRANDE (50px à 100px)
+      const size = Math.random() * 50 + 50; // 50px à 100px
+      meteor.style.width = size + 'px';
+      meteor.style.height = size + 'px';
+      
+      // Position de départ (haut de l'écran, aléatoire en largeur)
+      meteor.style.top = '-100px';
+      meteor.style.left = Math.random() * (window.innerWidth + 200) - 100 + 'px';
+      
+      // Couleur chaude (orange, rouge, jaune)
+      const colors = [
+        'radial-gradient(circle, rgba(255,255,200,0.9), rgba(255,150,50,0.7))',
+        'radial-gradient(circle, rgba(255,200,150,0.9), rgba(255,100,50,0.7))',
+        'radial-gradient(circle, rgba(255,230,150,0.9), rgba(255,80,30,0.7))',
+        'radial-gradient(circle, rgba(255,255,180,0.9), rgba(255,120,40,0.7))'
+      ];
+      meteor.style.background = colors[Math.floor(Math.random() * colors.length)];
+      
+      document.body.appendChild(meteor);
+      
+      // Animation DE HAUT EN BAS
+      const duration = Math.random() * 2 + 1.5; // 1.5 à 3.5 secondes
+      const endY = window.innerHeight + 100; // Va jusqu'en bas + marge
+      const wobble = Math.random() * 100 - 50; // Léger déplacement latéral
+      
+      meteor.animate([
+        { 
+          transform: 'translate(0, 0) rotate(0deg)',
+          opacity: 1 
+        },
+        { 
+          transform: `translate(${wobble}px, ${endY}px) rotate(180deg)`,
+          opacity: 0.3 
+        }
+      ], {
+        duration: duration * 1000,
+        easing: 'cubic-bezier(0.4, 0, 0.6, 1)' // Accélération vers le bas
+      });
+      
+      // Supprime après animation
+      setTimeout(() => {
+        meteor.remove();
+      }, duration * 1000);
+    }
+    
+    // Crée PLUS de météorites (toutes les 0.8 secondes)
+    setInterval(createMeteor, 800);
+    
+    // Crée 5 météorites au chargement (immédiatement)
+    window.onload = function() {
+      for(let i = 0; i < 5; i++) {
+        setTimeout(() => createMeteor(), i * 200);
+      }
+    };
+    
+    // Crée des météorites quand on bouge la souris
+    document.addEventListener('mousemove', function(e) {
+      if(Math.random() > 0.7) { // 30% de chance
+        createMeteor();
+      }
+    });
+  </script>
+</body>
+</html>

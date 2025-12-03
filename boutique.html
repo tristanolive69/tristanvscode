@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      background: #0a2f1a;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      font-family: 'Impact', 'Arial Black', sans-serif;
+      overflow-x: hidden;
+    }
+    
+    /* Titre boutique */
+    .boutique-title {
+      color: #ffd700;
+      text-align: center;
+      font-size: 52px;
+      font-weight: bold;
+      margin-top: 50px;
+      letter-spacing: 4px;
+      text-shadow: 
+        4px 4px 8px rgba(0, 0, 0, 0.7),
+        0 0 20px rgba(255, 215, 0, 0.5);
+      animation: blink-yellow-black 1.2s infinite alternate;
+      padding: 25px 40px;
+      background: linear-gradient(135deg, 
+        rgba(10, 47, 26, 0.8) 0%,
+        rgba(20, 80, 40, 0.6) 50%,
+        rgba(10, 47, 26, 0.8) 100%);
+      border-radius: 15px;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+      border: 3px solid rgba(255, 215, 0, 0.5);
+      position: relative;
+    }
+    
+    @keyframes blink-yellow-black {
+      0%, 30% {
+        color: #ffd700;
+        text-shadow: 
+          0 0 15px #ffd700,
+          0 0 30px #ffd700,
+          0 0 45px #ffd700,
+          4px 4px 8px rgba(0, 0, 0, 0.7);
+        border-color: rgba(255, 215, 0, 0.8);
+      }
+      35%, 65% {
+        color: #000000;
+        text-shadow: 
+          0 0 20px #333333,
+          0 0 40px #666666,
+          0 0 60px #999999,
+          4px 4px 8px rgba(0, 0, 0, 0.7);
+        border-color: rgba(0, 0, 0, 0.8);
+      }
+      70%, 100% {
+        color: #ffd700;
+        text-shadow: 
+          0 0 15px #ffd700,
+          0 0 30px #ffd700,
+          0 0 45px #ffd700,
+          4px 4px 8px rgba(0, 0, 0, 0.7);
+        border-color: rgba(255, 215, 0, 0.8);
+      }
+    }
+    
+    /* Conteneur principal avec défilement */
+    .shop-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 150vh; /* Permet le défilement */
+      padding-bottom: 100px;
+    }
+    
+    /* Grille des articles - MODIFIÉE pour plus d'articles */
+    .shop-items {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 40px;
+      margin-top: 60px;
+      padding: 30px;
+      max-width: 1400px;
+      width: 90%;
+    }
+    
+    .shop-item {
+      background: linear-gradient(145deg, 
+        rgba(30, 80, 40, 0.6) 0%,
+        rgba(20, 60, 30, 0.8) 100%);
+      border: 3px solid #ffd700;
+      border-radius: 15px;
+      padding: 30px;
+      transition: all 0.4s;
+      color: #ffffff;
+      min-height: 300px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    }
+    
+    .shop-item:hover {
+      transform: translateY(-15px) scale(1.05);
+      box-shadow: 0 20px 40px rgba(255, 215, 0, 0.4);
+      background: linear-gradient(145deg, 
+        rgba(40, 100, 50, 0.8) 0%,
+        rgba(30, 80, 40, 1) 100%);
+      border-color: #ffed4e;
+    }
+    
+    .item-price {
+      color: #ffd700;
+      font-size: 28px;
+      font-weight: bold;
+      margin-top: 20px;
+      animation: price-glow 2s infinite alternate;
+      text-align: center;
+      padding: 10px;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 8px;
+    }
+    
+    @keyframes price-glow {
+      0% { 
+        text-shadow: 0 0 5px #ffd700;
+        transform: scale(1);
+      }
+      100% { 
+        text-shadow: 0 0 15px #ffd700, 0 0 25px #ffd700;
+        transform: scale(1.05);
+      }
+    }
+    
+    /* Barre de défilement personnalisée */
+    ::-webkit-scrollbar {
+      width: 14px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: rgba(10, 47, 26, 0.8);
+      border-radius: 10px;
+      border: 2px solid #ffd700;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, #ffd700, #b8860b);
+      border-radius: 10px;
+      border: 2px solid #0a2f1a;
+      box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(180deg, #ffed4e, #daa520);
+      box-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+    }
+    
+    /* Bouton retour */
+    .back-button {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      background: rgba(255, 215, 0, 0.2);
+      color: #c8ff00;
+      border: 2px solid #c8ff00;
+      padding: 12px 25px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: Arial, sans-serif;
+      text-decoration: none;
+      font-weight: bold;
+      transition: all 0.3s;
+      z-index: 1000;
+    }
+    
+    .back-button:hover {
+      background: rgba(255, 215, 0, 0.4);
+      color: #ffffff;
+      box-shadow: 0 0 20px rgba(200, 255, 0, 0.6);
+      transform: scale(1.1);
+    }
+    
+    /* Indicateur de défilement */
+    .scroll-indicator {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      color: #ffd700;
+      font-size: 14px;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 10px 15px;
+      border-radius: 20px;
+      border: 2px solid #ffd700;
+      animation: bounce 2s infinite;
+      z-index: 100;
+    }
+    
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    
+    /* Effet de pièces */
+    .coins-effect {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+    }
+    
+    .coin {
+      position: absolute;
+      color: #ffd700;
+      font-size: 30px;
+      animation: coin-fall linear infinite;
+    }
+    
+    @keyframes coin-fall {
+      0% {
+        transform: translateY(-100px) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Bouton retour -->
+  <a href="inscription.html" class="back-button">
+    ← Retour
+  </a>
+  
+  <!-- Conteneur principal -->
+  <div class="shop-container">
+    <!-- Titre principal -->
+    <div class="boutique-title">
+      💲 BIENVENUE DANS LA BOUTIQUE 💲
+    </div>
+    
+    <!-- Indicateur de défilement -->
+    <div class="scroll-indicator">
+      ⬇️ Défilez pour voir plus d'offres ⬇️
+    </div>
+    
+    <!-- Grille des articles (BEAUCOUP PLUS D'ARTICLES) -->
+    <div class="shop-items">
+      <!-- Article 1 -->
+      <div class="shop-item">
+        <h3>⚔️ ÉPÉE LÉGENDAIRE</h3>
+        <p>Arme ultime +500 dégâts<br>Effet: Feu éternel</p>
+        <div class="item-price">49.99€</div>
+      </div>
+      
+      <!-- Article 2 -->
+      <div class="shop-item">
+        <h3>🛡️ BOUCLIER MAGIQUE</h3>
+        <p>Protection totale<br>Résiste à tous les sorts</p>
+        <div class="item-price">34.99€</div>
+      </div>
+      
+      <!-- Article 3 -->
+      <div class="shop-item">
+        <h3>🧪 POTION DE VIE X10</h3>
+        <p>Restaure 100% PV<br>Pack de 10 unités</p>
+        <div class="item-price">24.99€</div>
+      </div>
+      
+      <!-- Article 4 -->
+      <div class="shop-item">
+        <h3>🔑 CLÉ DU TRÉSOR</h3>
+        <p>Accès exclusif<br>Salle secrète légendaire</p>
+        <div class="item-price">29.99€</div>
+      </div>
+      
+      <!-- Article 5 -->
+      <div class="shop-item">
+        <h3>👑 COURONNE ROYALE</h3>
+        <p>Statut VIP<br>+100% XP permanent</p>
+        <div class="item-price">79.99€</div>
+      </div>
+      
+      <!-- Article 6 -->
+      <div class="shop-item">
+        <h3>💎 CRISTAL DE PUISSANCE</h3>
+        <p>Boost mana illimité<br>Durée: 30 jours</p>
+        <div class="item-price">44.99€</div>
+      </div>
+      
+      <!-- Article 7 -->
+      <div class="shop-item">
+        <h3>🐉 ARMURE DRAGON</h3>
+        <p>Défense maximale<br>Résistance aux éléments</p>
+        <div class="item-price">89.99€</div>
+      </div>
+      
+      <!-- Article 8 -->
+      <div class="shop-item">
+        <h3>📜 PARCHEMIN ANCIEN</h3>
+        <p>Sorts exclusifs<br>Collection complète</p>
+        <div class="item-price">39.99€</div>
+      </div>
+      
+      <!-- Article 9 -->
+      <div class="shop-item">
+        <h3>🎒 SAC SANS FOND</h3>
+        <p>Inventaire illimité<br>Espace de stockage x10</p>
+        <div class="item-price">59.99€</div>
+      </div>
+      
+      <!-- Article 10 -->
+      <div class="shop-item">
+        <h3>🏹 ARC CÉLESTE</h3>
+        <p>Précision parfaite<br>Flèches infinies</p>
+        <div class="item-price">54.99€</div>
+      </div>
+      
+      <!-- Article 11 -->
+      <div class="shop-item">
+        <h3>⚗️ ALCHEMIE MAJEURE</h3>
+        <p>Kit complet<br>500 recettes rares</p>
+        <div class="item-price">69.99€</div>
+      </div>
+      
+      <!-- Article 12 -->
+      <div class="shop-item">
+        <h3>💍 ANNEAU DES DIEUX</h3>
+        <p>Bonus toutes stats<br>Édition limitée</p>
+        <div class="item-price">99.99€</div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Effet de pièces -->
+  <div class="coins-effect" id="coinsEffect"></div>
+  
+  <script>
+    // Crée des pièces qui tombent
+    function createCoins() {
+      const coinsEffect = document.getElementById('coinsEffect');
+      const coins = ['💲', '💰', '💎', '🪙', '💵'];
+      
+      for (let i = 0; i < 3; i++) {
+        const coin = document.createElement('div');
+        coin.className = 'coin';
+        coin.textContent = coins[Math.floor(Math.random() * coins.length)];
+        
+        coin.style.left = Math.random() * 100 + 'vw';
+        const duration = Math.random() * 3 + 2;
+        const size = Math.random() * 20 + 20;
+        
+        coin.style.fontSize = size + 'px';
+        coin.style.animationDuration = duration + 's';
+        coin.style.animationDelay = Math.random() + 's';
+        
+        coinsEffect.appendChild(coin);
+        
+        setTimeout(() => coin.remove(), duration * 1000);
+      }
+    }
+    
+    // Pièces automatiques
+    setInterval(createCoins, 1500);
+    
+    // Effet de défilement fluide
+    document.addEventListener('wheel', function(e) {
+      // Défilement normal activé
+      // La barre de défilement personnalisée fait le reste
+    });
+    
+    // Masque l'indicateur après défilement
+    let scrolled = false;
+    window.addEventListener('scroll', function() {
+      if (!scrolled && window.scrollY > 100) {
+        scrolled = true;
+        document.querySelector('.scroll-indicator').style.opacity = '0';
+        setTimeout(() => {
+          document.querySelector('.scroll-indicator').style.display = 'none';
+        }, 500);
+      }
+    });
+    
+    // Animation au chargement
+    window.addEventListener('load', function() {
+      // Animation d'entrée des articles
+      const items = document.querySelectorAll('.shop-item');
+      items.forEach((item, index) => {
+        item.style.opacity = '0';
+        item.style.transform = 'translateY(50px)';
+        
+        setTimeout(() => {
+          item.style.transition = 'opacity 0.8s, transform 0.8s';
+          item.style.opacity = '1';
+          item.style.transform = 'translateY(0)';
+        }, index * 100);
+      });
+      
+      // Pièces initiales
+      for(let i = 0; i < 5; i++) {
+        setTimeout(createCoins, i * 300);
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      background: #000000;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    /* Image de fond - Crâne pirate réaliste */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('https://images.unsplash.com/photo-1579546929662-711aa81148cf?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      opacity: 0.15; /* Très transparent pour ne pas gêner */
+      z-index: 0;
+      filter: grayscale(100%) contrast(120%) brightness(0.7);
+    }
+    
+    /* Conteneur du titre BIENVENUE */
+    .bienvenue-container {
+      margin-top: 40px;
+      position: relative;
+      z-index: 100; /* AU-DESSUS du fond */
+    }
+    
+    /* Le texte BIENVENUE stylisé */
+    .bienvenue-titre {
+      color: #8b0000;
+      text-align: center;
+      font-size: 36px;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      padding: 20px 40px;
+      border: 3px solid #8b0000;
+      border-radius: 10px;
+      background: rgba(0, 0, 0, 0.7); /* Fond sombre pour lisibilité */
+      cursor: pointer;
+      transition: all 0.3s;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    }
+    
+    /* Effet au survol */
+    .bienvenue-titre:hover {
+      background: #8b0000;
+      color: #000000;
+      box-shadow: 0 0 30px rgba(139, 0, 0, 0.9);
+      transform: scale(1.05);
+      text-shadow: none;
+    }
+  </style>
+</head>
+<body>
+  <!-- SEUL CE CONTENEUR EST CLIQUABLE -->
+  <div class="bienvenue-container" onclick="window.location.href='inscription.html'">
+    <div class="bienvenue-titre">
+      Bienvenue
+    </div>
+  </div>
+  
+  <script>
+    // Fonction pour dessiner un crâne pirate REALISTE en SVG
+    function createRealSkullBackground() {
+      const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      svg.setAttribute('width', '100%');
+      svg.setAttribute('height', '100%');
+      svg.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 0;
+        opacity: 0.12;
+        pointer-events: none;
+      `;
+      
+      // Dessin d'un crâne pirate réaliste en SVG
+      const skullSVG = `
+        <defs>
+          <filter id="skullShadow" x="-50%" y="-50%" width="200%" height="200%">
+            <feDropShadow dx="2" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.5"/>
+          </filter>
+          <linearGradient id="skullGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#8B7355;stop-opacity:0.3" />
+            <stop offset="50%" style="stop-color:#696969;stop-opacity:0.4" />
+            <stop offset="100%" style="stop-color:#2F4F4F;stop-opacity:0.5" />
+          </linearGradient>
+        </defs>
+        
+        <!-- Crâne principal -->
+        <ellipse cx="50%" cy="45%" rx="22%" ry="25%" fill="url(#skullGradient)" filter="url(#skullShadow)" stroke="#5D4037" stroke-width="0.5"/>
+        
+        <!-- Orbites oculaires -->
+        <ellipse cx="42%" cy="42%" rx="6%" ry="8%" fill="#1a1a1a" stroke="#333" stroke-width="0.3"/>
+        <ellipse cx="58%" cy="42%" rx="6%" ry="8%" fill="#1a1a1a" stroke="#333" stroke-width="0.3"/>
+        
+        <!-- Nez -->
+        <path d="M49%,50% Q50%,55% 51%,50%" stroke="#333" stroke-width="1" fill="none"/>
+        
+        <!-- Mâchoire -->
+        <path d="M40%,60% Q50%,75% 60%,60%" stroke="#333" stroke-width="0.5" fill="url(#skullGradient)"/>
+        
+        <!-- Dents supérieures -->
+        <rect x="42%" y="58%" width="3%" height="4%" fill="#F5F5DC" stroke="#333" stroke-width="0.2"/>
+        <rect x="46%" y="58%" width="3%" height="4%" fill="#F5F5DC" stroke="#333" stroke-width="0.2"/>
+        <rect x="50%" y="58%" width="3%" height="4%" fill="#F5F5DC" stroke="#333" stroke-width="0.2"/>
+        <rect x="54%" y="58%" width="3%" height="4%" fill="#F5F5DC" stroke="#333" stroke-width="0.2"/>
+        
+        <!-- Dents inférieures -->
+        <rect x="41%" y="62%" width="3%" height="3%" fill="#F5F5DC" stroke="#333" stroke-width="0.2"/>
+        <rect x="45%" y="62%" width="3%" height="3%" fill="#F5F5DC" stroke="#333" stroke-width="0.2"/>
+        <rect x="49%" y="62%" width="3%" height="3%" fill="#F5F5DC" stroke="#333" stroke-width="0.2"/>
+        <rect x="53%" y="62%" width="3%" height="3%" fill="#F5F5DC" stroke="#333" stroke-width="0.2"/>
+        <rect x="57%" y="62%" width="3%" height="3%" fill="#F5F5DC" stroke="#333" stroke-width="0.2"/>
+        
+        <!-- Fissures et détails réalistes -->
+        <path d="M44%,35% Q46%,38% 48%,36%" stroke="#5D4037" stroke-width="0.3" fill="none" opacity="0.6"/>
+        <path d="M52%,35% Q54%,38% 56%,36%" stroke="#5D4037" stroke-width="0.3" fill="none" opacity="0.6"/>
+        
+        <!-- Bandana pirate -->
+        <path d="M30%,30% Q50%,20% 70%,30% L65%,35% Q50%,25% 35%,35% Z" fill="#8B0000" opacity="0.3" stroke="#660000" stroke-width="0.3"/>
+        
+        <!-- Croix os -->
+        <path d="M20%,70% L30%,80% M25%,75% L35%,65%" stroke="#8B0000" stroke-width="1.5" opacity="0.4"/>
+        <path d="M80%,70% L90%,80% M85%,75% L95%,65%" stroke="#8B0000" stroke-width="1.5" opacity="0.4"/>
+        
+        <!-- Texture osseuse (petites fissures) -->
+        <circle cx="45%" cy="38%" r="0.8%" fill="none" stroke="#5D4037" stroke-width="0.2" opacity="0.5"/>
+        <circle cx="55%" cy="38%" r="0.8%" fill="none" stroke="#5D4037" stroke-width="0.2" opacity="0.5"/>
+        <line x1="48%" y1="48%" x2="52%" y2="48%" stroke="#5D4037" stroke-width="0.2" opacity="0.5"/>
+      `;
+      
+      svg.innerHTML = skullSVG;
+      document.body.appendChild(svg);
+    }
+    
+    // Crée aussi un fond alternatif avec une image API si le SVG ne charge pas
+    function createFallbackSkullBackground() {
+      const bgDiv = document.createElement('div');
+      bgDiv.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('https://images.unsplash.com/photo-1518709268805-4e9042af2176?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+        background-size: cover;
+        background-position: center;
+        opacity: 0.1;
+        z-index: 0;
+        filter: grayscale(100%) contrast(150%) brightness(0.6) sepia(0.3);
+        pointer-events: none;
+      `;
+      document.body.appendChild(bgDiv);
+    }
+    
+    // Au chargement de la page
+    window.addEventListener('load', function() {
+      createRealSkullBackground();
+      // Décommente la ligne ci-dessous si tu veux aussi l'image de secours
+      // createFallbackSkullBackground();
+    });
+  </script>
+</body>
+</html>
