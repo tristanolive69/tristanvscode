@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Portal - Mon Journal</title>
+  <!-- Bibliothèque pour convertir le markdown en HTML -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <style>
     /* STYLES DE BASE - MÊME QUE TA PAGE INSCRIPTION */
     body {
@@ -322,14 +324,78 @@
       }
     }
     
-    /* STYLES POUR LE MARKDOWN */
-    .journal-md {
+    /* NOUVEAU : SÉLECTEUR DE JOURNAL */
+    .journal-selector {
+      background: rgba(139, 0, 0, 0.2);
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 30px;
+      border-left: 4px solid #ffd700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      animation: selectorAppear 0.6s ease-out 0.3s both;
+    }
+    
+    @keyframes selectorAppear {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .journal-selector label {
+      color: #ffd700;
+      font-weight: bold;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .journal-selector label::before {
+      content: '📚';
+      font-size: 20px;
+    }
+    
+    #journal-select {
+      background: rgba(30, 30, 30, 0.9);
+      color: white;
+      border: 2px solid #8b0000;
+      padding: 12px 25px;
+      border-radius: 8px;
+      font-size: 16px;
+      min-width: 350px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    #journal-select:focus {
+      outline: none;
+      border-color: #ff0000;
+      box-shadow: 0 0 15px rgba(139, 0, 0, 0.5);
+    }
+    
+    #journal-select option {
+      background: #1a1a1a;
+      color: white;
+      padding: 10px;
+    }
+    
+    /* STYLES POUR LE MARKDOWN RENDU */
+    .markdown-body {
       color: #e0e0e0;
       line-height: 1.8;
       font-size: 17px;
     }
     
-    .journal-md h1 {
+    .markdown-body h1 {
       color: #ff4444;
       border-bottom: 2px solid #8b0000;
       padding-bottom: 10px;
@@ -338,7 +404,7 @@
       font-size: 32px;
     }
     
-    .journal-md h2 {
+    .markdown-body h2 {
       color: #ff6666;
       margin-top: 35px;
       margin-bottom: 20px;
@@ -347,43 +413,43 @@
       border-left: 4px solid #8b0000;
     }
     
-    .journal-md h3 {
+    .markdown-body h3 {
       color: #ff8888;
       margin-top: 30px;
       margin-bottom: 15px;
       font-size: 22px;
     }
     
-    .journal-md p {
+    .markdown-body p {
       margin-bottom: 20px;
       text-align: justify;
     }
     
-    .journal-md ul, .journal-md ol {
+    .markdown-body ul, .markdown-body ol {
       margin-bottom: 25px;
       padding-left: 30px;
     }
     
-    .journal-md li {
+    .markdown-body li {
       margin-bottom: 8px;
       position: relative;
     }
     
-    .journal-md li::marker {
+    .markdown-body li::marker {
       color: #8b0000;
     }
     
-    .journal-md strong {
+    .markdown-body strong {
       color: #ffd700;
       font-weight: bold;
     }
     
-    .journal-md em {
+    .markdown-body em {
       color: #ffaaaa;
       font-style: italic;
     }
     
-    .journal-md code {
+    .markdown-body code {
       background: rgba(139, 0, 0, 0.2);
       color: #ff9999;
       padding: 2px 8px;
@@ -393,7 +459,7 @@
       border: 1px solid rgba(139, 0, 0, 0.5);
     }
     
-    .journal-md pre {
+    .markdown-body pre {
       background: rgba(20, 20, 20, 0.9);
       border: 1px solid #8b0000;
       border-radius: 8px;
@@ -403,7 +469,7 @@
       box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
     }
     
-    .journal-md pre code {
+    .markdown-body pre code {
       background: transparent;
       border: none;
       padding: 0;
@@ -412,7 +478,7 @@
       line-height: 1.5;
     }
     
-    .journal-md blockquote {
+    .markdown-body blockquote {
       border-left: 4px solid #8b0000;
       padding-left: 20px;
       margin: 25px 0;
@@ -423,14 +489,14 @@
       border-radius: 0 8px 8px 0;
     }
     
-    .journal-md hr {
+    .markdown-body hr {
       border: none;
       height: 2px;
       background: linear-gradient(90deg, transparent, #8b0000, transparent);
       margin: 40px 0;
     }
     
-    /* MÉTADONNÉES */
+    /* MÉTADONNÉES DU JOURNAL */
     .journal-meta {
       background: rgba(139, 0, 0, 0.1);
       border-radius: 10px;
@@ -469,6 +535,54 @@
       margin-top: auto;
     }
     
+    /* BOUTON CHARGEMENT */
+    .load-btn {
+      display: block;
+      margin: 30px auto;
+      padding: 15px 40px;
+      background: linear-gradient(135deg, #8b0000, #a00000);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      box-shadow: 0 5px 20px rgba(139, 0, 0, 0.4);
+    }
+    
+    .load-btn:hover {
+      background: linear-gradient(135deg, #a00000, #c00000);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(139, 0, 0, 0.6);
+    }
+    
+    .load-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+    
+    /* MESSAGE D'ERREUR */
+    .error-message {
+      background: rgba(139, 0, 0, 0.2);
+      border: 2px solid #8b0000;
+      border-radius: 10px;
+      padding: 30px;
+      text-align: center;
+      color: #ff9999;
+      font-size: 18px;
+      margin: 40px 0;
+    }
+    
+    .error-icon {
+      font-size: 50px;
+      margin-bottom: 20px;
+      display: block;
+    }
+    
     /* RESPONSIVE */
     @media (max-width: 768px) {
       .journal-container {
@@ -484,19 +598,19 @@
         font-size: 36px;
       }
       
-      .journal-md {
+      .markdown-body {
         font-size: 16px;
       }
       
-      .journal-md h1 {
+      .markdown-body h1 {
         font-size: 28px;
       }
       
-      .journal-md h2 {
+      .markdown-body h2 {
         font-size: 22px;
       }
       
-      .journal-md h3 {
+      .markdown-body h3 {
         font-size: 19px;
       }
       
@@ -504,6 +618,15 @@
         flex-direction: column;
         align-items: flex-start;
         gap: 10px;
+      }
+      
+      .journal-selector {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      #journal-select {
+        min-width: 250px;
       }
     }
     
@@ -516,7 +639,7 @@
         font-size: 28px;
       }
       
-      .journal-md {
+      .markdown-body {
         font-size: 15px;
       }
       
@@ -524,6 +647,31 @@
         padding: 10px 20px;
         font-size: 16px;
       }
+      
+      #journal-select {
+        min-width: 200px;
+        font-size: 14px;
+        padding: 10px 15px;
+      }
+    }
+    
+    /* ANIMATION DE CHARGEMENT */
+    .loading {
+      text-align: center;
+      padding: 50px;
+      color: #ffd700;
+      font-size: 20px;
+    }
+    
+    .loading::after {
+      content: '...';
+      animation: loadingDots 1.5s infinite;
+    }
+    
+    @keyframes loadingDots {
+      0%, 20% { content: '.'; }
+      40% { content: '..'; }
+      60%, 100% { content: '...'; }
     }
   </style>
 </head>
@@ -553,221 +701,218 @@
   <!-- Header de la page -->
   <div class="journal-header">
     <h1 class="journal-title">MON JOURNAL</h1>
-    <div class="journal-subtitle">L'histoire de notre aventure numérique - 02 Décembre 2025</div>
+    <div class="journal-subtitle">Naviguez entre vos histoires de développement</div>
   </div>
   
   <!-- Contenu principal -->
   <div class="journal-container">
     <div class="journal-content">
+      <!-- Sélecteur de journal -->
+      <div class="journal-selector">
+        <label for="journal-select">Choisir un journal :</label>
+        <select id="journal-select" onchange="loadSelectedJournal()">
+          <option value="journal1">📘 02 Décembre 2025 - Premiers pas avec VS Code</option>
+          <option value="journal2">🚀 03 Novembre 2025 - Git, GitHub & Déploiement</option>
+        </select>
+      </div>
+      
       <div class="journal-meta">
         <div class="meta-item">
           <span class="meta-icon">📅</span>
-          <span>02/12/2025</span>
+          <span id="journal-date">02/12/2025</span>
         </div>
         <div class="meta-item">
           <span class="meta-icon">📝</span>
-          <span>Journal de développement</span>
+          <span id="journal-length">1,247 caractères</span>
         </div>
         <div class="meta-item">
           <span class="meta-icon">⚡</span>
-          <span>Session avec Sounil</span>
+          <span id="journal-updated">Dernière mise à jour : 03/12/2024 21:45</span>
         </div>
       </div>
       
-      <!-- TON JOURNAL .md INTÉGRÉ DIRECTEMENT ICI -->
-      <div class="journal-md">
-        <h1>🌅 MATINÉE : PREMIERS PAS AVEC VS CODE</h1>
-        
-        <p><strong>Tristan :</strong> "Comment télécharger VS Code ?"</p>
-        <p><strong>Moi :</strong> Je donne les instructions détaillées pour télécharger et installer VS Code sur Windows. Téléchargement depuis le site officiel, installation, premiers raccourcis clés.</p>
-        
-        <p><strong>Tristan :</strong> "J'ai ouvert mon dossier VS Code, qu'est-ce que je peux faire du codage ?"</p>
-        <p><strong>Moi :</strong> Je guide la création du premier projet :</p>
-        
-        <ul>
-          <li>Création du dossier <code>projet-1-bouton-magic</code></li>
-          <li>Fichier <code>index.html</code> avec le code du bouton magique</li>
-          <li>Test dans Chrome : "MAGIC ! 🎩✨"</li>
-          <li>Premières personnalisations : changer texte, couleurs, phrases</li>
-        </ul>
-        
-        <p><strong>Problème rencontré :</strong> "Ça marche pas, ça m'ouvre une page blanche sur Google Chrome"</p>
-        <p><strong>Debuggage :</strong></p>
-        <ul>
-          <li>Vérification du nom de fichier (<code>index.html</code> pas <code>index.html.txt</code>)</li>
-          <li>Test avec un code simplifié</li>
-          <li>Solution : Bien enregistrer (Ctrl+S) et rafraîchir (F5)</li>
-        </ul>
-        
-        <h2>☀️ APRÈS-MIDI : CRÉATIONS ET ANIMATIONS</h2>
-        
-        <p><strong>Tristan :</strong> "Super ! Maintenant j'aimerais changer pour que quand je clique sur le bouton une pluie d'étoiles apparaît"</p>
-        <p><strong>Moi :</strong> Je modifie le code pour créer 50 étoiles qui tombent, avec animations CSS, effets aléatoires, et le texte "Bienvenue" qui reste visible.</p>
-        
-        <p><strong>Tristan :</strong> "J'aimerais créer un deuxième bouton qui me permet de créer des cœurs de toutes les couleurs"</p>
-        <p><strong>Moi :</strong> Ajout d'un deuxième bouton arc-en-ciel avec :</p>
-        
-        <ul>
-          <li>30 cœurs multicolores</li>
-          <li>8 couleurs différentes</li>
-          <li>3 types d'animations (tomber, flotter, spirale)</li>
-          <li>Son de battement de cœur</li>
-        </ul>
-        
-        <p><strong>Problème :</strong> "C'est pas du tout ce que je voulais, tu peux me le refaire au propre ?"</p>
-        <p>Je me rends compte que j'ai mis la fonction au mauvais endroit. Je corrige en séparant bien les deux fonctions <code>magic()</code> et <code>createHearts()</code>.</p>
-        
-        <p><strong>Tristan :</strong> "Maintenant j'aimerais créer une nouvelle page"</p>
-        <p>Création successive de :</p>
-        <ul>
-          <li>Page noire simple avec bouton "Bienvenue"</li>
-          <li>Page inscription/connexion avec menu</li>
-          <li>Navigation entre les pages</li>
-        </ul>
-        
-        <h2>🌙 SOIRÉE : DESIGN AVANCÉ ET DÉPLOIEMENT</h2>
-        
-        <p><strong>Tristan :</strong> "Je voudrais des météorites bien faites, pas des trucs de merde !"</p>
-        <p><strong>Moi :</strong> Je crée des météorites réalistes en SVG avec :</p>
-        <ul>
-          <li>Noyau incandescent blanc-jaune</li>
-          <li>Boule de feu orange-rouge</li>
-          <li>Queue lumineuse avec dégradé</li>
-          <li>Rotation et effets de flou</li>
-        </ul>
-        
-        <p><strong>Tristan :</strong> "Rajoute moi en fond de la page Bienvenue un crâne squelette pirate mais un vrai pas des trucs de gamin"</p>
-        <p><strong>Moi :</strong> Création d'un crâne pirate réaliste en SVG avec :</p>
-        <ul>
-          <li>Détails anatomiques (orbites, dents, mâchoire)</li>
-          <li>Texture osseuse avec fissures</li>
-          <li>Bandana pirate et croix d'os</li>
-          <li>Effet vieilli en tons sépia</li>
-        </ul>
-        
-        <p><strong>Tristan :</strong> "Maintenant rajoute moi dans la page inscription un bouton en haut à gauche qui fait qu'en cliquant une liste s'affiche"</p>
-        <p><strong>Moi :</strong> Création d'un menu latéral animé avec :</p>
-        <ul>
-          <li>Bouton ☰ Menu en haut à gauche</li>
-          <li>Liste : Accueil, Discord, Support, Store</li>
-          <li>Animation de glissement fluide</li>
-          <li>Overlay sombre</li>
-        </ul>
-        
-        <p><strong>Tristan :</strong> "Fait en sorte qu'en cliquant sur Discord ça m'amène sur ce lien https://discord.gg/NMpcTt7P"</p>
-        <p>Ajout du lien Discord avec <code>target="_blank"</code> pour ouvrir dans un nouvel onglet.</p>
-        
-        <p><strong>Tristan :</strong> "Maintenant crée moi une nouvelle page Forum"</p>
-        <p>Création de <code>forum.html</code> avec :</p>
-        <ul>
-          <li>Fond bleu marine</li>
-          <li>"☎️ Forum ☎️" clignotant rouge/noir</li>
-          <li>Effets de lueur néon</li>
-        </ul>
-        
-        <p><strong>Tristan :</strong> "Maintenant crée moi une nouvelle page Boutique"</p>
-        <p>Création de <code>boutique.html</code> avec :</p>
-        <ul>
-          <li>Fond vert forêt</li>
-          <li>"💲 Bienvenue dans la boutique 💲" clignotant jaune/noir</li>
-          <li>12 articles animés</li>
-          <li>Pièces qui tombent (💲💰💎)</li>
-        </ul>
-        
-        <p><strong>Problème de navigation :</strong> "Mes boutons Accueil et Support ne marchent plus"</p>
-        <p><strong>Debuggage Netlify :</strong></p>
-        <ul>
-          <li>Problème : Chemins relatifs vs absolus</li>
-          <li>Solution : Changer <code>href="indexsiteoff.html"</code> en <code>href="/"</code></li>
-          <li>Solution : Ajouter <code>/</code> devant les noms de fichiers</li>
-        </ul>
-        
-        <h2>🚀 DÉPLOIEMENT SUR NETLIFY</h2>
-        
-        <p><strong>Tristan :</strong> "J'aimerais déployer tout ce qu'on vient de faire avec NETLIFY"</p>
-        <p>Guide étape par étape :</p>
-        <ul>
-          <li>Création compte Netlify</li>
-          <li>Drag & drop du dossier</li>
-          <li>Attente du déploiement</li>
-          <li>Test de l'URL générée</li>
-        </ul>
-        
-        <p><strong>Message Netlify :</strong> "No redirect rules processed..."</p>
-        <p>Explication : Ces messages sont normaux, pas des erreurs. C'est juste Netlify qui informe qu'il n'y a pas de configuration spéciale.</p>
-        
-        <p><strong>Problème final :</strong> "J'ai 6 problèmes peut-tu m'aider ?"</p>
-        <p>Solutions apportées :</p>
-        <ul>
-          <li>Correction des liens pour Netlify</li>
-          <li>Fix des apostrophes échappées (<code>\\'</code> → <code>\'</code>)</li>
-          <li>Structure HTML propre</li>
-          <li>Navigation fonctionnelle</li>
-        </ul>
-        
-        <h2>🎨 CRÉATION FINALE : PAGE AUTO-ÉVALUATION</h2>
-        
-        <p><strong>Tristan :</strong> "Yo pourrait tu me créer une page en fond vert clair avec écrit en haut au milieu Auto évaluation..."</p>
-        <p>Création de la page d'auto-évaluation avec :</p>
-        <ul>
-          <li>5 lignes avec tirets -</li>
-          <li>Champs texte pour écrire</li>
-          <li>Bouton de sauvegarde</li>
-          <li>Feuilles animées (🍃🌿☘️)</li>
-        </ul>
-        
-        <h2>📖 DEMANDE DE JOURNAL</h2>
-        
-        <p><strong>Tristan :</strong> "Écrit un LOG de ma journée d'hier nos échanges etc, comme un carnet de bord"</p>
-        <p>Création du journal en markdown avec :</p>
-        <ul>
-          <li>Structure détaillée</li>
-          <li>Problèmes et solutions</li>
-          <li>Apprentissages techniques</li>
-          <li>Statistiques de la session</li>
-        </ul>
-        
-        <p><strong>Tristan :</strong> "Raconte nos échanges d'hier en texte markdown !!"</p>
-        <p>Voici ce récit détaillé de nos échanges, heure par heure, problème par problème, solution par solution.</p>
-        
-        <hr>
-        
-        <h2>💭 RÉFLEXION SUR LA SESSION</h2>
-        
-        <p><strong>Ce qui a bien fonctionné :</strong></p>
-        <ul>
-          <li>Progression logique du simple au complexe</li>
-          <li>Résolution systématique des problèmes</li>
-          <li>Création d'un projet complet et fonctionnel</li>
-          <li>Apprentissage par la pratique</li>
-        </ul>
-        
-        <p><strong>Points difficiles :</strong></p>
-        <ul>
-          <li>Compréhension des chemins de fichiers</li>
-          <li>Debuggage des erreurs de syntaxe</li>
-          <li>Adaptation pour Netlify</li>
-          <li>Gestion des attentes vs réalité technique</li>
-        </ul>
-        
-        <p><strong>Satisfaction globale :</strong></p>
-        <p>Un projet abouti en une journée, avec déploiement en ligne et design professionnel. Tristan a passé de "comment télécharger VS Code" à "mon site est en ligne sur Netlify" en moins de 24 heures !</p>
-        
-        <p><strong>📌 Note :</strong> Cette journée montre bien l'apprentissage progressif du développement web, avec ses frustrations (pages blanches, liens cassés) et ses satisfactions (animations réussies, site en ligne). Un parcours typique et enrichissant !</p>
+      <!-- Ici sera affiché le contenu du markdown -->
+      <div id="markdown-content" class="markdown-body">
+        <div class="loading">Chargement de votre journal</div>
       </div>
+      
+      <!-- Bouton pour recharger -->
+      <button class="load-btn" onclick="loadSelectedJournal()" id="reloadBtn">
+        🔄 Charger le journal sélectionné
+      </button>
     </div>
   </div>
   
   <!-- Footer -->
   <div class="footer">
-    © 2024 Portal - Tous droits réservés | Journal du 02/12/2025
+    © 2024 Portal - Tous droits réservés | Système de journal interactif
   </div>
   
   <script>
-    // Variables d'état pour le menu (même code que ta page)
+    // Variables d'état pour le menu
     let menuOpen = false;
     const sideMenu = document.getElementById('sideMenu');
     const menuOverlay = document.getElementById('menuOverlay');
+    
+    // CONTENU DES JOURNAUX INTÉGRÉ DIRECTEMENT DANS LE CODE
+    const journals = {
+      "journal1": `# 🌅 MATINÉE : PREMIERS PAS AVEC VS CODE
+
+**Tristan :** "Comment télécharger VS Code ?"
+**Moi :** Je donne les instructions détaillées pour télécharger et installer VS Code sur Windows. Téléchargement depuis le site officiel, installation, premiers raccourcis clés.
+
+**Tristan :** "J'ai ouvert mon dossier VS Code, qu'est-ce que je peux faire du codage ?"
+**Moi :** Je guide la création du premier projet :
+
+- Création du dossier \`projet-1-bouton-magic\`
+- Fichier \`index.html\` avec le code du bouton magique
+- Test dans Chrome : "MAGIC ! 🎩✨"
+- Premières personnalisations : changer texte, couleurs, phrases
+
+**Problème rencontré :** "Ça marche pas, ça m'ouvre une page blanche sur Google Chrome"
+**Debuggage :**
+
+- Vérification du nom de fichier (\`index.html\` pas \`index.html.txt\`)
+- Test avec un code simplifié
+- Solution : Bien enregistrer (Ctrl+S) et rafraîchir (F5)
+
+# ☀️ APRÈS-MIDI : CRÉATIONS ET ANIMATIONS
+
+**Tristan :** "Super ! Maintenant j'aimerais changer pour que quand je clique sur le bouton une pluie d'étoiles apparaît"
+**Moi :** Je modifie le code pour créer 50 étoiles qui tombent, avec animations CSS, effets aléatoires, et le texte "Bienvenue" qui reste visible.
+
+**Tristan :** "J'aimerais créer un deuxième bouton qui me permet de créer des cœurs de toutes les couleurs"
+**Moi :** Ajout d'un deuxième bouton arc-en-ciel avec :
+
+- 30 cœurs multicolores
+- 8 couleurs différentes
+- 3 types d'animations (tomber, flotter, spirale)
+- Son de battement de cœur
+
+**Problème :** "C'est pas du tout ce que je voulais, tu peux me le refaire au propre ?"
+Je me rends compte que j'ai mis la fonction au mauvais endroit. Je corrige en séparant bien les deux fonctions \`magic()\` et \`createHearts()\`.
+
+**Tristan :** "Maintenant j'aimerais créer une nouvelle page"
+Création successive de :
+
+- Page noire simple avec bouton "Bienvenue"
+- Page inscription/connexion avec menu
+- Navigation entre les pages
+
+# 🌙 SOIRÉE : DESIGN AVANCÉ ET DÉPLOIEMENT
+
+**Tristan :** "Je voudrais des météorites bien faites, pas des trucs de merde !"
+**Moi :** Je crée des météorites réalistes en SVG avec :
+
+- Noyau incandescent blanc-jaune
+- Boule de feu orange-rouge
+- Queue lumineuse avec dégradé
+- Rotation et effets de flou
+
+**Tristan :** "Rajoute moi en fond de la page Bienvenue un crâne squelette pirate mais un vrai pas des trucs de gamin"
+**Moi :** Création d'un crâne pirate réaliste en SVG avec :
+
+- Détails anatomiques (orbites, dents, mâchoire)
+- Texture osseuse avec fissures
+- Bandana pirate et croix d'os
+- Effet vieilli en tons sépia
+
+**Tristan :** "Maintenant rajoute moi dans la page inscription un bouton en haut à gauche qui fait qu'en cliquant une liste s'affiche"
+**Moi :** Création d'un menu latéral animé avec :
+
+- Bouton ☰ Menu en haut à gauche
+- Liste : Accueil, Discord, Support, Store
+- Animation de glissement fluide
+- Overlay sombre
+
+**Tristan :** "Fait en sorte qu'en cliquant sur Discord ça m'amène sur ce lien https://discord.gg/NMpcTt7P"
+Ajout du lien Discord avec \`target="_blank"\` pour ouvrir dans un nouvel onglet.
+
+**Tristan :** "Maintenant crée moi une nouvelle page Forum"
+Création de \`forum.html\` avec :
+
+- Fond bleu marine
+- "☎️ Forum ☎️" clignotant rouge/noir
+- Effets de lueur néon
+
+**Tristan :** "Maintenant crée moi une nouvelle page Boutique"
+Création de \`boutique.html\` avec :
+
+- Fond vert forêt
+- "💲 Bienvenue dans la boutique 💲" clignotant jaune/noir
+- 12 articles animés
+- Pièces qui tombent (💲💰💎)`,
+      
+      "journal2": `# 03/11/2025 - Installation de Git & Premier Push sur GitHub
+
+## 🧪 OBJECTIF DU TEST
+Vérifier que le système de journal peut afficher plusieurs fichiers markdown.
+
+## 📁 STRUCTURE TESTÉE
+\`\`\`
+tristanvscode/
+├── 02/12/25.md    (Journal d'hier)
+└── 03/11/2025.md  (Ce journal - aujourd'hui)
+\`\`\`
+
+## 🚀 PROCESSUS SUIVI
+1. Création du nouveau fichier markdown
+2. Ajout via Git : \`git add 03-11-2025.md\`
+3. Commit : \`git commit -m "Ajout du journal du 03/11/2025"\`
+4. Push : \`git push origin main\`
+
+## ✅ RÉSULTAT ATTENDU
+- Les deux journaux devraient être disponibles
+- Le système devrait pouvoir naviguer entre eux
+- GitHub montrera l'historique des modifications
+
+## 🔧 PROCHAINES AMÉLIORATIONS POSSIBLES
+1. Page de sommaire des journaux
+2. Navigation chronologique
+3. Recherche dans les journaux
+4. Tags/catégories
+
+## 📊 STATISTIQUES
+- **Nombre de journaux** : 2
+- **Premier journal** : 02/12/25 (Apprentissage VS Code)
+- **Second journal** : 03/11/2025 (Test Git & GitHub)
+- **Prochain objectif** : Système de navigation entre journaux
+
+---
+
+## 💡 APPRENTISSAGE DU JOUR
+> "Un bon système évolue par petits tests.  
+> Aujourd'hui, on teste l'ajout d'un deuxième journal.  
+> Demain, on pourra ajouter une table des matières."
+
+## 🎯 PROCHAIN TEST
+Créer une page \`index-journaux.html\` qui liste tous les journaux disponibles avec :
+- Dates
+- Titres
+- Liens cliquables
+- Aperçu du contenu
+
+---
+
+*Fichier de test créé le 03 novembre 2025*  
+*Objectif : Valider l'affichage multiple des documents markdown*
+
+✨ *"Chaque fichier est une page d'histoire, chaque commit est un chapitre sauvegardé."* ✨`
+    };
+    
+    // Métadonnées des journaux
+    const journalMetadata = {
+      "journal1": {
+        date: "02/12/2025",
+        length: "1,247 caractères",
+        title: "Premiers pas avec VS Code"
+      },
+      "journal2": {
+        date: "03/11/2025",
+        length: "895 caractères",
+        title: "Git, GitHub & Déploiement"
+      }
+    };
     
     // Fonctions pour le menu
     function toggleMenu() {
@@ -801,29 +946,74 @@
       }
     });
     
-    // Animation d'entrée au chargement
-    document.addEventListener('DOMContentLoaded', function() {
-      document.querySelector('.journal-container').style.opacity = '0';
-      document.querySelector('.journal-container').style.transform = 'translateY(20px)';
+    // Fonction pour charger un journal
+    function loadJournal(journalId) {
+      const contentDiv = document.getElementById('markdown-content');
+      const dateSpan = document.getElementById('journal-date');
+      const lengthSpan = document.getElementById('journal-length');
+      const updatedSpan = document.getElementById('journal-updated');
+      const select = document.getElementById('journal-select');
+      const reloadBtn = document.getElementById('reloadBtn');
       
+      // Mettre à jour le sélecteur
+      select.value = journalId;
+      
+      // Afficher le loading
+      contentDiv.innerHTML = '<div class="loading">Chargement du journal...</div>';
+      reloadBtn.disabled = true;
+      reloadBtn.textContent = 'Chargement...';
+      
+      // Attendre un peu pour l'effet de chargement
       setTimeout(() => {
-        document.querySelector('.journal-container').style.transition = 'opacity 0.8s ease, transform 0.8s ease';
-        document.querySelector('.journal-container').style.opacity = '1';
-        document.querySelector('.journal-container').style.transform = 'translateY(0)';
+        // Récupérer le contenu du journal
+        const markdownContent = journals[journalId];
+        const metadata = journalMetadata[journalId];
         
-        // Ajouter des effets interactifs
-        const headings = document.querySelectorAll('.journal-md h1, .journal-md h2');
-        headings.forEach(heading => {
-          heading.style.cursor = 'pointer';
-          heading.addEventListener('click', function() {
-            this.style.color = '#ffd700';
-            setTimeout(() => {
-              this.style.color = '';
-            }, 1000);
-          });
-        });
+        if (markdownContent) {
+          // Convertir le markdown en HTML
+          const htmlContent = marked.parse(markdownContent);
+          
+          // Afficher le contenu
+          contentDiv.innerHTML = htmlContent;
+          
+          // Mettre à jour les métadonnées
+          dateSpan.textContent = metadata.date;
+          lengthSpan.textContent = metadata.length;
+          
+          // Date de mise à jour (maintenant)
+          const now = new Date();
+          updatedSpan.textContent = `Dernière mise à jour : ${now.toLocaleDateString('fr-FR')} ${now.toLocaleTimeString('fr-FR', {hour: '2-digit', minute:'2-digit'})}`;
+          
+          // Réactiver le bouton
+          reloadBtn.disabled = false;
+          reloadBtn.textContent = '🔄 Recharger ce journal';
+          
+          // Ajouter des styles supplémentaires
+          highlightImportantElements();
+          
+        } else {
+          contentDiv.innerHTML = `
+            <div class="error-message">
+              <span class="error-icon">📄❌</span>
+              <h3>Journal introuvable</h3>
+              <p>Le journal sélectionné n'est pas disponible.</p>
+            </div>
+          `;
+          
+          reloadBtn.disabled = false;
+          reloadBtn.textContent = '🔄 Réessayer';
+        }
       }, 300);
-    });
-  </script>
-</body>
-</html>
+    }
+    
+    // Fonction appelée quand on change de journal
+    function loadSelectedJournal() {
+      const select = document.getElementById('journal-select');
+      const selectedJournal = select.value;
+      loadJournal(selectedJournal);
+    }
+    
+    // Fonction pour mettre en valeur certains éléments
+    function highlightImportantElements() {
+      // Ajouter des icônes aux titres
+      const h1Elements = document.querySelectorAll
