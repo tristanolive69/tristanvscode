@@ -711,23 +711,23 @@
       <div class="journal-selector">
         <label for="journal-select">Choisir un journal :</label>
         <select id="journal-select" onchange="loadSelectedJournal()">
-          <option value="journal1">📘 02 Décembre 2025 - Premiers pas avec VS Code</option>
-          <option value="journal2">🚀 03 Novembre 2025 - Git, GitHub & Déploiement</option>
+          <option value="02-12-25.md">📘 02 Décembre 2025 - Premiers pas avec VS Code</option>
+          <option value="03-12-25.md">🚀 03 Décembre 2025 - Git, GitHub & Déploiement</option>
         </select>
       </div>
       
       <div class="journal-meta">
         <div class="meta-item">
           <span class="meta-icon">📅</span>
-          <span id="journal-date">02/12/2025</span>
+          <span id="journal-date">--/--/----</span>
         </div>
         <div class="meta-item">
           <span class="meta-icon">📝</span>
-          <span id="journal-length">1,247 caractères</span>
+          <span id="journal-length">-- caractères</span>
         </div>
         <div class="meta-item">
           <span class="meta-icon">⚡</span>
-          <span id="journal-updated">Dernière mise à jour : 03/12/2024 21:45</span>
+          <span id="journal-updated">Dernière mise à jour : --/--/---- --:--</span>
         </div>
       </div>
       
@@ -753,166 +753,6 @@
     let menuOpen = false;
     const sideMenu = document.getElementById('sideMenu');
     const menuOverlay = document.getElementById('menuOverlay');
-    
-    // CONTENU DES JOURNAUX INTÉGRÉ DIRECTEMENT DANS LE CODE
-    const journals = {
-      "journal1": `# 🌅 MATINÉE : PREMIERS PAS AVEC VS CODE
-
-**Tristan :** "Comment télécharger VS Code ?"
-**Moi :** Je donne les instructions détaillées pour télécharger et installer VS Code sur Windows. Téléchargement depuis le site officiel, installation, premiers raccourcis clés.
-
-**Tristan :** "J'ai ouvert mon dossier VS Code, qu'est-ce que je peux faire du codage ?"
-**Moi :** Je guide la création du premier projet :
-
-- Création du dossier \`projet-1-bouton-magic\`
-- Fichier \`index.html\` avec le code du bouton magique
-- Test dans Chrome : "MAGIC ! 🎩✨"
-- Premières personnalisations : changer texte, couleurs, phrases
-
-**Problème rencontré :** "Ça marche pas, ça m'ouvre une page blanche sur Google Chrome"
-**Debuggage :**
-
-- Vérification du nom de fichier (\`index.html\` pas \`index.html.txt\`)
-- Test avec un code simplifié
-- Solution : Bien enregistrer (Ctrl+S) et rafraîchir (F5)
-
-# ☀️ APRÈS-MIDI : CRÉATIONS ET ANIMATIONS
-
-**Tristan :** "Super ! Maintenant j'aimerais changer pour que quand je clique sur le bouton une pluie d'étoiles apparaît"
-**Moi :** Je modifie le code pour créer 50 étoiles qui tombent, avec animations CSS, effets aléatoires, et le texte "Bienvenue" qui reste visible.
-
-**Tristan :** "J'aimerais créer un deuxième bouton qui me permet de créer des cœurs de toutes les couleurs"
-**Moi :** Ajout d'un deuxième bouton arc-en-ciel avec :
-
-- 30 cœurs multicolores
-- 8 couleurs différentes
-- 3 types d'animations (tomber, flotter, spirale)
-- Son de battement de cœur
-
-**Problème :** "C'est pas du tout ce que je voulais, tu peux me le refaire au propre ?"
-Je me rends compte que j'ai mis la fonction au mauvais endroit. Je corrige en séparant bien les deux fonctions \`magic()\` et \`createHearts()\`.
-
-**Tristan :** "Maintenant j'aimerais créer une nouvelle page"
-Création successive de :
-
-- Page noire simple avec bouton "Bienvenue"
-- Page inscription/connexion avec menu
-- Navigation entre les pages
-
-# 🌙 SOIRÉE : DESIGN AVANCÉ ET DÉPLOIEMENT
-
-**Tristan :** "Je voudrais des météorites bien faites, pas des trucs de merde !"
-**Moi :** Je crée des météorites réalistes en SVG avec :
-
-- Noyau incandescent blanc-jaune
-- Boule de feu orange-rouge
-- Queue lumineuse avec dégradé
-- Rotation et effets de flou
-
-**Tristan :** "Rajoute moi en fond de la page Bienvenue un crâne squelette pirate mais un vrai pas des trucs de gamin"
-**Moi :** Création d'un crâne pirate réaliste en SVG avec :
-
-- Détails anatomiques (orbites, dents, mâchoire)
-- Texture osseuse avec fissures
-- Bandana pirate et croix d'os
-- Effet vieilli en tons sépia
-
-**Tristan :** "Maintenant rajoute moi dans la page inscription un bouton en haut à gauche qui fait qu'en cliquant une liste s'affiche"
-**Moi :** Création d'un menu latéral animé avec :
-
-- Bouton ☰ Menu en haut à gauche
-- Liste : Accueil, Discord, Support, Store
-- Animation de glissement fluide
-- Overlay sombre
-
-**Tristan :** "Fait en sorte qu'en cliquant sur Discord ça m'amène sur ce lien https://discord.gg/NMpcTt7P"
-Ajout du lien Discord avec \`target="_blank"\` pour ouvrir dans un nouvel onglet.
-
-**Tristan :** "Maintenant crée moi une nouvelle page Forum"
-Création de \`forum.html\` avec :
-
-- Fond bleu marine
-- "☎️ Forum ☎️" clignotant rouge/noir
-- Effets de lueur néon
-
-**Tristan :** "Maintenant crée moi une nouvelle page Boutique"
-Création de \`boutique.html\` avec :
-
-- Fond vert forêt
-- "💲 Bienvenue dans la boutique 💲" clignotant jaune/noir
-- 12 articles animés
-- Pièces qui tombent (💲💰💎)`,
-      
-      "journal2": `# 03/11/2025 - Installation de Git & Premier Push sur GitHub
-
-## 🧪 OBJECTIF DU TEST
-Vérifier que le système de journal peut afficher plusieurs fichiers markdown.
-
-## 📁 STRUCTURE TESTÉE
-\`\`\`
-tristanvscode/
-├── 02/12/25.md    (Journal d'hier)
-└── 03/11/2025.md  (Ce journal - aujourd'hui)
-\`\`\`
-
-## 🚀 PROCESSUS SUIVI
-1. Création du nouveau fichier markdown
-2. Ajout via Git : \`git add 03-11-2025.md\`
-3. Commit : \`git commit -m "Ajout du journal du 03/11/2025"\`
-4. Push : \`git push origin main\`
-
-## ✅ RÉSULTAT ATTENDU
-- Les deux journaux devraient être disponibles
-- Le système devrait pouvoir naviguer entre eux
-- GitHub montrera l'historique des modifications
-
-## 🔧 PROCHAINES AMÉLIORATIONS POSSIBLES
-1. Page de sommaire des journaux
-2. Navigation chronologique
-3. Recherche dans les journaux
-4. Tags/catégories
-
-## 📊 STATISTIQUES
-- **Nombre de journaux** : 2
-- **Premier journal** : 02/12/25 (Apprentissage VS Code)
-- **Second journal** : 03/11/2025 (Test Git & GitHub)
-- **Prochain objectif** : Système de navigation entre journaux
-
----
-
-## 💡 APPRENTISSAGE DU JOUR
-> "Un bon système évolue par petits tests.  
-> Aujourd'hui, on teste l'ajout d'un deuxième journal.  
-> Demain, on pourra ajouter une table des matières."
-
-## 🎯 PROCHAIN TEST
-Créer une page \`index-journaux.html\` qui liste tous les journaux disponibles avec :
-- Dates
-- Titres
-- Liens cliquables
-- Aperçu du contenu
-
----
-
-*Fichier de test créé le 03 novembre 2025*  
-*Objectif : Valider l'affichage multiple des documents markdown*
-
-✨ *"Chaque fichier est une page d'histoire, chaque commit est un chapitre sauvegardé."* ✨`
-    };
-    
-    // Métadonnées des journaux
-    const journalMetadata = {
-      "journal1": {
-        date: "02/12/2025",
-        length: "1,247 caractères",
-        title: "Premiers pas avec VS Code"
-      },
-      "journal2": {
-        date: "03/11/2025",
-        length: "895 caractères",
-        title: "Git, GitHub & Déploiement"
-      }
-    };
     
     // Fonctions pour le menu
     function toggleMenu() {
@@ -946,74 +786,233 @@ Créer une page \`index-journaux.html\` qui liste tous les journaux disponibles 
       }
     });
     
+    // FONCTION POUR CHARGER LES VRAIS FICHIERS .md
+    
+    // Fonction pour charger un fichier .md
+    async function loadMarkdownFile(filePath) {
+      try {
+        console.log(`📁 Tentative de chargement: ${filePath}`);
+        
+        // Essayer plusieurs chemins possibles
+        const possiblePaths = [
+          filePath,                    // "02-12-25.md"
+          `./${filePath}`,            // "./02-12-25.md"
+          `dailylogs/${filePath}`,    // "dailylogs/02-12-25.md"
+        ];
+        
+        let successfulPath = '';
+        let markdownText = '';
+        
+        // Essayer chaque chemin jusqu'à trouver celui qui marche
+        for (const path of possiblePaths) {
+          try {
+            const response = await fetch(path);
+            if (response.ok) {
+              markdownText = await response.text();
+              successfulPath = path;
+              console.log(`✅ Fichier chargé avec succès: ${successfulPath}`);
+              break;
+            }
+          } catch (pathError) {
+            // Continuer avec le prochain chemin
+            console.log(`❌ Échec pour le chemin: ${path}`);
+          }
+        }
+        
+        if (!markdownText) {
+          throw new Error(`Aucun chemin valide trouvé pour ${filePath}`);
+        }
+        
+        return markdownText;
+        
+      } catch (error) {
+        console.error(`❌ Erreur de chargement pour ${filePath}:`, error);
+        
+        // Fichiers de secours intégrés avec les nouvelles dates
+        const fallbackContent = {
+          "02-12-25.md": `# 📅 02 Décembre 2025 - Premiers pas avec VS Code
+
+## 🎯 RÉSUMÉ DE LA JOURNÉE
+Journée d'apprentissage intense avec VS Code, création des premières pages web et découverte des animations CSS.
+
+## 🚀 ACCOMPLISSEMENTS
+- Installation de VS Code
+- Création de la page d'inscription avec menu animé
+- Système de journal interactif
+- Animations CSS avancées
+
+## 💡 LEÇONS APPRISES
+Le développement web est accessible à tous avec les bons outils et un accompagnement patient.`,
+          
+          "03-12-25.md": `# 🚀 03 Décembre 2025 - Git, GitHub & Déploiement
+
+## 🎯 RÉSUMÉ DE LA JOURNÉE
+Session complète d'apprentissage de Git, de l'installation à la mise en ligne sur GitHub.
+
+## 🔧 PROBLÈMES RÉSOLUS
+1. Installation de Git avec configuration du PATH
+2. Connexion au dépôt GitHub
+3. Premier commit et push réussi
+4. Correction des chemins de fichiers
+
+## 📊 STATISTIQUES
+- **Durée** : 1 journée
+- **Commandes Git maîtrisées** : 10
+- **Problèmes résolus** : 12
+- **Objectif atteint** : ✅ 100%
+
+## 🌈 RÉFLEXION
+> "Hier matin, Git était un mystère. Hier soir, mon code vivait sur GitHub."`
+        };
+        
+        return fallbackContent[filePath] || `# ❌ Fichier non trouvé\n\nLe fichier **${filePath}** n'a pas pu être chargé.`;
+      }
+    }
+    
+    // Fonction pour extraire la date depuis le nom de fichier
+    function extractDateFromFilename(filename) {
+      // Format: "02-12-25.md"
+      if (filename.includes('-')) {
+        const parts = filename.split('-');
+        if (parts.length >= 3) {
+          const day = parts[0];
+          const month = parts[1];
+          const year = parts[2].replace('.md', '');
+          return `${day}/${month}/20${year}`;
+        }
+      }
+      return "Date inconnue";
+    }
+    
     // Fonction pour charger un journal
-    function loadJournal(journalId) {
+    async function loadJournalFile(filename) {
       const contentDiv = document.getElementById('markdown-content');
       const dateSpan = document.getElementById('journal-date');
       const lengthSpan = document.getElementById('journal-length');
       const updatedSpan = document.getElementById('journal-updated');
-      const select = document.getElementById('journal-select');
       const reloadBtn = document.getElementById('reloadBtn');
+      const select = document.getElementById('journal-select');
       
       // Mettre à jour le sélecteur
-      select.value = journalId;
+      select.value = filename;
       
       // Afficher le loading
       contentDiv.innerHTML = '<div class="loading">Chargement du journal...</div>';
       reloadBtn.disabled = true;
       reloadBtn.textContent = 'Chargement...';
       
-      // Attendre un peu pour l'effet de chargement
-      setTimeout(() => {
-        // Récupérer le contenu du journal
-        const markdownContent = journals[journalId];
-        const metadata = journalMetadata[journalId];
+      try {
+        // Charger le fichier .md
+        const markdownContent = await loadMarkdownFile(filename);
         
-        if (markdownContent) {
-          // Convertir le markdown en HTML
-          const htmlContent = marked.parse(markdownContent);
-          
-          // Afficher le contenu
-          contentDiv.innerHTML = htmlContent;
-          
-          // Mettre à jour les métadonnées
-          dateSpan.textContent = metadata.date;
-          lengthSpan.textContent = metadata.length;
-          
-          // Date de mise à jour (maintenant)
-          const now = new Date();
-          updatedSpan.textContent = `Dernière mise à jour : ${now.toLocaleDateString('fr-FR')} ${now.toLocaleTimeString('fr-FR', {hour: '2-digit', minute:'2-digit'})}`;
-          
-          // Réactiver le bouton
-          reloadBtn.disabled = false;
-          reloadBtn.textContent = '🔄 Recharger ce journal';
-          
-          // Ajouter des styles supplémentaires
-          highlightImportantElements();
-          
-        } else {
-          contentDiv.innerHTML = `
-            <div class="error-message">
-              <span class="error-icon">📄❌</span>
-              <h3>Journal introuvable</h3>
-              <p>Le journal sélectionné n'est pas disponible.</p>
-            </div>
-          `;
-          
-          reloadBtn.disabled = false;
-          reloadBtn.textContent = '🔄 Réessayer';
-        }
-      }, 300);
+        // Convertir le markdown en HTML
+        const htmlContent = marked.parse(markdownContent);
+        
+        // Afficher le contenu
+        contentDiv.innerHTML = htmlContent;
+        
+        // Mettre à jour les métadonnées
+        dateSpan.textContent = extractDateFromFilename(filename);
+        lengthSpan.textContent = `${markdownContent.length} caractères`;
+        
+        // Date de mise à jour (maintenant)
+        const now = new Date();
+        updatedSpan.textContent = `Dernière mise à jour : ${now.toLocaleDateString('fr-FR')} ${now.toLocaleTimeString('fr-FR', {hour: '2-digit', minute:'2-digit'})}`;
+        
+        // Ajouter des styles supplémentaires
+        highlightImportantElements();
+        
+      } catch (error) {
+        console.error('Erreur lors du chargement:', error);
+        contentDiv.innerHTML = `
+          <div class="error-message">
+            <span class="error-icon">📄❌</span>
+            <h3>Erreur de chargement</h3>
+            <p>Impossible de charger le journal: <code>${filename}</code></p>
+            <p><small>${error.message}</small></p>
+          </div>
+        `;
+      } finally {
+        // Réactiver le bouton
+        reloadBtn.disabled = false;
+        reloadBtn.textContent = '🔄 Recharger ce journal';
+      }
     }
     
     // Fonction appelée quand on change de journal
     function loadSelectedJournal() {
       const select = document.getElementById('journal-select');
-      const selectedJournal = select.value;
-      loadJournal(selectedJournal);
+      const selectedFile = select.value;
+      loadJournalFile(selectedFile);
     }
     
     // Fonction pour mettre en valeur certains éléments
     function highlightImportantElements() {
       // Ajouter des icônes aux titres
-      const h1Elements = document.querySelectorAll
+      const h1Elements = document.querySelectorAll('.markdown-body h1');
+      h1Elements.forEach(h1 => {
+        if (!h1.innerHTML.includes('📘') && !h1.innerHTML.includes('🚀') && 
+            !h1.innerHTML.includes('📅') && !h1.innerHTML.includes('❌')) {
+          h1.innerHTML = '📖 ' + h1.innerHTML;
+        }
+      });
+      
+      // Ajouter des effets aux listes
+      const listItems = document.querySelectorAll('.markdown-body li');
+      listItems.forEach(li => {
+        li.style.transition = 'all 0.3s';
+        li.addEventListener('mouseenter', function() {
+          this.style.backgroundColor = 'rgba(139, 0, 0, 0.1)';
+          this.style.paddingLeft = '10px';
+          this.style.borderRadius = '4px';
+        });
+        li.addEventListener('mouseleave', function() {
+          this.style.backgroundColor = '';
+          this.style.paddingLeft = '';
+        });
+      });
+      
+      // Ajouter des bordures aux blocs de code
+      const codeBlocks = document.querySelectorAll('.markdown-body pre');
+      codeBlocks.forEach(block => {
+        block.style.border = '1px solid #8b0000';
+        block.style.boxShadow = 'inset 0 0 10px rgba(139, 0, 0, 0.3)';
+      });
+    }
+    
+    // Charger le premier journal au démarrage
+    document.addEventListener('DOMContentLoaded', function() {
+      // Animation d'entrée
+      document.querySelector('.journal-container').style.opacity = '0';
+      document.querySelector('.journal-container').style.transform = 'translateY(20px)';
+      
+      setTimeout(() => {
+        document.querySelector('.journal-container').style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+        document.querySelector('.journal-container').style.opacity = '1';
+        document.querySelector('.journal-container').style.transform = 'translateY(0)';
+        
+        // Charger le premier journal par défaut
+        setTimeout(() => loadJournalFile('02-12-25.md'), 300);
+      }, 300);
+    });
+    
+    // Gestion des erreurs de chargement
+    window.addEventListener('error', function(e) {
+      console.error('Erreur globale:', e);
+      const contentDiv = document.getElementById('markdown-content');
+      if (contentDiv && contentDiv.innerHTML.includes('loading')) {
+        contentDiv.innerHTML = `
+          <div class="error-message">
+            <span class="error-icon">⚠️</span>
+            <h3>Erreur de chargement</h3>
+            <p>Une erreur est survenue. Vérifie ta connexion internet.</p>
+            <button class="load-btn" onclick="loadJournalFile('02-12-25.md')" style="margin-top: 20px;">
+              🔄 Réessayer
+            </button>
+          </div>
+        `;
+      }
+    });
+  </script>
+</body>
+</html>
