@@ -1,412 +1,938 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cyber Store v2.0</title>
   <style>
+    /* ==================== */
+    /* RESET & BASE */
+    /* ==================== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
     body {
-      background: #0a2f1a;
+      background: #0a0a0a;
       margin: 0;
       padding: 0;
       min-height: 100vh;
-      font-family: 'Impact', 'Arial Black', sans-serif;
+      font-family: 'Courier New', 'Monaco', monospace;
       overflow-x: hidden;
-    }
-    
-    /* Titre boutique */
-    .boutique-title {
-      color: #ffd700;
-      text-align: center;
-      font-size: 52px;
-      font-weight: bold;
-      margin-top: 50px;
-      letter-spacing: 4px;
-      text-shadow: 
-        4px 4px 8px rgba(0, 0, 0, 0.7),
-        0 0 20px rgba(255, 215, 0, 0.5);
-      animation: blink-yellow-black 1.2s infinite alternate;
-      padding: 25px 40px;
-      background: linear-gradient(135deg, 
-        rgba(10, 47, 26, 0.8) 0%,
-        rgba(20, 80, 40, 0.6) 50%,
-        rgba(10, 47, 26, 0.8) 100%);
-      border-radius: 15px;
-      max-width: 700px;
-      margin-left: auto;
-      margin-right: auto;
-      border: 3px solid rgba(255, 215, 0, 0.5);
       position: relative;
     }
     
-    @keyframes blink-yellow-black {
-      0%, 30% {
-        color: #ffd700;
+    /* ==================== */
+    /* FOND CYBER TECH */
+    /* ==================== */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 20% 30%, rgba(0, 100, 255, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(100, 0, 255, 0.05) 0%, transparent 40%),
+        linear-gradient(180deg, #000000 0%, #0a0a0a 50%, #000000 100%);
+      z-index: -2;
+      animation: bgPulse 12s infinite alternate ease-in-out;
+    }
+    
+    @keyframes bgPulse {
+      0% { opacity: 0.5; }
+      100% { opacity: 0.8; }
+    }
+    
+    /* ==================== */
+    /* CIRCUITS EN FOND */
+    /* ==================== */
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' opacity='0.03'%3E%3Cpath d='M20,20 L80,20 L80,80 L20,80 Z M100,50 L180,50 M50,100 L50,180 M150,100 L150,180' stroke='%2300ffff' stroke-width='1' fill='none'/%3E%3Ccircle cx='50' cy='50' r='5' fill='%2300ff00' opacity='0.3'/%3E%3Ccircle cx='150' cy='150' r='5' fill='%2300ff00' opacity='0.3'/%3E%3C/svg%3E");
+      background-size: 200px;
+      z-index: -1;
+      animation: circuitsMove 40s infinite linear;
+    }
+    
+    @keyframes circuitsMove {
+      0% { background-position: 0 0; }
+      100% { background-position: 200px 200px; }
+    }
+    
+    /* ==================== */
+    /* TITRE BOUTIQUE CYBER */
+    /* ==================== */
+    .boutique-title {
+      color: #00ffff;
+      text-align: center;
+      font-size: 3.2rem;
+      font-weight: 700;
+      margin-top: 70px;
+      letter-spacing: 6px;
+      text-shadow: 
+        0 0 15px rgba(0, 255, 255, 0.8),
+        0 0 30px rgba(0, 255, 255, 0.5),
+        0 0 45px rgba(0, 255, 255, 0.3);
+      padding: 30px 60px;
+      background: rgba(10, 20, 40, 0.9);
+      border-radius: 4px;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+      border: 3px solid #00aaff;
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+      box-shadow: 
+        0 0 60px rgba(0, 170, 255, 0.4),
+        inset 0 0 40px rgba(0, 0, 0, 0.9);
+      animation: titleCircuit 4s infinite alternate;
+    }
+    
+    @keyframes titleCircuit {
+      0% {
         text-shadow: 
-          0 0 15px #ffd700,
-          0 0 30px #ffd700,
-          0 0 45px #ffd700,
-          4px 4px 8px rgba(0, 0, 0, 0.7);
-        border-color: rgba(255, 215, 0, 0.8);
+          0 0 15px rgba(0, 255, 255, 0.8),
+          0 0 30px rgba(0, 255, 255, 0.5);
+        border-color: #00aaff;
       }
-      35%, 65% {
-        color: #000000;
+      50% {
         text-shadow: 
-          0 0 20px #333333,
-          0 0 40px #666666,
-          0 0 60px #999999,
-          4px 4px 8px rgba(0, 0, 0, 0.7);
-        border-color: rgba(0, 0, 0, 0.8);
+          0 0 25px rgba(0, 255, 200, 0.9),
+          0 0 50px rgba(0, 255, 150, 0.6),
+          0 0 75px rgba(0, 200, 255, 0.4);
+        border-color: #00ffaa;
       }
-      70%, 100% {
-        color: #ffd700;
+      100% {
         text-shadow: 
-          0 0 15px #ffd700,
-          0 0 30px #ffd700,
-          0 0 45px #ffd700,
-          4px 4px 8px rgba(0, 0, 0, 0.7);
-        border-color: rgba(255, 215, 0, 0.8);
+          0 0 20px rgba(100, 0, 255, 0.8),
+          0 0 40px rgba(100, 0, 255, 0.5),
+          0 0 60px rgba(150, 0, 255, 0.3);
+        border-color: #aa00ff;
       }
     }
     
-    /* Conteneur principal avec défilement */
+    .boutique-title::before {
+      content: '🛒';
+      position: absolute;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 2.5rem;
+      opacity: 0.7;
+      animation: cartFloat 3s infinite ease-in-out;
+    }
+    
+    .boutique-title::after {
+      content: '💾';
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 2.5rem;
+      opacity: 0.7;
+      animation: dataSpin 4s infinite linear;
+    }
+    
+    @keyframes cartFloat {
+      0%, 100% { transform: translateY(-50%) rotate(0deg); }
+      50% { transform: translateY(-60%) rotate(10deg); }
+    }
+    
+    @keyframes dataSpin {
+      0% { transform: translateY(-50%) rotate(0deg); }
+      100% { transform: translateY(-50%) rotate(360deg); }
+    }
+    
+    /* ==================== */
+    /* CONTENEUR PRINCIPAL */
+    /* ==================== */
     .shop-container {
       display: flex;
       flex-direction: column;
       align-items: center;
-      min-height: 150vh; /* Permet le défilement */
+      min-height: 150vh;
       padding-bottom: 100px;
+      position: relative;
+      z-index: 10;
     }
     
-    /* Grille des articles - MODIFIÉE pour plus d'articles */
+    /* ==================== */
+    /* GRILLE DES PRODUITS CYBER */
+    /* ==================== */
     .shop-items {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 40px;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 35px;
       margin-top: 60px;
-      padding: 30px;
+      padding: 40px;
       max-width: 1400px;
       width: 90%;
     }
     
     .shop-item {
-      background: linear-gradient(145deg, 
-        rgba(30, 80, 40, 0.6) 0%,
-        rgba(20, 60, 30, 0.8) 100%);
-      border: 3px solid #ffd700;
-      border-radius: 15px;
+      background: rgba(15, 25, 45, 0.85);
+      border: 2px solid #00aaff;
+      border-radius: 8px;
       padding: 30px;
-      transition: all 0.4s;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       color: #ffffff;
-      min-height: 300px;
+      min-height: 340px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(5px);
+      cursor: pointer;
+    }
+    
+    .shop-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, 
+        transparent 0%, 
+        rgba(0, 170, 255, 0.15) 50%, 
+        transparent 100%);
+      transform: translateX(-100%);
+      transition: transform 0.6s;
     }
     
     .shop-item:hover {
-      transform: translateY(-15px) scale(1.05);
-      box-shadow: 0 20px 40px rgba(255, 215, 0, 0.4);
-      background: linear-gradient(145deg, 
-        rgba(40, 100, 50, 0.8) 0%,
-        rgba(30, 80, 40, 1) 100%);
-      border-color: #ffed4e;
+      transform: translateY(-10px) scale(1.05);
+      border-color: #00ffff;
+      box-shadow: 
+        0 20px 50px rgba(0, 170, 255, 0.6),
+        0 0 80px rgba(0, 255, 255, 0.3);
     }
     
-    .item-price {
-      color: #ffd700;
-      font-size: 28px;
+    .shop-item:hover::before {
+      transform: translateX(100%);
+    }
+    
+    .shop-item h3 {
+      color: #00ffff;
+      font-size: 1.7rem;
+      margin-bottom: 15px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(0, 170, 255, 0.4);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: 'Courier New', monospace;
       font-weight: bold;
-      margin-top: 20px;
-      animation: price-glow 2s infinite alternate;
-      text-align: center;
-      padding: 10px;
-      background: rgba(0, 0, 0, 0.3);
-      border-radius: 8px;
     }
     
-    @keyframes price-glow {
+    .shop-item p {
+      color: #aaddff;
+      font-size: 1.1rem;
+      line-height: 1.6;
+      flex-grow: 1;
+      font-family: 'Courier New', monospace;
+      margin-bottom: 20px;
+    }
+    
+    /* ==================== */
+    /* PRIX CYBER */
+    /* ==================== */
+    .item-price {
+      color: #00ffaa;
+      font-size: 34px;
+      font-weight: 900;
+      text-align: center;
+      padding: 18px;
+      background: rgba(0, 30, 60, 0.8);
+      border-radius: 6px;
+      border: 2px solid #00ffaa;
+      position: relative;
+      overflow: hidden;
+      animation: priceScan 3s infinite alternate;
+      font-family: 'Courier New', monospace;
+    }
+    
+    .item-price::before {
+      content: '⚡';
+      position: absolute;
+      left: 15px;
+      opacity: 0.5;
+      animation: sparkPulse 2s infinite;
+    }
+    
+    .item-price::after {
+      content: '💎';
+      position: absolute;
+      right: 15px;
+      opacity: 0.5;
+      animation: gemFloat 3s infinite;
+    }
+    
+    @keyframes priceScan {
       0% { 
-        text-shadow: 0 0 5px #ffd700;
-        transform: scale(1);
+        text-shadow: 0 0 10px rgba(0, 255, 170, 0.6);
+        box-shadow: 0 0 15px rgba(0, 255, 170, 0.4);
       }
       100% { 
-        text-shadow: 0 0 15px #ffd700, 0 0 25px #ffd700;
-        transform: scale(1.05);
+        text-shadow: 
+          0 0 20px rgba(0, 255, 255, 0.8),
+          0 0 40px rgba(0, 200, 255, 0.6);
+        box-shadow: 
+          0 0 25px rgba(0, 255, 255, 0.5),
+          0 0 50px rgba(0, 255, 255, 0.2);
       }
     }
     
-    /* Barre de défilement personnalisée */
-    ::-webkit-scrollbar {
-      width: 14px;
+    @keyframes sparkPulse {
+      0%, 100% { opacity: 0.3; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.3); }
     }
     
-    ::-webkit-scrollbar-track {
-      background: rgba(10, 47, 26, 0.8);
-      border-radius: 10px;
-      border: 2px solid #ffd700;
+    @keyframes gemFloat {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-5px) rotate(10deg); }
     }
     
-    ::-webkit-scrollbar-thumb {
-      background: linear-gradient(180deg, #ffd700, #b8860b);
-      border-radius: 10px;
-      border: 2px solid #0a2f1a;
-      box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
-    }
-    
-    ::-webkit-scrollbar-thumb:hover {
-      background: linear-gradient(180deg, #ffed4e, #daa520);
-      box-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
-    }
-    
-    /* Bouton retour */
+    /* ==================== */
+    /* BOUTON RETOUR CYBER */
+    /* ==================== */
     .back-button {
       position: fixed;
-      top: 20px;
-      left: 20px;
-      background: rgba(255, 215, 0, 0.2);
-      color: #c8ff00;
-      border: 2px solid #c8ff00;
-      padding: 12px 25px;
-      border-radius: 8px;
+      top: 25px;
+      left: 25px;
+      background: rgba(0, 100, 200, 0.9);
+      color: #ffffff;
+      border: 2px solid #00aaff;
+      padding: 14px 28px;
+      border-radius: 4px;
       cursor: pointer;
-      font-family: Arial, sans-serif;
+      font-family: 'Courier New', monospace;
       text-decoration: none;
-      font-weight: bold;
       transition: all 0.3s;
       z-index: 1000;
+      font-size: 1.1rem;
+      letter-spacing: 2px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      backdrop-filter: blur(5px);
+      box-shadow: 0 0 20px rgba(0, 170, 255, 0.6);
+      text-transform: uppercase;
     }
     
     .back-button:hover {
-      background: rgba(255, 215, 0, 0.4);
-      color: #ffffff;
-      box-shadow: 0 0 20px rgba(200, 255, 0, 0.6);
-      transform: scale(1.1);
+      background: rgba(0, 150, 255, 0.95);
+      border-color: #00ffff;
+      transform: translateX(-5px) scale(1.1);
+      box-shadow: 
+        0 0 30px rgba(0, 255, 255, 0.8),
+        0 0 60px rgba(0, 255, 255, 0.4);
     }
     
-    /* Indicateur de défilement */
-    .scroll-indicator {
+    /* ==================== */
+    /* PANIER CYBER */
+    /* ==================== */
+    .cart-status {
       position: fixed;
-      bottom: 30px;
-      right: 30px;
-      color: #ffd700;
-      font-size: 14px;
-      background: rgba(0, 0, 0, 0.5);
-      padding: 10px 15px;
-      border-radius: 20px;
-      border: 2px solid #ffd700;
-      animation: bounce 2s infinite;
-      z-index: 100;
+      top: 25px;
+      right: 25px;
+      background: rgba(15, 25, 45, 0.9);
+      border: 2px solid #00ffaa;
+      border-radius: 4px;
+      padding: 18px 25px;
+      z-index: 1000;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 25px rgba(0, 255, 170, 0.5);
     }
     
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
+    .cart-title {
+      color: #00ffaa;
+      font-size: 1.1rem;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Courier New', monospace;
+      font-weight: bold;
     }
     
-    /* Effet de pièces */
-    .coins-effect {
+    .cart-count {
+      color: #ffffff;
+      font-size: 2rem;
+      text-align: center;
+      font-weight: bold;
+      text-shadow: 0 0 15px rgba(0, 255, 255, 0.7);
+      font-family: 'Courier New', monospace;
+    }
+    
+    /* ==================== */
+    /* DATA STREAM EFFECT */
+    /* ==================== */
+    .data-stream {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
       pointer-events: none;
-      z-index: -1;
+      z-index: 1;
     }
     
-    .coin {
+    .data-bit {
       position: absolute;
-      color: #ffd700;
-      font-size: 30px;
-      animation: coin-fall linear infinite;
+      color: #00ffff;
+      font-size: 24px;
+      font-family: 'Courier New', monospace;
+      opacity: 0;
+      animation: dataFlow linear infinite;
+      text-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
     }
     
-    @keyframes coin-fall {
+    @keyframes dataFlow {
       0% {
-        transform: translateY(-100px) rotate(0deg);
+        transform: translateY(-100px) translateX(0) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      90% {
         opacity: 1;
       }
       100% {
-        transform: translateY(100vh) rotate(360deg);
+        transform: translateY(100vh) translateX(100px) rotate(360deg);
         opacity: 0;
       }
+    }
+    
+    /* ==================== */
+    /* BARRE DE DÉFILEMENT CYBER */
+    /* ==================== */
+    ::-webkit-scrollbar {
+      width: 16px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: rgba(10, 20, 40, 0.8);
+      border-radius: 10px;
+      border: 2px solid #00aaff;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, #00aaff, #00ffff, #00aaff);
+      border-radius: 10px;
+      border: 2px solid #0a0a0a;
+      box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.6);
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(180deg, #00ffff, #00ffaa, #00ffff);
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
+    }
+    
+    /* ==================== */
+    /* INDICATEUR DE DÉFILEMENT */
+    /* ==================== */
+    .scroll-indicator {
+      position: fixed;
+      bottom: 35px;
+      right: 35px;
+      color: #00aaff;
+      font-size: 14px;
+      font-family: 'Courier New', monospace;
+      background: rgba(10, 20, 40, 0.95);
+      padding: 14px 22px;
+      border-radius: 4px;
+      border: 1px solid #00aaff;
+      animation: indicatorPulse 2s infinite;
+      z-index: 100;
+      backdrop-filter: blur(10px);
+      letter-spacing: 1px;
+      box-shadow: 0 0 20px rgba(0, 170, 255, 0.4);
+    }
+    
+    @keyframes indicatorPulse {
+      0%, 100% { 
+        transform: translateY(0); 
+        box-shadow: 0 0 20px rgba(0, 170, 255, 0.4);
+      }
+      50% { 
+        transform: translateY(-10px); 
+        box-shadow: 0 0 30px rgba(0, 255, 255, 0.6);
+      }
+    }
+    
+    /* ==================== */
+    /* FOOTER CYBER */
+    /* ==================== */
+    .shop-footer {
+      text-align: center;
+      color: #00aaff;
+      padding: 50px 20px;
+      margin-top: 80px;
+      border-top: 2px solid rgba(0, 170, 255, 0.4);
+      font-size: 1rem;
+      letter-spacing: 2px;
+      background: rgba(0, 0, 0, 0.6);
+      width: 100%;
+      font-family: 'Courier New', monospace;
+    }
+    
+    .shop-footer a {
+      color: #00ffff;
+      text-decoration: none;
+      transition: all 0.3s;
+      font-weight: bold;
+    }
+    
+    .shop-footer a:hover {
+      color: #ffffff;
+      text-shadow: 0 0 15px rgba(0, 255, 255, 0.8);
+    }
+    
+    /* ==================== */
+    /* QUANTITY SELECTOR */
+    /* ==================== */
+    .quantity-selector {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 15px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.3s;
+    }
+    
+    .shop-item:hover .quantity-selector {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .quantity-btn {
+      background: rgba(0, 100, 200, 0.8);
+      color: white;
+      border: 1px solid #00aaff;
+      width: 40px;
+      height: 40px;
+      border-radius: 4px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: 'Courier New', monospace;
+    }
+    
+    .quantity-btn:hover {
+      background: rgba(0, 150, 255, 0.9);
+      border-color: #00ffff;
+      transform: scale(1.1);
+    }
+    
+    .quantity-display {
+      color: #00ffff;
+      font-size: 1.3rem;
+      font-weight: bold;
+      min-width: 40px;
+      text-align: center;
+      font-family: 'Courier New', monospace;
+    }
+    
+    /* ==================== */
+    /* RESPONSIVE */
+    /* ==================== */
+    @media (max-width: 768px) {
+      .boutique-title {
+        font-size: 2.2rem;
+        letter-spacing: 4px;
+        padding: 20px;
+        margin-top: 90px;
+      }
+      
+      .shop-items {
+        grid-template-columns: 1fr;
+        padding: 0 20px;
+        gap: 30px;
+      }
+      
+      .back-button, .cart-status {
+        position: relative;
+        top: auto;
+        left: auto;
+        right: auto;
+        display: block;
+        margin: 20px auto;
+        width: fit-content;
+      }
+      
+      .scroll-indicator {
+        bottom: 20px;
+        right: 20px;
+        font-size: 12px;
+        padding: 12px 18px;
+      }
+      
+      .shop-item h3 {
+        font-size: 1.4rem;
+      }
+      
+      .item-price {
+        font-size: 28px;
+        padding: 15px;
+      }
+    }
+    
+    /* ==================== */
+    /* LOADING BAR */
+    /* ==================== */
+    .loading-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, 
+        #00aaff, #00ffff, #00ffaa, #00aaff);
+      background-size: 200% 100%;
+      animation: loadingSlide 2s infinite linear;
+      z-index: 10000;
+      display: none;
+    }
+    
+    @keyframes loadingSlide {
+      0% { background-position: 200% 0; }
+      100% { background-position: 0 0; }
     }
   </style>
 </head>
 <body>
-  <!-- Bouton retour -->
+  <!-- LOADING BAR -->
+  <div class="loading-bar" id="loadingBar"></div>
+  
+  <!-- BOUTON RETOUR -->
   <a href="inscription.html" class="back-button">
-    ← Retour
+    ⚙️ RETOUR AU HUB
   </a>
   
-  <!-- Conteneur principal -->
-  <div class="shop-container">
-    <!-- Titre principal -->
-    <div class="boutique-title">
-      💲 BIENVENUE DANS LA BOUTIQUE 💲
-    </div>
-    
-    <!-- Indicateur de défilement -->
-    <div class="scroll-indicator">
-      ⬇️ Défilez pour voir plus d'offres ⬇️
-    </div>
-    
-    <!-- Grille des articles (BEAUCOUP PLUS D'ARTICLES) -->
-    <div class="shop-items">
-      <!-- Article 1 -->
-      <div class="shop-item">
-        <h3>⚔️ ÉPÉE LÉGENDAIRE</h3>
-        <p>Arme ultime +500 dégâts<br>Effet: Feu éternel</p>
-        <div class="item-price">49.99€</div>
-      </div>
-      
-      <!-- Article 2 -->
-      <div class="shop-item">
-        <h3>🛡️ BOUCLIER MAGIQUE</h3>
-        <p>Protection totale<br>Résiste à tous les sorts</p>
-        <div class="item-price">34.99€</div>
-      </div>
-      
-      <!-- Article 3 -->
-      <div class="shop-item">
-        <h3>🧪 POTION DE VIE X10</h3>
-        <p>Restaure 100% PV<br>Pack de 10 unités</p>
-        <div class="item-price">24.99€</div>
-      </div>
-      
-      <!-- Article 4 -->
-      <div class="shop-item">
-        <h3>🔑 CLÉ DU TRÉSOR</h3>
-        <p>Accès exclusif<br>Salle secrète légendaire</p>
-        <div class="item-price">29.99€</div>
-      </div>
-      
-      <!-- Article 5 -->
-      <div class="shop-item">
-        <h3>👑 COURONNE ROYALE</h3>
-        <p>Statut VIP<br>+100% XP permanent</p>
-        <div class="item-price">79.99€</div>
-      </div>
-      
-      <!-- Article 6 -->
-      <div class="shop-item">
-        <h3>💎 CRISTAL DE PUISSANCE</h3>
-        <p>Boost mana illimité<br>Durée: 30 jours</p>
-        <div class="item-price">44.99€</div>
-      </div>
-      
-      <!-- Article 7 -->
-      <div class="shop-item">
-        <h3>🐉 ARMURE DRAGON</h3>
-        <p>Défense maximale<br>Résistance aux éléments</p>
-        <div class="item-price">89.99€</div>
-      </div>
-      
-      <!-- Article 8 -->
-      <div class="shop-item">
-        <h3>📜 PARCHEMIN ANCIEN</h3>
-        <p>Sorts exclusifs<br>Collection complète</p>
-        <div class="item-price">39.99€</div>
-      </div>
-      
-      <!-- Article 9 -->
-      <div class="shop-item">
-        <h3>🎒 SAC SANS FOND</h3>
-        <p>Inventaire illimité<br>Espace de stockage x10</p>
-        <div class="item-price">59.99€</div>
-      </div>
-      
-      <!-- Article 10 -->
-      <div class="shop-item">
-        <h3>🏹 ARC CÉLESTE</h3>
-        <p>Précision parfaite<br>Flèches infinies</p>
-        <div class="item-price">54.99€</div>
-      </div>
-      
-      <!-- Article 11 -->
-      <div class="shop-item">
-        <h3>⚗️ ALCHEMIE MAJEURE</h3>
-        <p>Kit complet<br>500 recettes rares</p>
-        <div class="item-price">69.99€</div>
-      </div>
-      
-      <!-- Article 12 -->
-      <div class="shop-item">
-        <h3>💍 ANNEAU DES DIEUX</h3>
-        <p>Bonus toutes stats<br>Édition limitée</p>
-        <div class="item-price">99.99€</div>
-      </div>
-    </div>
+  <!-- PANIER -->
+  <div class="cart-status">
+    <div class="cart-title">🛒 CART</div>
+    <div class="cart-count" id="cartCount">0</div>
   </div>
   
-  <!-- Effet de pièces -->
-  <div class="coins-effect" id="coinsEffect"></div>
+  <!-- DATA STREAM -->
+  <div class="data-stream" id="dataStream"></div>
   
-  <script>
-    // Crée des pièces qui tombent
-    function createCoins() {
-      const coinsEffect = document.getElementById('coinsEffect');
-      const coins = ['💲', '💰', '💎', '🪙', '💵'];
+  <!-- CONTENEUR PRINCIPAL -->
+  <div class="shop-container">
+    <!-- TITRE BOUTIQUE -->
+    <div class="boutique-title">
+      CYBER STORE v2.0
+    </div>
+    
+    <!-- INDICATEUR DE DÉFILEMENT -->
+    <div class="scroll-indicator">
+      ⬇️ SCROLL FOR MORE TECH ⬇️
+    </div>
+    
+    <!-- GRILLE DES PRODUITS -->
+    <div class="shop-items">
+      <!-- Produit 1 -->
+      <div class="shop-item" data-product="quantum-processor" data-price="499.99">
+        <h3>⚡ QUANTUM PROCESSOR</h3>
+        <p>Next-gen quantum computing unit. 128 qubits, parallel reality processing, temporal computation enabled.</p>
+        <div class="quantity-selector">
+          <button class="quantity-btn minus">-</button>
+          <span class="quantity-display">1</span>
+          <button class="quantity-btn plus">+</button>
+        </div>
+        <div class="item-price">499.99€</div>
+      </div>
       
-      for (let i = 0; i < 3; i++) {
-        const coin = document.createElement('div');
-        coin.className = 'coin';
-        coin.textContent = coins[Math.floor(Math.random() * coins.length)];
-        
-        coin.style.left = Math.random() * 100 + 'vw';
-        const duration = Math.random() * 3 + 2;
-        const size = Math.random() * 20 + 20;
-        
-        coin.style.fontSize = size + 'px';
-        coin.style.animationDuration = duration + 's';
-        coin.style.animationDelay = Math.random() + 's';
-        
-        coinsEffect.appendChild(coin);
-        
-        setTimeout(() => coin.remove(), duration * 1000);
+      <!-- Produit 2 -->
+      <div class="shop-item" data-product="neural-interface" data-price="349.99">
+        <h3>🧠 NEURAL INTERFACE</h3>
+        <p>Direct brain-computer link. Real-time thought processing, memory enhancement, cognitive overlay v3.2.</p>
+        <div class="quantity-selector">
+          <button class="quantity-btn minus">-</button>
+          <span class="quantity-display">1</span>
+          <button class="quantity-btn plus">+</button>
+        </div>
+        <div class="item-price">349.99€</div>
+      </div>
+      
+      <!-- Produit 3 -->
+      <div class="shop-item" data-product="holographic-display" data-price="249.99">
+        <h3>👁️ HOLOGRAPHIC DISPLAY</h3>
+        <p>Full 3D holographic projection. 8K resolution, touch feedback, augmented reality integration.</p>
+        <div class="quantity-selector">
+          <button class="quantity-btn minus">-</button>
+          <span class="quantity-display">1</span>
+          <button class="quantity-btn plus">+</button>
+        </div>
+        <div class="item-price">249.99€</div>
+      </div>
+      
+      <!-- Produit 4 -->
+      <div class="shop-item" data-product="cyberdeck" data-price="899.99">
+        <h3>💻 CYBERDECK PRO</h3>
+        <p>Portable hacking station. 1TB RAM, quantum encryption bypass, neural uplink port, stealth mode.</p>
+        <div class="quantity-selector">
+          <button class="quantity-btn minus">-</button>
+          <span class="quantity-display">1</span>
+          <button class="quantity-btn plus">+</button>
+        </div>
+        <div class="item-price">899.99€</div>
+      </div>
+      
+      <!-- Produit 5 -->
+      <div class="shop-item" data-product="nanite-syringe" data-price="179.99">
+        <h3>💉 NANITE SYRINGE</h3>
+        <p>Medical nanobots injection. Cellular repair, disease immunity, enhanced regeneration, DNA optimization.</p>
+        <div class="quantity-selector">
+          <button class="quantity-btn minus">-</button>
+          <span class="quantity-display">1</span>
+          <button class="quantity-btn plus">+</button>
+        </div>
+        <div class="item-price">179.99€</div>
+      </div>
+      
+      <!-- Produit 6 -->
+      <div class="shop-item" data-product="gravity-boots" data-price="429.99">
+        <h3>👢 GRAVITY BOOTS</h3>
+        <p>Anti-gravity locomotion. Wall running, controlled falling, enhanced jump (up to 20m), magnetic grip.</p>
+        <div class="quantity-selector">
+          <button class="quantity-btn minus">-</button>
+          <span class="quantity-display">1</span>
+          <button class="quantity-btn plus">+</button>
+        </div>
+        <div class="item-price">429.99€</div>
+      </div>
+      
+      <!-- Produit 7 -->
+      <div class="shop-item" data-product="cloaking-device" data-price="749.99">
+        <h3>👻 CLOAKING DEVICE</h3>
+        <p>Active camouflage system. Visual, thermal, and radar invisibility. Duration: 60 minutes per charge.</p>
+        <div class="quantity-selector">
+          <button class="quantity-btn minus">-</button>
+          <span class="quantity-display">1</span>
+          <button class="quantity-btn plus">+</button>
+        </div>
+        <div class="item-price">749.99€</div>
+      </div>
+      
+      <!-- Produit 8 -->
+      <div class="shop-item" data-product="memory-chip" data-price="129.99">
+        <h3>💾 NEURAL MEMORY CHIP</h3>
+        <p>Expandable memory storage. 1PB capacity, instant recall, memory editing, dream recording capability.</p>
+        <div class="quantity-selector">
+          <button class="quantity-btn minus">-</button>
+          <span class="quantity-display">1</span>
+          <button class="quantity-btn plus">+</button>
+        </div>
+        <div class="item-price">129.99€</div>
+      </div>
+      
+      <!-- Produit 9 -->
+      <div class="shop-item" data-product="laser-blade" data-price="299.99">
+        <h3>⚔️ LASER BLADE</h3>
+        <p>Plasma cutting weapon. Adjustable length (1-3m), multiple frequency settings, heats to 5000°C.</p>
+        <div class="quantity-selector">
+          <button class="quantity-btn minus">-</button>
+          <span class="quantity-display">1</span>
+          <button class="quantity-btn plus">+</button>
+        </div>
+        <div class="item-price">299.99€</div>
+      </div>
+      
+      <!-- Produit 10 -->
+      <div class="shop-item" data-product="drone-swarm" data-price="549.99">
+        <h3>🐝 NANO-DRONE SWARM</h3>
+        <p>Swarm of 1000 nano-drones. Collective AI, surveillance, hacking, construction, defense capabilities.</p>
+        <div class="quantity-selector">
+          <button class="quantity-btn minus">-</button>
+          <span class="quantity-display">1</span>
+          <button class="quantity-btn plus">+</button>
+        </div>
+        <div class="item-price">549.99€</div>
+      </div>
+      
+      <!-- Produit 11 -->
+      <div class="shop-item" data-product="time-dialator" data-price="999.99">
+        <h3>⏱️ TIME DILATOR</h3>
+        <p>Localized time manipulation. Slow time (10% speed) in 5m radius. Duration: 30 seconds, 5 min cooldown.</p>
+        <div class="quantity-selector">
+          <button class="quantity-btn minus">-</button>
+          <span class="quantity-display">1</span>
+          <button class="quantity-btn plus">+</button>
+        </div>
+        <div class="item-price">999.99€</div>
+      </div>
+      
+      <!-- Produit 12 -->
+      <div class="shop-item" data-product="reality-glasses" data-price="399.99">
+        <h3>👓 REALITY GLASSES</h3>
+        <p>Augmented reality eyewear. Real-time translation, object recognition, x-ray vision, data overlay.</p>
+        <div class="quantity-selector">
+          <button class="quantity-btn minus">-</button>
+          <span class="quantity-display">1</span>
+          <button class="quantity-btn plus">+</button>
+        </div>
+        <div class="item-price">399.99€</div>
+      </div>
+    </div>
+    
+    <!-- FOOTER -->
+    <div class="shop-footer">
+      <p>CYBER STORE v2.0 • [SECURE CONNECTION] • ENCRYPTION: AES-512</p>
+      <p>© 2024 Neural Corp • <a href="#">Terms of Service</a> • <a href="#">Privacy Protocol</a> • <a href="#">Shipping Info</a></p>
+    </div>
+  </div>
+
+  <script>
+    // ========================
+    // INITIALISATION
+    // ========================
+    window.addEventListener('load', function() {
+      // Crée le data stream
+      createDataStream();
+      
+      // Anime l'entrée des produits
+      animateProducts();
+      
+      // Initialise le panier
+      initCart();
+      
+      // Initialise les sélecteurs de quantité
+      initQuantitySelectors();
+      
+      // Cache l'indicateur après défilement
+      initScrollIndicator();
+    });
+    
+    // ========================
+    // DATA STREAM ANIMATION
+    // ========================
+    function createDataStream() {
+      // Crée des bits de données qui tombent
+      setInterval(() => {
+        createDataBit();
+      }, 300);
+      
+      // Bits initiaux
+      for(let i = 0; i < 10; i++) {
+        setTimeout(createDataBit, i * 100);
       }
     }
     
-    // Pièces automatiques
-    setInterval(createCoins, 1500);
+    function createDataBit() {
+      const dataStream = document.getElementById('dataStream');
+      const bit = document.createElement('div');
+      bit.className = 'data-bit';
+      
+      // Choisis un symbole cyber
+      const symbols = ['0', '1', '💾', '⚡', '🔗', '📡', '🔐', '💻', '🧠', '🌐'];
+      bit.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+      
+      // Position et animation aléatoires
+      const left = Math.random() * 100;
+      const duration = Math.random() * 5 + 3;
+      const fontSize = Math.random() * 20 + 16;
+      
+      bit.style.left = left + 'vw';
+      bit.style.fontSize = fontSize + 'px';
+      bit.style.animationDuration = duration + 's';
+      bit.style.animationDelay = Math.random() + 's';
+      
+      dataStream.appendChild(bit);
+      
+      // Nettoie après l'animation
+      setTimeout(() => {
+        if (bit.parentNode) {
+          dataStream.removeChild(bit);
+        }
+      }, duration * 1000);
+    }
     
-    // Effet de défilement fluide
-    document.addEventListener('wheel', function(e) {
-      // Défilement normal activé
-      // La barre de défilement personnalisée fait le reste
-    });
-    
-    // Masque l'indicateur après défilement
-    let scrolled = false;
-    window.addEventListener('scroll', function() {
-      if (!scrolled && window.scrollY > 100) {
-        scrolled = true;
-        document.querySelector('.scroll-indicator').style.opacity = '0';
-        setTimeout(() => {
-          document.querySelector('.scroll-indicator').style.display = 'none';
-        }, 500);
-      }
-    });
-    
-    // Animation au chargement
-    window.addEventListener('load', function() {
-      // Animation d'entrée des articles
+    // ========================
+    // ANIMATION DES PRODUITS
+    // ========================
+    function animateProducts() {
       const items = document.querySelectorAll('.shop-item');
       items.forEach((item, index) => {
         item.style.opacity = '0';
-        item.style.transform = 'translateY(50px)';
+        item.style.transform = 'translateY(50px) scale(0.9)';
         
         setTimeout(() => {
           item.style.transition = 'opacity 0.8s, transform 0.8s';
           item.style.opacity = '1';
-          item.style.transform = 'translateY(0)';
+          item.style.transform = 'translateY(0) scale(1)';
         }, index * 100);
       });
-      
-      // Pièces initiales
-      for(let i = 0; i < 5; i++) {
-        setTimeout(createCoins, i * 300);
+    }
+    
+    // ========================
+    // PANIER CYBER
+    // ========================
+    let cartItems = [];
+    let cartTotal = 0;
+    const cartCountElement = document.getElementById('cartCount');
+    
+    function initCart() {
+      // Récupère le panier depuis le localStorage
+      const savedCart = localStorage.getItem('cyberCart');
+      if (savedCart) {
+        cartItems = JSON.parse(savedCart);
+        updateCartDisplay();
       }
-    });
-  </script>
-</body>
-</html>
+    }
+    
+    function addToCart(productName, price, quantity = 1) {
+      // Vérifie si le produit existe déjà
+      const existingItem = cartItems.find(item => item.name === productName);
+      
+      if (existingItem) {
+        existingItem.quantity += quantity;
+      } else {
+        cartItems.push({
+          name: productName,
+          price: price,
+          quantity: quantity,
+          id: Date.now()
+        });
+      }
+      
+      cartTotal += price * quantity;
+      
+      // Sauvegarde dans le localStorage
+      localStorage.setItem('cyberCart', JSON.stringify(cartItems));
+      
+      // Met à jour l'affichage
+      updateCartDisplay();
+      
+      // Effet visuel
+      showCyberNotification(productName, price, quantity);
+      
+      // Animation du compteur
+      animateCartCounter();
+      
+      // Effet sonore
+      playPurchaseSound();
+    }
+    
+    function updateCartDisplay() {
+      const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+      cartCountElement.textContent = total
+    }

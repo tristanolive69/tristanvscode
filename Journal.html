@@ -3,77 +3,135 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portal - Mon Journal</title>
+  <title>Cyber Journal v3.0</title>
   <!-- Bibliothèque pour convertir le markdown en HTML -->
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <style>
-    /* STYLES DE BASE - MÊME QUE TA PAGE INSCRIPTION */
-    body {
-      background: #000000;
+    /* ==================== */
+    /* RESET & BASE CYBER */
+    /* ==================== */
+    * {
       margin: 0;
       padding: 0;
-      height: 100vh;
-      font-family: 'Arial', sans-serif;
+      box-sizing: border-box;
+    }
+    
+    body {
+      background: #0a0a0a;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      font-family: 'Courier New', 'Monaco', monospace;
       display: flex;
       flex-direction: column;
       position: relative;
       overflow-x: hidden;
     }
     
+    /* ==================== */
+    /* FOND CYBER TECH */
+    /* ==================== */
     body::before {
       content: '';
-      position: absolute;
+      position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
       background: 
-        radial-gradient(circle at 20% 80%, rgba(139, 0, 0, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(139, 0, 0, 0.15) 0%, transparent 50%),
-        linear-gradient(180deg, rgba(0,0,0,0.9) 0%, rgba(20,0,0,0.8) 100%);
-      z-index: 1;
-      animation: bgPulse 15s infinite alternate ease-in-out;
+        radial-gradient(circle at 20% 30%, rgba(0, 100, 255, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(100, 0, 255, 0.05) 0%, transparent 40%),
+        linear-gradient(180deg, #000000 0%, #0a0a0a 50%, #000000 100%);
+      z-index: -2;
+      animation: bgPulse 12s infinite alternate ease-in-out;
     }
     
     @keyframes bgPulse {
-      0% { 
-        opacity: 0.8;
-        filter: hue-rotate(0deg);
-      }
-      50% { 
-        opacity: 1;
-        filter: hue-rotate(10deg);
-      }
-      100% { 
-        opacity: 0.8;
-        filter: hue-rotate(0deg);
-      }
+      0% { opacity: 0.5; }
+      100% { opacity: 0.8; }
     }
     
-    /* MENU - IDENTIQUE À TON INSCRIPTION.HTML */
+    /* ==================== */
+    /* CIRCUIT BOARD GRID */
+    /* ==================== */
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' opacity='0.03'%3E%3Cpath d='M20,20 L80,20 L80,80 L20,80 Z M100,50 L180,50 M50,100 L50,180 M150,100 L150,180' stroke='%2300ffff' stroke-width='1' fill='none'/%3E%3Ccircle cx='50' cy='50' r='5' fill='%2300aaff' opacity='0.3'/%3E%3Ccircle cx='150' cy='150' r='5' fill='%2300aaff' opacity='0.3'/%3E%3C/svg%3E");
+      background-size: 200px;
+      z-index: -1;
+      animation: circuitsMove 40s infinite linear;
+    }
+    
+    @keyframes circuitsMove {
+      0% { background-position: 0 0; }
+      100% { background-position: 200px 200px; }
+    }
+    
+    /* ==================== */
+    /* SCAN LINES */
+    /* ==================== */
+    .scan-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        to bottom,
+        transparent 50%,
+        rgba(0, 255, 255, 0.03) 50%
+      );
+      background-size: 100% 4px;
+      z-index: -1;
+      pointer-events: none;
+      animation: scanMove 20s linear infinite;
+    }
+    
+    @keyframes scanMove {
+      0% { background-position: 0 0; }
+      100% { background-position: 0 100%; }
+    }
+    
+    /* ==================== */
+    /* MENU CYBER */
+    /* ==================== */
     .menu-button {
       position: fixed;
-      top: 20px;
-      left: 20px;
-      background: linear-gradient(135deg, #8b0000, #a00000);
-      color: white;
-      border: none;
+      top: 25px;
+      left: 25px;
+      background: rgba(0, 100, 200, 0.9);
+      color: #ffffff;
+      border: 2px solid #00aaff;
       padding: 12px 25px;
-      font-size: 18px;
-      font-weight: bold;
-      border-radius: 8px;
+      border-radius: 4px;
       cursor: pointer;
-      z-index: 100;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 15px rgba(139, 0, 0, 0.4);
-      letter-spacing: 1px;
+      font-family: 'Courier New', monospace;
+      text-decoration: none;
+      transition: all 0.3s;
+      z-index: 1000;
+      font-size: 1rem;
+      letter-spacing: 2px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      backdrop-filter: blur(5px);
+      box-shadow: 0 0 20px rgba(0, 170, 255, 0.6);
       text-transform: uppercase;
     }
     
     .menu-button:hover {
-      background: linear-gradient(135deg, #a00000, #c00000);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 25px rgba(139, 0, 0, 0.6);
+      background: rgba(0, 150, 255, 0.95);
+      border-color: #00ffff;
+      transform: translateX(-5px) scale(1.1);
+      box-shadow: 
+        0 0 30px rgba(0, 255, 255, 0.8),
+        0 0 60px rgba(0, 255, 255, 0.4);
     }
     
     .menu-overlay {
@@ -86,7 +144,7 @@
       z-index: 98;
       opacity: 0;
       visibility: hidden;
-      transition: all 0.4s ease;
+      transition: all 0.4s;
       backdrop-filter: blur(5px);
     }
     
@@ -101,9 +159,9 @@
       left: -300px;
       width: 280px;
       height: 100vh;
-      background: linear-gradient(180deg, #1a1a1a 0%, #0a0a0a 100%);
+      background: rgba(10, 20, 40, 0.95);
       backdrop-filter: blur(20px);
-      border-right: 3px solid #8b0000;
+      border-right: 3px solid #00aaff;
       z-index: 99;
       transition: left 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
       padding-top: 80px;
@@ -119,18 +177,18 @@
       top: 0;
       left: 0;
       width: 100%;
-      background: linear-gradient(90deg, #8b0000, #a00000);
+      background: linear-gradient(90deg, #00aaff, #0055ff);
       padding: 20px;
       text-align: center;
-      border-bottom: 2px solid #ffd700;
+      border-bottom: 2px solid #00ff00;
     }
     
     .menu-title {
       color: white;
-      font-size: 24px;
+      font-size: 1.5rem;
       font-weight: bold;
-      letter-spacing: 2px;
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      letter-spacing: 3px;
+      font-family: 'Courier New', monospace;
     }
     
     .menu-list {
@@ -140,7 +198,7 @@
     }
     
     .menu-list li {
-      border-bottom: 1px solid rgba(139, 0, 0, 0.2);
+      border-bottom: 1px solid rgba(0, 170, 255, 0.2);
       transition: all 0.3s;
       opacity: 0;
       transform: translateX(-20px);
@@ -171,18 +229,19 @@
     .menu-list a {
       display: flex;
       align-items: center;
-      color: white;
+      color: #aaddff;
       text-decoration: none;
       padding: 18px 30px;
-      font-size: 18px;
+      font-size: 1.1rem;
       transition: all 0.3s;
       position: relative;
       overflow: hidden;
+      font-family: 'Courier New', monospace;
     }
     
     .menu-list a:hover {
-      background: linear-gradient(90deg, rgba(139, 0, 0, 0.2), transparent);
-      color: #ff4444;
+      background: linear-gradient(90deg, rgba(0, 170, 255, 0.2), transparent);
+      color: #00ffff;
       padding-left: 40px;
     }
     
@@ -193,7 +252,7 @@
       bottom: 0;
       width: 0;
       height: 2px;
-      background: linear-gradient(90deg, #8b0000, #ff0000);
+      background: linear-gradient(90deg, #00aaff, #00ffff);
       transition: width 0.3s;
     }
     
@@ -201,50 +260,35 @@
       width: 100%;
     }
     
-    .menu-list a::before {
-      content: '▶';
-      margin-right: 15px;
-      color: #8b0000;
-      font-size: 12px;
-      transition: all 0.3s;
-    }
-    
-    .menu-list a:hover::before {
-      content: '➤';
-      color: #ff0000;
-      transform: rotate(90deg);
-      margin-right: 20px;
-    }
-    
     /* Bouton Journal spécial */
     .menu-list .journal-btn {
-      background: linear-gradient(90deg, rgba(139, 0, 0, 0.3), transparent);
-      color: #ffd700 !important;
+      background: linear-gradient(90deg, rgba(0, 170, 255, 0.3), transparent);
+      color: #00ffff !important;
       font-weight: bold;
-      border-left: 4px solid #ffd700;
+      border-left: 4px solid #00ffff;
       animation: journalPulse 3s infinite;
       position: relative;
     }
     
     .menu-list .journal-btn:hover {
-      background: linear-gradient(90deg, rgba(139, 0, 0, 0.5), transparent) !important;
-      color: #ffcc00 !important;
-      border-left: 4px solid #ffcc00;
+      background: linear-gradient(90deg, rgba(0, 170, 255, 0.5), transparent) !important;
+      color: #00ffff !important;
+      border-left: 4px solid #00ffff;
     }
     
     .menu-list .journal-btn::before {
       content: '📖';
       font-size: 20px;
-      color: #ffd700 !important;
+      color: #00ffff !important;
       animation: bookFloat 2s infinite ease-in-out;
     }
     
     @keyframes journalPulse {
       0%, 100% { 
-        box-shadow: inset 0 0 0 rgba(255, 215, 0, 0.1); 
+        box-shadow: inset 0 0 0 rgba(0, 255, 255, 0.1); 
       }
       50% { 
-        box-shadow: inset 0 0 20px rgba(255, 215, 0, 0.2); 
+        box-shadow: inset 0 0 20px rgba(0, 255, 255, 0.2); 
       }
     }
     
@@ -253,25 +297,58 @@
       50% { transform: translateY(-3px) rotate(5deg); }
     }
     
-    /* HEADER DE LA PAGE JOURNAL */
+    /* ==================== */
+    /* HEADER DU JOURNAL CYBER */
+    /* ==================== */
     .journal-header {
       text-align: center;
-      padding: 40px 20px 20px;
+      padding: 80px 20px 40px;
       position: relative;
       z-index: 10;
       margin-bottom: 30px;
     }
     
     .journal-title {
-      color: #ffd700;
-      font-size: 48px;
+      color: #00ffff;
+      font-size: 3.5rem;
       font-weight: bold;
       margin: 0;
-      letter-spacing: 3px;
-      text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7);
+      letter-spacing: 6px;
+      text-shadow: 
+        0 0 15px rgba(0, 255, 255, 0.7),
+        0 0 30px rgba(0, 255, 255, 0.4),
+        0 0 45px rgba(0, 255, 255, 0.2);
       position: relative;
       display: inline-block;
-      padding-bottom: 15px;
+      padding-bottom: 20px;
+      font-family: 'Courier New', monospace;
+      animation: titleGlitch 8s infinite;
+    }
+    
+    @keyframes titleGlitch {
+      0%, 95% {
+        text-shadow: 
+          0 0 15px rgba(0, 255, 255, 0.7),
+          0 0 30px rgba(0, 255, 255, 0.4);
+      }
+      96% {
+        text-shadow: 
+          0 0 15px rgba(255, 0, 100, 0.7),
+          0 0 30px rgba(255, 0, 100, 0.4);
+        transform: translateX(-2px);
+      }
+      97% {
+        text-shadow: 
+          0 0 15px rgba(0, 255, 100, 0.7),
+          0 0 30px rgba(0, 255, 100, 0.4);
+        transform: translateX(2px);
+      }
+      98% {
+        text-shadow: 
+          0 0 15px rgba(0, 255, 255, 0.7),
+          0 0 30px rgba(0, 255, 255, 0.4);
+        transform: translateX(0);
+      }
     }
     
     .journal-title::after {
@@ -280,19 +357,34 @@
       bottom: 0;
       left: 50%;
       transform: translateX(-50%);
-      width: 200px;
+      width: 300px;
       height: 4px;
-      background: linear-gradient(90deg, transparent, #ffd700, transparent);
+      background: linear-gradient(90deg, 
+        transparent, 
+        #00aaff, 
+        #00ffff, 
+        #00aaff, 
+        transparent);
+      animation: lineScan 3s infinite linear;
+    }
+    
+    @keyframes lineScan {
+      0% { background-position: -300px 0; }
+      100% { background-position: 300px 0; }
     }
     
     .journal-subtitle {
-      color: rgba(255, 255, 255, 0.7);
-      font-size: 18px;
-      margin-top: 10px;
-      font-style: italic;
+      color: rgba(0, 170, 255, 0.7);
+      font-size: 1.2rem;
+      margin-top: 15px;
+      font-family: 'Courier New', monospace;
+      letter-spacing: 2px;
+      text-transform: uppercase;
     }
     
-    /* CONTENEUR PRINCIPAL DU JOURNAL */
+    /* ==================== */
+    /* CONTENEUR PRINCIPAL CYBER */
+    /* ==================== */
     .journal-container {
       position: relative;
       z-index: 10;
@@ -304,11 +396,13 @@
     }
     
     .journal-content {
-      background: rgba(30, 30, 30, 0.85);
-      border-radius: 15px;
-      border: 2px solid #8b0000;
+      background: rgba(15, 25, 45, 0.85);
+      border-radius: 8px;
+      border: 3px solid #00aaff;
       padding: 40px;
-      box-shadow: 0 10px 40px rgba(139, 0, 0, 0.3);
+      box-shadow: 
+        0 0 60px rgba(0, 170, 255, 0.4),
+        inset 0 0 30px rgba(0, 0, 0, 0.8);
       backdrop-filter: blur(10px);
       animation: contentAppear 0.8s ease-out;
     }
@@ -324,19 +418,22 @@
       }
     }
     
-    /* NOUVEAU : SÉLECTEUR DE JOURNAL */
+    /* ==================== */
+    /* SÉLECTEUR DE JOURNAL CYBER */
+    /* ==================== */
     .journal-selector {
-      background: rgba(139, 0, 0, 0.2);
-      padding: 20px;
-      border-radius: 10px;
+      background: rgba(0, 40, 80, 0.3);
+      padding: 25px;
+      border-radius: 6px;
       margin-bottom: 30px;
-      border-left: 4px solid #ffd700;
+      border-left: 4px solid #00ffff;
       display: flex;
       align-items: center;
       justify-content: center;
       flex-wrap: wrap;
-      gap: 15px;
+      gap: 20px;
       animation: selectorAppear 0.6s ease-out 0.3s both;
+      font-family: 'Courier New', monospace;
     }
     
     @keyframes selectorAppear {
@@ -351,9 +448,9 @@
     }
     
     .journal-selector label {
-      color: #ffd700;
+      color: #00ffff;
       font-weight: bold;
-      font-size: 18px;
+      font-size: 1.1rem;
       display: flex;
       align-items: center;
       gap: 10px;
@@ -361,25 +458,28 @@
     
     .journal-selector label::before {
       content: '📚';
-      font-size: 20px;
+      font-size: 1.3rem;
+      animation: bookFloat 2s infinite;
     }
     
     #journal-select {
-      background: rgba(30, 30, 30, 0.9);
+      background: rgba(20, 40, 80, 0.9);
       color: white;
-      border: 2px solid #8b0000;
-      padding: 12px 25px;
-      border-radius: 8px;
-      font-size: 16px;
+      border: 2px solid #00aaff;
+      padding: 14px 28px;
+      border-radius: 6px;
+      font-size: 1rem;
       min-width: 350px;
       cursor: pointer;
       transition: all 0.3s;
+      font-family: 'Courier New', monospace;
     }
     
     #journal-select:focus {
       outline: none;
-      border-color: #ff0000;
-      box-shadow: 0 0 15px rgba(139, 0, 0, 0.5);
+      border-color: #00ffff;
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+      background: rgba(30, 60, 120, 0.9);
     }
     
     #journal-select option {
@@ -388,279 +488,301 @@
       padding: 10px;
     }
     
-    /* STYLES POUR LE MARKDOWN RENDU */
+    /* ==================== */
+    /* STYLES POUR LE MARKDOWN CYBER */
+    /* ==================== */
     .markdown-body {
       color: #e0e0e0;
       line-height: 1.8;
-      font-size: 17px;
+      font-size: 1.1rem;
+      font-family: 'Courier New', monospace;
     }
     
     .markdown-body h1 {
-      color: #ff4444;
-      border-bottom: 2px solid #8b0000;
-      padding-bottom: 10px;
+      color: #00ffff;
+      border-bottom: 2px solid #00aaff;
+      padding-bottom: 15px;
       margin-top: 40px;
-      margin-bottom: 25px;
-      font-size: 32px;
+      margin-bottom: 30px;
+      font-size: 2.2rem;
+      text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
     }
     
     .markdown-body h2 {
-      color: #ff6666;
+      color: #00aaff;
       margin-top: 35px;
       margin-bottom: 20px;
-      font-size: 26px;
-      padding-left: 15px;
-      border-left: 4px solid #8b0000;
+      font-size: 1.8rem;
+      padding-left: 20px;
+      border-left: 4px solid #00aaff;
     }
     
     .markdown-body h3 {
-      color: #ff8888;
+      color: #66aaff;
       margin-top: 30px;
       margin-bottom: 15px;
-      font-size: 22px;
+      font-size: 1.5rem;
     }
     
     .markdown-body p {
-      margin-bottom: 20px;
+      margin-bottom: 25px;
       text-align: justify;
     }
     
     .markdown-body ul, .markdown-body ol {
-      margin-bottom: 25px;
-      padding-left: 30px;
+      margin-bottom: 30px;
+      padding-left: 35px;
     }
     
     .markdown-body li {
-      margin-bottom: 8px;
+      margin-bottom: 10px;
       position: relative;
     }
     
     .markdown-body li::marker {
-      color: #8b0000;
+      color: #00aaff;
     }
     
     .markdown-body strong {
-      color: #ffd700;
+      color: #00ffff;
       font-weight: bold;
+      text-shadow: 0 0 5px rgba(0, 255, 255, 0.3);
     }
     
     .markdown-body em {
-      color: #ffaaaa;
+      color: #aaddff;
       font-style: italic;
     }
     
     .markdown-body code {
-      background: rgba(139, 0, 0, 0.2);
-      color: #ff9999;
-      padding: 2px 8px;
+      background: rgba(0, 40, 80, 0.3);
+      color: #00ffaa;
+      padding: 4px 10px;
       border-radius: 4px;
       font-family: 'Courier New', monospace;
-      font-size: 15px;
-      border: 1px solid rgba(139, 0, 0, 0.5);
+      font-size: 1rem;
+      border: 1px solid rgba(0, 170, 255, 0.5);
+      box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
     }
     
     .markdown-body pre {
-      background: rgba(20, 20, 20, 0.9);
-      border: 1px solid #8b0000;
-      border-radius: 8px;
-      padding: 20px;
+      background: rgba(10, 20, 40, 0.9);
+      border: 2px solid #00aaff;
+      border-radius: 6px;
+      padding: 25px;
       overflow-x: auto;
-      margin: 25px 0;
-      box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+      margin: 30px 0;
+      box-shadow: 
+        inset 0 0 20px rgba(0, 0, 0, 0.7),
+        0 0 20px rgba(0, 170, 255, 0.3);
     }
     
     .markdown-body pre code {
       background: transparent;
       border: none;
       padding: 0;
-      color: #e0e0e0;
-      font-size: 15px;
+      color: #00ffaa;
+      font-size: 1rem;
       line-height: 1.5;
     }
     
     .markdown-body blockquote {
-      border-left: 4px solid #8b0000;
-      padding-left: 20px;
-      margin: 25px 0;
-      color: #cccccc;
+      border-left: 4px solid #00aaff;
+      padding-left: 25px;
+      margin: 30px 0;
+      color: #aaddff;
       font-style: italic;
-      background: rgba(139, 0, 0, 0.1);
-      padding: 15px 20px;
-      border-radius: 0 8px 8px 0;
+      background: rgba(0, 40, 80, 0.2);
+      padding: 20px 25px;
+      border-radius: 0 6px 6px 0;
+      box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.5);
     }
     
     .markdown-body hr {
       border: none;
       height: 2px;
-      background: linear-gradient(90deg, transparent, #8b0000, transparent);
+      background: linear-gradient(90deg, 
+        transparent, 
+        #00aaff, 
+        #00ffff, 
+        #00aaff, 
+        transparent);
       margin: 40px 0;
     }
     
-    /* MÉTADONNÉES DU JOURNAL */
+    /* ==================== */
+    /* MÉTADONNÉES CYBER */
+    /* ==================== */
     .journal-meta {
-      background: rgba(139, 0, 0, 0.1);
-      border-radius: 10px;
-      padding: 20px;
+      background: rgba(0, 40, 80, 0.3);
+      border-radius: 6px;
+      padding: 25px;
       margin-bottom: 40px;
-      border-left: 4px solid #ffd700;
+      border-left: 4px solid #00ffff;
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      gap: 15px;
+      gap: 20px;
+      font-family: 'Courier New', monospace;
     }
     
     .meta-item {
       display: flex;
       align-items: center;
-      gap: 10px;
-      color: rgba(255, 255, 255, 0.8);
+      gap: 12px;
+      color: rgba(255, 255, 255, 0.9);
     }
     
     .meta-icon {
-      color: #ffd700;
-      font-size: 20px;
+      color: #00ffff;
+      font-size: 1.3rem;
+      filter: drop-shadow(0 0 5px rgba(0, 255, 255, 0.5));
     }
     
-    /* FOOTER */
+    /* ==================== */
+    /* DATA STREAM */
+    /* ==================== */
+    .data-stream {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(10, 20, 40, 0.9);
+      border: 2px solid #00aaff;
+      border-radius: 4px;
+      padding: 15px 20px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9rem;
+      color: #00ff00;
+      z-index: 100;
+      max-width: 300px;
+      backdrop-filter: blur(5px);
+      box-shadow: 0 0 25px rgba(0, 170, 255, 0.4);
+    }
+    
+    .stream-line {
+      margin-bottom: 5px;
+      opacity: 0.8;
+    }
+    
+    /* ==================== */
+    /* FOOTER CYBER */
+    /* ==================== */
     .footer {
       position: relative;
       width: 100%;
       text-align: center;
-      color: rgba(255, 255, 255, 0.3);
-      font-size: 14px;
-      padding: 20px;
+      color: rgba(0, 170, 255, 0.5);
+      font-size: 0.9rem;
+      padding: 30px 20px;
       z-index: 10;
-      background: rgba(0, 0, 0, 0.5);
+      background: rgba(0, 0, 0, 0.6);
       margin-top: auto;
+      border-top: 2px solid rgba(0, 170, 255, 0.2);
+      font-family: 'Courier New', monospace;
+      letter-spacing: 1px;
     }
     
-    /* BOUTON CHARGEMENT */
-    .load-btn {
+    /* ==================== */
+    /* BOUTON CHARGEMENT CYBER */
+    /* ==================== */
+    .cyber-button {
       display: block;
-      margin: 30px auto;
-      padding: 15px 40px;
-      background: linear-gradient(135deg, #8b0000, #a00000);
+      margin: 40px auto;
+      padding: 18px 45px;
+      background: linear-gradient(135deg, #00aaff, #0055ff, #00aaff);
+      background-size: 200% 100%;
       color: white;
       border: none;
-      border-radius: 10px;
-      font-size: 18px;
+      border-radius: 6px;
+      font-size: 1.1rem;
       font-weight: bold;
       cursor: pointer;
       transition: all 0.3s;
       text-transform: uppercase;
-      letter-spacing: 1px;
-      box-shadow: 0 5px 20px rgba(139, 0, 0, 0.4);
+      letter-spacing: 2px;
+      box-shadow: 0 5px 20px rgba(0, 170, 255, 0.4);
+      font-family: 'Courier New', monospace;
+      animation: btnGlow 3s infinite alternate;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
     }
     
-    .load-btn:hover {
-      background: linear-gradient(135deg, #a00000, #c00000);
-      transform: translateY(-3px);
-      box-shadow: 0 8px 25px rgba(139, 0, 0, 0.6);
+    .cyber-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.1), 
+        transparent);
+      transition: left 0.5s;
+      z-index: -1;
     }
     
-    .load-btn:disabled {
+    .cyber-button:hover::before {
+      left: 100%;
+    }
+    
+    @keyframes btnGlow {
+      0% { 
+        background-position: 0% 50%;
+        box-shadow: 0 5px 20px rgba(0, 170, 255, 0.4);
+      }
+      100% { 
+        background-position: 100% 50%;
+        box-shadow: 0 8px 30px rgba(0, 255, 255, 0.6);
+      }
+    }
+    
+    .cyber-button:hover {
+      transform: translateY(-5px);
+      box-shadow: 
+        0 10px 30px rgba(0, 170, 255, 0.6),
+        0 0 50px rgba(0, 255, 255, 0.3);
+    }
+    
+    .cyber-button:disabled {
       opacity: 0.6;
       cursor: not-allowed;
       transform: none;
     }
     
-    /* MESSAGE D'ERREUR */
+    /* ==================== */
+    /* MESSAGE D'ERREUR CYBER */
+    /* ==================== */
     .error-message {
       background: rgba(139, 0, 0, 0.2);
-      border: 2px solid #8b0000;
-      border-radius: 10px;
+      border: 2px solid #ff0055;
+      border-radius: 6px;
       padding: 30px;
       text-align: center;
       color: #ff9999;
-      font-size: 18px;
+      font-size: 1.1rem;
       margin: 40px 0;
+      font-family: 'Courier New', monospace;
     }
     
     .error-icon {
-      font-size: 50px;
+      font-size: 3rem;
       margin-bottom: 20px;
       display: block;
+      filter: drop-shadow(0 0 10px rgba(255, 0, 85, 0.5));
     }
     
-    /* RESPONSIVE */
-    @media (max-width: 768px) {
-      .journal-container {
-        padding: 0 15px;
-        margin-bottom: 40px;
-      }
-      
-      .journal-content {
-        padding: 25px;
-      }
-      
-      .journal-title {
-        font-size: 36px;
-      }
-      
-      .markdown-body {
-        font-size: 16px;
-      }
-      
-      .markdown-body h1 {
-        font-size: 28px;
-      }
-      
-      .markdown-body h2 {
-        font-size: 22px;
-      }
-      
-      .markdown-body h3 {
-        font-size: 19px;
-      }
-      
-      .journal-meta {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
-      }
-      
-      .journal-selector {
-        flex-direction: column;
-        text-align: center;
-      }
-      
-      #journal-select {
-        min-width: 250px;
-      }
-    }
-    
-    @media (max-width: 480px) {
-      .journal-content {
-        padding: 20px;
-      }
-      
-      .journal-title {
-        font-size: 28px;
-      }
-      
-      .markdown-body {
-        font-size: 15px;
-      }
-      
-      .menu-button {
-        padding: 10px 20px;
-        font-size: 16px;
-      }
-      
-      #journal-select {
-        min-width: 200px;
-        font-size: 14px;
-        padding: 10px 15px;
-      }
-    }
-    
-    /* ANIMATION DE CHARGEMENT */
+    /* ==================== */
+    /* ANIMATION DE CHARGEMENT CYBER */
+    /* ==================== */
     .loading {
       text-align: center;
-      padding: 50px;
-      color: #ffd700;
-      font-size: 20px;
+      padding: 60px;
+      color: #00ffff;
+      font-size: 1.3rem;
+      font-family: 'Courier New', monospace;
     }
     
     .loading::after {
@@ -673,46 +795,151 @@
       40% { content: '..'; }
       60%, 100% { content: '...'; }
     }
+    
+    /* ==================== */
+    /* PARTICULES DE DONNÉES */
+    /* ==================== */
+    .data-particle {
+      position: fixed;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0;
+    }
+    
+    /* ==================== */
+    /* RESPONSIVE */
+    /* ==================== */
+    @media (max-width: 768px) {
+      .journal-container {
+        padding: 0 15px;
+        margin-bottom: 40px;
+      }
+      
+      .journal-content {
+        padding: 25px;
+      }
+      
+      .journal-title {
+        font-size: 2.2rem;
+        letter-spacing: 4px;
+      }
+      
+      .markdown-body {
+        font-size: 1rem;
+      }
+      
+      .markdown-body h1 {
+        font-size: 1.8rem;
+      }
+      
+      .markdown-body h2 {
+        font-size: 1.5rem;
+      }
+      
+      .markdown-body h3 {
+        font-size: 1.3rem;
+      }
+      
+      .journal-meta {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+      }
+      
+      .journal-selector {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      #journal-select {
+        min-width: 250px;
+        font-size: 0.9rem;
+        padding: 12px 20px;
+      }
+      
+      .menu-button {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .journal-content {
+        padding: 20px;
+      }
+      
+      .journal-title {
+        font-size: 1.8rem;
+      }
+      
+      .markdown-body {
+        font-size: 0.95rem;
+      }
+      
+      #journal-select {
+        min-width: 200px;
+        font-size: 0.85rem;
+        padding: 10px 15px;
+      }
+      
+      .cyber-button {
+        padding: 15px 30px;
+        font-size: 1rem;
+      }
+    }
   </style>
 </head>
 <body>
-  <!-- Bouton menu -->
+  <!-- SCAN LINES -->
+  <div class="scan-overlay"></div>
+  
+  <!-- MENU BUTTON -->
   <button class="menu-button" onclick="toggleMenu()">
-    ☰ MENU
+    <span>⚙️</span> SYSTEM MENU
   </button>
   
-  <!-- Overlay -->
+  <!-- MENU OVERLAY -->
   <div class="menu-overlay" id="menuOverlay" onclick="closeMenu()"></div>
   
-  <!-- Menu latéral -->
+  <!-- SIDE MENU -->
   <div class="side-menu" id="sideMenu">
     <div class="menu-header">
       <div class="menu-title">NAVIGATION</div>
     </div>
     <ul class="menu-list">
-      <li><a href="inscription.html" onclick="closeMenu()">🏠 Accueil</a></li>
-      <li><a href="#" class="journal-btn" onclick="closeMenu()">📖 Journal</a></li>
-      <li><a href="https://discord.gg/NMpcTt7P" target="_blank" onclick="closeMenu()">🎮 Discord</a></li>
-      <li><a href="forum.html" onclick="closeMenu()">🛟 Support</a></li>
-      <li><a href="boutique.html" onclick="closeMenu()">🛒 Boutique</a></li>
+      <li><a href="index.html" onclick="closeMenu()">🏠 CYBER PORTAL</a></li>
+      <li><a href="inscription.html" onclick="closeMenu()">🔐 ACCESS TERMINAL</a></li>
+      <li><a href="#" class="journal-btn" onclick="closeMenu()">📖 CYBER JOURNAL</a></li>
+      <li><a href="https://discord.gg/NMpcTt7P" target="_blank" onclick="closeMenu()">🎮 COMMS LINK</a></li>
+      <li><a href="forum.html" onclick="closeMenu()">🛟 SUPPORT GRID</a></li>
+      <li><a href="boutique.html" onclick="closeMenu()">🛒 TECH STORE</a></li>
     </ul>
   </div>
   
-  <!-- Header de la page -->
-  <div class="journal-header">
-    <h1 class="journal-title">MON JOURNAL</h1>
-    <div class="journal-subtitle">Naviguez entre vos histoires de développement</div>
+  <!-- DATA STREAM -->
+  <div class="data-stream" id="dataStream">
+    <div class="stream-line">> SYSTEM: CYBER JOURNAL v3.0</div>
+    <div class="stream-line">> STATUS: ONLINE</div>
+    <div class="stream-line">> LOGS LOADED: <span id="logsCount">2</span></div>
+    <div class="stream-line">> ENCRYPTION: AES-512</div>
   </div>
   
-  <!-- Contenu principal -->
+  <!-- HEADER DE LA PAGE -->
+  <div class="journal-header">
+    <h1 class="journal-title">CYBER JOURNAL v3.0</h1>
+    <div class="journal-subtitle">DIGITAL MEMORY ARCHIVE • NEURAL LOG INTERFACE</div>
+  </div>
+  
+  <!-- CONTENU PRINCIPAL -->
   <div class="journal-container">
     <div class="journal-content">
-      <!-- Sélecteur de journal -->
+      <!-- SÉLECTEUR DE JOURNAL -->
       <div class="journal-selector">
-        <label for="journal-select">Choisir un journal :</label>
+        <label for="journal-select">SELECT LOG FILE:</label>
         <select id="journal-select" onchange="loadSelectedJournal()">
-          <option value="02-12-25.md">📘 02 Décembre 2025 - Premiers pas avec VS Code</option>
-          <option value="03-12-25.md">🚀 03 Décembre 2025 - Git, GitHub & Déploiement</option>
+          <option value="02-12-25.md">📘 02 DEC 2025 - INITIAL BOOT SEQUENCE</option>
+          <option value="03-12-25.md">🚀 03 DEC 2025 - GIT INTEGRATION COMPLETE</option>
         </select>
       </div>
       
@@ -723,38 +950,68 @@
         </div>
         <div class="meta-item">
           <span class="meta-icon">📝</span>
-          <span id="journal-length">-- caractères</span>
+          <span id="journal-length">-- CHARACTERS</span>
         </div>
         <div class="meta-item">
           <span class="meta-icon">⚡</span>
-          <span id="journal-updated">Dernière mise à jour : --/--/---- --:--</span>
+          <span id="journal-updated">LAST UPDATE: --/--/---- --:--</span>
         </div>
       </div>
       
-      <!-- Ici sera affiché le contenu du markdown -->
+      <!-- CONTENU DU MARKDOWN -->
       <div id="markdown-content" class="markdown-body">
-        <div class="loading">Chargement de votre journal</div>
+        <div class="loading">LOADING CYBER LOGS</div>
       </div>
       
-      <!-- Bouton pour recharger -->
-      <button class="load-btn" onclick="loadSelectedJournal()" id="reloadBtn">
-        🔄 Charger le journal sélectionné
+      <!-- BOUTON POUR RECHARGER -->
+      <button class="cyber-button" onclick="loadSelectedJournal()" id="reloadBtn">
+        🔄 LOAD SELECTED LOG
       </button>
     </div>
   </div>
   
-  <!-- Footer -->
+  <!-- FOOTER -->
   <div class="footer">
-    © 2024 Portal - Tous droits réservés | Système de journal interactif
+    © 2024 CYBER PORTAL • ALL RIGHTS RESERVED • NEURAL LOGGING SYSTEM v3.0
   </div>
-  
+
   <script>
-    // Variables d'état pour le menu
+    // ========================
+    // INITIALISATION CYBER
+    // ========================
+    window.addEventListener('load', function() {
+      // Initialise le menu
+      initMenu();
+      
+      // Initialise le data stream
+      initDataStream();
+      
+      // Initialise les particules
+      createDataParticles();
+      
+      // Animation d'entrée
+      animateEntrance();
+      
+      // Charge le premier journal
+      setTimeout(() => loadJournalFile('02-12-25.md'), 800);
+    });
+    
+    // ========================
+    // MENU FUNCTIONS
+    // ========================
     let menuOpen = false;
     const sideMenu = document.getElementById('sideMenu');
     const menuOverlay = document.getElementById('menuOverlay');
     
-    // Fonctions pour le menu
+    function initMenu() {
+      // Fermer le menu avec Échap
+      document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape' && menuOpen) {
+          closeMenu();
+        }
+      });
+    }
+    
     function toggleMenu() {
       menuOpen = !menuOpen;
       
@@ -779,97 +1036,225 @@
       document.body.style.overflow = '';
     }
     
-    // Fermer le menu avec Échap
-    document.addEventListener('keydown', function(event) {
-      if (event.key === 'Escape' && menuOpen) {
-        closeMenu();
+    // ========================
+    // DATA STREAM
+    // ========================
+    function initDataStream() {
+      const logsCount = document.getElementById('logsCount');
+      const streamLines = [
+        '> LOADING NEURAL LOGS...',
+        '> ENCRYPTION: AES-512',
+        '> MEMORY: 64% UTILIZED',
+        '> CPU: 28% UTILIZED',
+        '> NETWORK: STABLE',
+        '> LOG INTEGRITY: 100%',
+        '> READY FOR QUERY...'
+      ];
+      
+      let lineIndex = 0;
+      setInterval(() => {
+        const dataStream = document.getElementById('dataStream');
+        const lines = dataStream.querySelectorAll('.stream-line');
+        
+        if (lines.length > 4) {
+          dataStream.removeChild(lines[0]);
+        }
+        
+        const newLine = document.createElement('div');
+        newLine.className = 'stream-line';
+        newLine.textContent = streamLines[lineIndex];
+        newLine.style.opacity = '0';
+        newLine.style.transform = 'translateY(10px)';
+        
+        dataStream.appendChild(newLine);
+        
+        setTimeout(() => {
+          newLine.style.transition = 'opacity 0.5s, transform 0.5s';
+          newLine.style.opacity = '0.8';
+          newLine.style.transform = 'translateY(0)';
+        }, 10);
+        
+        lineIndex = (lineIndex + 1) % streamLines.length;
+      }, 3000);
+    }
+    
+    // ========================
+    // PARTICULES DE DONNÉES
+    // ========================
+    function createDataParticles() {
+      // Crée 15 particules
+      for (let i = 0; i < 15; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'data-particle';
+        
+        const size = Math.random() * 6 + 1;
+        const startX = Math.random() * 100;
+        const startY = Math.random() * 100;
+        const duration = Math.random() * 15 + 10;
+        const delay = Math.random() * 5;
+        
+        // Couleurs cyber
+        const colors = [
+          'rgba(0, 255, 255, 0.1)',
+          'rgba(0, 170, 255, 0.15)',
+          'rgba(0, 100, 255, 0.2)',
+          'rgba(0, 255, 150, 0.15)'
+        ];
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        
+        particle.style.cssText = `
+          width: ${size}px;
+          height: ${size}px;
+          background: ${color};
+          filter: blur(${Math.random() * 2 + 1}px);
+          left: ${startX}%;
+          top: ${startY}%;
+          animation: dataFloat${i} ${duration}s infinite linear ${delay}s;
+        `;
+        
+        // Animation
+        const style = document.createElement('style');
+        style.textContent = `
+          @keyframes dataFloat${i} {
+            0% { 
+              transform: translate(0, 0) rotate(0deg);
+              opacity: ${Math.random() * 0.3 + 0.1};
+            }
+            25% { 
+              transform: translate(${Math.random() * 100 - 50}px, ${Math.random() * 50 - 25}px) rotate(90deg);
+            }
+            50% { 
+              transform: translate(${Math.random() * 100 - 50}px, ${Math.random() * 50 - 25}px) rotate(180deg);
+              opacity: ${Math.random() * 0.5 + 0.2};
+            }
+            75% { 
+              transform: translate(${Math.random() * 100 - 50}px, ${Math.random() * 50 - 25}px) rotate(270deg);
+            }
+            100% { 
+              transform: translate(0, 0) rotate(360deg);
+              opacity: ${Math.random() * 0.3 + 0.1};
+            }
+          }
+        `;
+        
+        document.head.appendChild(style);
+        document.body.appendChild(particle);
       }
-    });
+    }
     
-    // FONCTION POUR CHARGER LES VRAIS FICHIERS .md
-    
-    // Fonction pour charger un fichier .md
+    // ========================
+    // FONCTION POUR CHARGER LES FICHIERS .md
+    // ========================
     async function loadMarkdownFile(filePath) {
       try {
-        console.log(`📁 Tentative de chargement: ${filePath}`);
+        console.log(`📁 LOADING: ${filePath}`);
         
         // Essayer plusieurs chemins possibles
         const possiblePaths = [
-          filePath,                    // "02-12-25.md"
-          `./${filePath}`,            // "./02-12-25.md"
-          `dailylogs/${filePath}`,    // "dailylogs/02-12-25.md"
+          filePath,
+          `./${filePath}`,
+          `dailylogs/${filePath}`,
         ];
         
         let successfulPath = '';
         let markdownText = '';
         
-        // Essayer chaque chemin jusqu'à trouver celui qui marche
+        // Essayer chaque chemin
         for (const path of possiblePaths) {
           try {
             const response = await fetch(path);
             if (response.ok) {
               markdownText = await response.text();
               successfulPath = path;
-              console.log(`✅ Fichier chargé avec succès: ${successfulPath}`);
+              console.log(`✅ FILE LOADED: ${successfulPath}`);
               break;
             }
           } catch (pathError) {
-            // Continuer avec le prochain chemin
-            console.log(`❌ Échec pour le chemin: ${path}`);
+            console.log(`❌ PATH FAILED: ${path}`);
           }
         }
         
         if (!markdownText) {
-          throw new Error(`Aucun chemin valide trouvé pour ${filePath}`);
+          throw new Error(`NO VALID PATH FOUND FOR ${filePath}`);
         }
         
         return markdownText;
         
       } catch (error) {
-        console.error(`❌ Erreur de chargement pour ${filePath}:`, error);
+        console.error(`❌ LOAD ERROR FOR ${filePath}:`, error);
         
-        // Fichiers de secours intégrés avec les nouvelles dates
+        // Fichiers de secours intégrés
         const fallbackContent = {
-          "02-12-25.md": `# 📅 02 Décembre 2025 - Premiers pas avec VS Code
+          "02-12-25.md": `# 📅 02 DECEMBER 2025 - INITIAL BOOT SEQUENCE
 
-## 🎯 RÉSUMÉ DE LA JOURNÉE
-Journée d'apprentissage intense avec VS Code, création des premières pages web et découverte des animations CSS.
+## 🎯 DAY SUMMARY
+Intense learning session with VS Code, creation of first web pages and discovery of CSS animations.
 
-## 🚀 ACCOMPLISSEMENTS
-- Installation de VS Code
-- Création de la page d'inscription avec menu animé
-- Système de journal interactif
-- Animations CSS avancées
+## 🚀 ACCOMPLISHMENTS
+- VS Code installation and configuration
+- Creation of access terminal with animated menu
+- Interactive journal system implementation
+- Advanced CSS animations and effects
 
-## 💡 LEÇONS APPRISES
-Le développement web est accessible à tous avec les bons outils et un accompagnement patient.`,
+## 💡 LESSONS LEARNED
+Web development is accessible to everyone with the right tools and patient guidance. The journey begins with a single line of code.
+
+## 🔧 CODE SNIPPET
+\`\`\`javascript
+// Initial boot sequence
+console.log("🚀 Cyber Portal v1.0");
+console.log("🔧 Systems initializing...");
+console.log("✅ All systems operational");
+\`\`\`
+
+## 🌈 REFLECTION
+> "The interface between human and machine is where magic happens. Every pixel, every line of code, is a bridge between thought and reality."`,
           
-          "03-12-25.md": `# 🚀 03 Décembre 2025 - Git, GitHub & Déploiement
+          "03-12-25.md": `# 🚀 03 DECEMBER 2025 - GIT INTEGRATION COMPLETE
 
-## 🎯 RÉSUMÉ DE LA JOURNÉE
-Session complète d'apprentissage de Git, de l'installation à la mise en ligne sur GitHub.
+## 🎯 DAY SUMMARY
+Complete Git learning session, from installation to deployment on GitHub.
 
-## 🔧 PROBLÈMES RÉSOLUS
-1. Installation de Git avec configuration du PATH
-2. Connexion au dépôt GitHub
-3. Premier commit et push réussi
-4. Correction des chemins de fichiers
+## 🔧 PROBLEMS SOLVED
+1. Git installation with PATH configuration
+2. GitHub repository connection
+3. First successful commit and push
+4. File path corrections
 
-## 📊 STATISTIQUES
-- **Durée** : 1 journée
-- **Commandes Git maîtrisées** : 10
-- **Problèmes résolus** : 12
-- **Objectif atteint** : ✅ 100%
+## 📊 STATISTICS
+- **Duration**: 1 day
+- **Git commands mastered**: 10
+- **Problems resolved**: 12
+- **Goal achieved**: ✅ 100%
 
-## 🌈 RÉFLEXION
-> "Hier matin, Git était un mystère. Hier soir, mon code vivait sur GitHub."`
+## 💻 TECHNICAL INSIGHTS
+\`\`\`bash
+# Git workflow mastered
+git init
+git add .
+git commit -m "Initial commit"
+git branch -M main
+git remote add origin [url]
+git push -u origin main
+\`\`\`
+
+## ⚡ PERFORMANCE METRICS
+- Repository size: 2.4MB
+- Commit frequency: Every 2 hours
+- Branch management: ✅ Optimal
+- Collaboration readiness: ✅ Complete
+
+## 🌈 REFLECTION
+> "Yesterday morning, Git was a mystery. Yesterday evening, my code was living on GitHub. The distance between confusion and mastery is measured in commits."`
         };
         
-        return fallbackContent[filePath] || `# ❌ Fichier non trouvé\n\nLe fichier **${filePath}** n'a pas pu être chargé.`;
+        return fallbackContent[filePath] || `# ❌ FILE NOT FOUND\n\n**${filePath}** could not be loaded. Please check the file path.`;
       }
     }
     
-    // Fonction pour extraire la date depuis le nom de fichier
+    // ========================
+    // FONCTION POUR EXTRAIRE LA DATE
+    // ========================
     function extractDateFromFilename(filename) {
       // Format: "02-12-25.md"
       if (filename.includes('-')) {
@@ -881,10 +1266,12 @@ Session complète d'apprentissage de Git, de l'installation à la mise en ligne 
           return `${day}/${month}/20${year}`;
         }
       }
-      return "Date inconnue";
+      return "UNKNOWN DATE";
     }
     
-    // Fonction pour charger un journal
+    // ========================
+    // FONCTION PRINCIPALE DE CHARGEMENT
+    // ========================
     async function loadJournalFile(filename) {
       const contentDiv = document.getElementById('markdown-content');
       const dateSpan = document.getElementById('journal-date');
@@ -897,9 +1284,12 @@ Session complète d'apprentissage de Git, de l'installation à la mise en ligne 
       select.value = filename;
       
       // Afficher le loading
-      contentDiv.innerHTML = '<div class="loading">Chargement du journal...</div>';
+      contentDiv.innerHTML = '<div class="loading">LOADING CYBER LOG...</div>';
       reloadBtn.disabled = true;
-      reloadBtn.textContent = 'Chargement...';
+      reloadBtn.textContent = 'LOADING...';
+      
+      // Effet visuel de chargement
+      createLoadEffect();
       
       try {
         // Charger le fichier .md
@@ -913,41 +1303,87 @@ Session complète d'apprentissage de Git, de l'installation à la mise en ligne 
         
         // Mettre à jour les métadonnées
         dateSpan.textContent = extractDateFromFilename(filename);
-        lengthSpan.textContent = `${markdownContent.length} caractères`;
+        lengthSpan.textContent = `${markdownContent.length.toLocaleString()} CHARACTERS`;
         
-        // Date de mise à jour (maintenant)
+        // Date de mise à jour
         const now = new Date();
-        updatedSpan.textContent = `Dernière mise à jour : ${now.toLocaleDateString('fr-FR')} ${now.toLocaleTimeString('fr-FR', {hour: '2-digit', minute:'2-digit'})}`;
+        updatedSpan.textContent = `LAST UPDATE: ${now.toLocaleDateString('fr-FR')} ${now.toLocaleTimeString('fr-FR', {hour: '2-digit', minute:'2-digit'})}`;
         
         // Ajouter des styles supplémentaires
-        highlightImportantElements();
+        highlightCyberElements();
+        
+        // Effet sonore de succès
+        playCyberSound('success');
         
       } catch (error) {
-        console.error('Erreur lors du chargement:', error);
+        console.error('LOAD ERROR:', error);
         contentDiv.innerHTML = `
           <div class="error-message">
-            <span class="error-icon">📄❌</span>
-            <h3>Erreur de chargement</h3>
-            <p>Impossible de charger le journal: <code>${filename}</code></p>
+            <span class="error-icon">⚠️</span>
+            <h3>LOAD ERROR</h3>
+            <p>Unable to load log file: <code>${filename}</code></p>
             <p><small>${error.message}</small></p>
           </div>
         `;
+        
+        // Effet sonore d'erreur
+        playCyberSound('error');
+        
       } finally {
         // Réactiver le bouton
         reloadBtn.disabled = false;
-        reloadBtn.textContent = '🔄 Recharger ce journal';
+        reloadBtn.textContent = '🔄 LOAD SELECTED LOG';
       }
     }
     
-    // Fonction appelée quand on change de journal
+    // ========================
+    // FONCTION APPELÉE QUAND ON CHANGE DE JOURNAL
+    // ========================
     function loadSelectedJournal() {
       const select = document.getElementById('journal-select');
       const selectedFile = select.value;
       loadJournalFile(selectedFile);
     }
     
-    // Fonction pour mettre en valeur certains éléments
-    function highlightImportantElements() {
+    // ========================
+    // EFFETS CYBER
+    // ========================
+    function createLoadEffect() {
+      const effect = document.createElement('div');
+      effect.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100px;
+        height: 100px;
+        border: 4px solid #00aaff;
+        border-top-color: #00ffff;
+        border-radius: 50%;
+        z-index: 10000;
+        animation: spin 1s linear infinite;
+        pointer-events: none;
+      `;
+      
+      const style = document.createElement('style');
+      style.textContent = `
+        @keyframes spin {
+          0% { transform: translate(-50%, -50%) rotate(0deg); }
+          100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+      `;
+      
+      document.head.appendChild(style);
+      document.body.appendChild(effect);
+      
+      setTimeout(() => {
+        if (effect.parentNode) {
+          document.body.removeChild(effect);
+        }
+      }, 1000);
+    }
+    
+    function highlightCyberElements() {
       // Ajouter des icônes aux titres
       const h1Elements = document.querySelectorAll('.markdown-body h1');
       h1Elements.forEach(h1 => {
@@ -957,60 +1393,120 @@ Session complète d'apprentissage de Git, de l'installation à la mise en ligne 
         }
       });
       
-      // Ajouter des effets aux listes
+      // Effets de survol sur les listes
       const listItems = document.querySelectorAll('.markdown-body li');
       listItems.forEach(li => {
         li.style.transition = 'all 0.3s';
         li.addEventListener('mouseenter', function() {
-          this.style.backgroundColor = 'rgba(139, 0, 0, 0.1)';
-          this.style.paddingLeft = '10px';
+          this.style.backgroundColor = 'rgba(0, 170, 255, 0.1)';
+          this.style.paddingLeft = '15px';
           this.style.borderRadius = '4px';
+          this.style.borderLeft = '2px solid #00aaff';
         });
         li.addEventListener('mouseleave', function() {
           this.style.backgroundColor = '';
           this.style.paddingLeft = '';
+          this.style.borderLeft = '';
         });
       });
       
-      // Ajouter des bordures aux blocs de code
+      // Effets sur les blocs de code
       const codeBlocks = document.querySelectorAll('.markdown-body pre');
       codeBlocks.forEach(block => {
-        block.style.border = '1px solid #8b0000';
-        block.style.boxShadow = 'inset 0 0 10px rgba(139, 0, 0, 0.3)';
+        block.style.border = '2px solid #00aaff';
+        block.style.boxShadow = 'inset 0 0 20px rgba(0, 170, 255, 0.3)';
       });
     }
     
-    // Charger le premier journal au démarrage
-    document.addEventListener('DOMContentLoaded', function() {
-      // Animation d'entrée
-      document.querySelector('.journal-container').style.opacity = '0';
-      document.querySelector('.journal-container').style.transform = 'translateY(20px)';
+    function playCyberSound(type) {
+      try {
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+        
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+        
+        if (type === 'success') {
+          oscillator.frequency.value = 800;
+          oscillator.type = 'sine';
+          gainNode.gain.setValueAtTime(0.05, audioContext.currentTime);
+          gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.3);
+        } else {
+          oscillator.frequency.value = 400;
+          oscillator.type = 'sawtooth';
+          gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+          gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.5);
+        }
+        
+        oscillator.start(audioContext.currentTime);
+        oscillator.stop(audioContext.currentTime + 0.5);
+      } catch (e) {
+        // Audio non supporté
+      }
+    }
+    
+    // ========================
+    // ANIMATION D'ENTRÉE
+    // ========================
+    function animateEntrance() {
+      const container = document.querySelector('.journal-container');
+      const content = document.querySelector('.journal-content');
+      
+      // Initial state
+      container.style.opacity = '0';
+      container.style.transform = 'translateY(30px)';
+      content.style.opacity = '0';
+      content.style.transform = 'scale(0.95)';
+      
+      // Animate in
+      setTimeout(() => {
+        container.style.transition = 'opacity 0.8s, transform 0.8s';
+        container.style.opacity = '1';
+        container.style.transform = 'translateY(0)';
+      }, 300);
       
       setTimeout(() => {
-        document.querySelector('.journal-container').style.transition = 'opacity 0.8s ease, transform 0.8s ease';
-        document.querySelector('.journal-container').style.opacity = '1';
-        document.querySelector('.journal-container').style.transform = 'translateY(0)';
-        
-        // Charger le premier journal par défaut
-        setTimeout(() => loadJournalFile('02-12-25.md'), 300);
-      }, 300);
-    });
+        content.style.transition = 'opacity 0.6s, transform 0.6s';
+        content.style.opacity = '1';
+        content.style.transform = 'scale(1)';
+      }, 600);
+    }
     
-    // Gestion des erreurs de chargement
+    // ========================
+    // GESTION DES ERREURS
+    // ========================
     window.addEventListener('error', function(e) {
-      console.error('Erreur globale:', e);
+      console.error('GLOBAL ERROR:', e);
       const contentDiv = document.getElementById('markdown-content');
       if (contentDiv && contentDiv.innerHTML.includes('loading')) {
         contentDiv.innerHTML = `
           <div class="error-message">
             <span class="error-icon">⚠️</span>
-            <h3>Erreur de chargement</h3>
-            <p>Une erreur est survenue. Vérifie ta connexion internet.</p>
-            <button class="load-btn" onclick="loadJournalFile('02-12-25.md')" style="margin-top: 20px;">
-              🔄 Réessayer
+            <h3>SYSTEM ERROR</h3>
+            <p>A critical error has occurred. Check your neural connection.</p>
+            <button class="cyber-button" onclick="loadJournalFile('02-12-25.md')" style="margin-top: 20px;">
+              🔄 RETRY CONNECTION
             </button>
           </div>
         `;
+      }
+    });
+    
+    // ========================
+    // RACCOURCIS CLAVIER
+    // ========================
+    document.addEventListener('keydown', function(e) {
+      // Ouvrir/fermer menu avec M
+      if (e.key === 'm' || e.key === 'M') {
+        e.preventDefault();
+        toggleMenu();
+      }
+      
+      // Recharger avec R
+      if (e.key === 'r' || e.key === 'R') {
+        e.preventDefault();
+        loadSelectedJournal();
       }
     });
   </script>

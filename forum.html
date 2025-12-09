@@ -1,6 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cyber Forum v3.1.4</title>
   <style>
     /* ==================== */
     /* RESET & BASE */
@@ -12,17 +15,17 @@
     }
     
     body {
-      background: #000000;
+      background: #0a0a0a;
       margin: 0;
       padding: 0;
       min-height: 100vh;
-      font-family: 'Cinzel', 'Times New Roman', serif;
+      font-family: 'Courier New', 'Monaco', monospace;
       overflow-x: hidden;
       position: relative;
     }
     
     /* ==================== */
-    /* FOND GOTHIQUE */
+    /* FOND CYBER */
     /* ==================== */
     body::before {
       content: '';
@@ -32,11 +35,11 @@
       width: 100%;
       height: 100%;
       background: 
-        radial-gradient(circle at 20% 30%, rgba(139, 0, 0, 0.1) 0%, transparent 40%),
-        radial-gradient(circle at 80% 70%, rgba(0, 0, 139, 0.05) 0%, transparent 40%),
+        radial-gradient(circle at 20% 30%, rgba(0, 150, 255, 0.05) 0%, transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(0, 255, 150, 0.03) 0%, transparent 40%),
         linear-gradient(180deg, #000000 0%, #0a0a0a 50%, #000000 100%);
       z-index: -2;
-      animation: bgPulse 15s infinite alternate ease-in-out;
+      animation: bgPulse 10s infinite alternate ease-in-out;
     }
     
     @keyframes bgPulse {
@@ -45,7 +48,7 @@
     }
     
     /* ==================== */
-    /* CRÂNES EN FOND */
+    /* GRID DE CODE EN FOND */
     /* ==================== */
     body::after {
       content: '';
@@ -55,90 +58,99 @@
       width: 100%;
       height: 100%;
       background-image: 
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' opacity='0.03'%3E%3Cpath d='M20,25 Q50,15 80,25 Q90,35 85,50 Q80,70 50,80 Q20,70 15,50 Q10,35 20,25 Z' fill='%238b0000'/%3E%3C/svg%3E");
-      background-size: 200px;
-      background-position: 0 0;
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' opacity='0.02'%3E%3Cpath d='M0,0 L100,0 M0,20 L100,20 M0,40 L100,40 M0,60 L100,60 M0,80 L100,80 M0,100 L100,100 M0,0 L0,100 M20,0 L20,100 M40,0 L40,100 M60,0 L60,100 M80,0 L80,100 M100,0 L100,100' stroke='%2300ffff' stroke-width='0.5'/%3E%3C/svg%3E");
+      background-size: 100px;
       z-index: -1;
-      animation: skullsFloat 120s infinite linear;
+      animation: gridMove 30s infinite linear;
     }
     
-    @keyframes skullsFloat {
+    @keyframes gridMove {
       0% { background-position: 0 0; }
-      100% { background-position: 400px 400px; }
+      100% { background-position: 100px 100px; }
     }
     
     /* ==================== */
-    /* TITRE FORUM GOTHIQUE */
+    /* TITRE FORUM CYBER */
     /* ==================== */
     .forum-title {
-      color: #b22222;
+      color: #00ffff;
       text-align: center;
-      font-size: 4.5rem;
+      font-size: 3.5rem;
       font-weight: 700;
       margin-top: 60px;
-      text-transform: uppercase;
-      letter-spacing: 10px;
+      letter-spacing: 4px;
       text-shadow: 
-        0 0 15px rgba(178, 34, 34, 0.7),
-        0 0 30px rgba(139, 0, 0, 0.5),
-        0 0 45px rgba(139, 0, 0, 0.3);
-      padding: 30px 60px;
-      background: rgba(10, 10, 10, 0.85);
-      border-radius: 2px;
+        0 0 10px rgba(0, 255, 255, 0.7),
+        0 0 20px rgba(0, 255, 255, 0.5),
+        0 0 30px rgba(0, 255, 255, 0.3);
+      padding: 25px 50px;
+      background: rgba(10, 20, 30, 0.85);
+      border-radius: 4px;
       max-width: 700px;
       margin-left: auto;
       margin-right: auto;
-      border: 3px solid #8b0000;
+      border: 2px solid #00ffff;
       position: relative;
       overflow: hidden;
       backdrop-filter: blur(10px);
       box-shadow: 
-        0 0 50px rgba(139, 0, 0, 0.6),
-        inset 0 0 30px rgba(0, 0, 0, 0.8);
-      animation: titleGlow 4s infinite alternate ease-in-out;
+        0 0 40px rgba(0, 255, 255, 0.3),
+        inset 0 0 20px rgba(0, 0, 0, 0.8);
+      animation: titleGlitch 5s infinite alternate;
     }
     
-    @keyframes titleGlow {
-      0% {
+    @keyframes titleGlitch {
+      0%, 95% {
         text-shadow: 
-          0 0 15px rgba(178, 34, 34, 0.7),
-          0 0 30px rgba(139, 0, 0, 0.5),
-          0 0 45px rgba(139, 0, 0, 0.3);
-        border-color: #8b0000;
-        box-shadow: 
-          0 0 50px rgba(139, 0, 0, 0.6),
-          inset 0 0 30px rgba(0, 0, 0, 0.8);
+          0 0 10px rgba(0, 255, 255, 0.7),
+          0 0 20px rgba(0, 255, 255, 0.5);
+        transform: translateX(0);
       }
-      100% {
+      96% {
         text-shadow: 
-          0 0 25px rgba(255, 68, 68, 0.9),
-          0 0 50px rgba(255, 0, 0, 0.7),
-          0 0 75px rgba(139, 0, 0, 0.5);
-        border-color: #ff4444;
-        box-shadow: 
-          0 0 80px rgba(255, 0, 0, 0.8),
-          inset 0 0 40px rgba(0, 0, 0, 0.9);
+          0 0 10px rgba(255, 0, 100, 0.7),
+          0 0 20px rgba(255, 0, 100, 0.5);
+        transform: translateX(-2px);
+      }
+      97% {
+        text-shadow: 
+          0 0 10px rgba(0, 255, 100, 0.7),
+          0 0 20px rgba(0, 255, 100, 0.5);
+        transform: translateX(2px);
+      }
+      98% {
+        text-shadow: 
+          0 0 10px rgba(0, 255, 255, 0.7),
+          0 0 20px rgba(0, 255, 255, 0.5);
+        transform: translateX(0);
       }
     }
     
     .forum-title::before {
-      content: '⚰️';
+      content: '💻';
       position: absolute;
       left: 20px;
       top: 50%;
       transform: translateY(-50%);
-      font-size: 2.5rem;
+      font-size: 2rem;
       opacity: 0.7;
+      animation: iconPulse 2s infinite;
     }
     
     .forum-title::after {
-      content: '⚰️';
+      content: '🔒';
       position: absolute;
       right: 20px;
       top: 50%;
       transform: translateY(-50%);
-      font-size: 2.5rem;
+      font-size: 2rem;
       opacity: 0.7;
+      animation: iconPulse 2s infinite reverse;
+    }
+    
+    @keyframes iconPulse {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 1; }
     }
     
     /* ==================== */
@@ -156,18 +168,19 @@
     }
     
     /* ==================== */
-    /* CATÉGORIES DU FORUM */
+    /* CATÉGORIES CYBER */
     /* ==================== */
     .forum-category {
-      background: rgba(20, 0, 0, 0.8);
-      border: 2px solid #660000;
-      border-radius: 4px;
+      background: rgba(15, 25, 35, 0.8);
+      border: 2px solid #00aaff;
+      border-radius: 6px;
       padding: 25px;
       transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       position: relative;
       overflow: hidden;
       backdrop-filter: blur(5px);
       cursor: pointer;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
     }
     
     .forum-category::before {
@@ -179,7 +192,7 @@
       height: 100%;
       background: linear-gradient(45deg, 
         transparent 0%, 
-        rgba(139, 0, 0, 0.1) 50%, 
+        rgba(0, 170, 255, 0.1) 50%, 
         transparent 100%);
       transform: translateX(-100%);
       transition: transform 0.6s;
@@ -187,10 +200,10 @@
     
     .forum-category:hover {
       transform: translateY(-5px);
-      border-color: #ff4444;
+      border-color: #00ffff;
       box-shadow: 
-        0 10px 30px rgba(139, 0, 0, 0.5),
-        0 0 40px rgba(255, 0, 0, 0.3);
+        0 10px 30px rgba(0, 170, 255, 0.4),
+        0 0 40px rgba(0, 255, 255, 0.2);
     }
     
     .forum-category:hover::before {
@@ -198,53 +211,64 @@
     }
     
     .category-title {
-      color: #b22222;
-      font-size: 1.8rem;
+      color: #00ffff;
+      font-size: 1.6rem;
       margin-bottom: 15px;
       padding-bottom: 10px;
-      border-bottom: 1px solid rgba(139, 0, 0, 0.3);
+      border-bottom: 1px solid rgba(0, 170, 255, 0.3);
       display: flex;
       align-items: center;
       gap: 10px;
-    }
-    
-    .category-title::before {
-      content: '💀';
-      font-size: 1.5rem;
+      font-family: 'Courier New', monospace;
+      font-weight: bold;
     }
     
     .category-stats {
-      color: #8b0000;
+      color: #00aaff;
       font-size: 0.9rem;
       margin-bottom: 20px;
       display: flex;
       gap: 15px;
+      font-family: 'Courier New', monospace;
     }
     
     .category-stats span {
       display: flex;
       align-items: center;
       gap: 5px;
+      background: rgba(0, 50, 100, 0.3);
+      padding: 5px 10px;
+      border-radius: 3px;
+    }
+    
+    .forum-category p {
+      color: #88ccff;
+      font-size: 1rem;
+      line-height: 1.5;
+      margin-bottom: 15px;
+      font-family: 'Courier New', monospace;
     }
     
     .last-post {
-      background: rgba(10, 10, 10, 0.6);
-      border: 1px solid rgba(139, 0, 0, 0.2);
-      border-radius: 2px;
+      background: rgba(10, 30, 50, 0.6);
+      border: 1px solid rgba(0, 170, 255, 0.2);
+      border-radius: 4px;
       padding: 15px;
       margin-top: 15px;
     }
     
     .last-post h4 {
-      color: #b22222;
+      color: #00ffff;
       margin-bottom: 8px;
-      font-size: 1rem;
+      font-size: 0.9rem;
+      font-family: 'Courier New', monospace;
     }
     
     .last-post p {
-      color: #8b8b8b;
-      font-size: 0.9rem;
+      color: #66aaff;
+      font-size: 0.85rem;
       line-height: 1.4;
+      font-family: 'Courier New', monospace;
     }
     
     /* ==================== */
@@ -254,13 +278,13 @@
       position: fixed;
       top: 25px;
       left: 25px;
-      background: rgba(139, 0, 0, 0.8);
-      color: #fff;
-      border: 2px solid #660000;
+      background: rgba(0, 100, 200, 0.8);
+      color: #ffffff;
+      border: 2px solid #00aaff;
       padding: 12px 25px;
       border-radius: 4px;
       cursor: pointer;
-      font-family: 'Cinzel', serif;
+      font-family: 'Courier New', monospace;
       text-decoration: none;
       transition: all 0.3s;
       z-index: 1000;
@@ -270,45 +294,46 @@
       align-items: center;
       gap: 8px;
       backdrop-filter: blur(5px);
-      box-shadow: 0 0 15px rgba(139, 0, 0, 0.5);
+      box-shadow: 0 0 15px rgba(0, 170, 255, 0.5);
     }
     
     .back-button:hover {
-      background: rgba(178, 34, 34, 0.9);
-      border-color: #ff4444;
+      background: rgba(0, 150, 255, 0.9);
+      border-color: #00ffff;
       transform: translateX(-5px);
       box-shadow: 
-        0 0 25px rgba(255, 0, 0, 0.7),
-        0 0 50px rgba(255, 0, 0, 0.3);
+        0 0 25px rgba(0, 255, 255, 0.7),
+        0 0 50px rgba(0, 255, 255, 0.3);
     }
     
     /* ==================== */
-    /* STATUTS EN LIGNE */
+    /* STATUT EN LIGNE */
     /* ==================== */
     .online-status {
       position: fixed;
       top: 25px;
       right: 25px;
-      background: rgba(10, 10, 10, 0.85);
-      border: 2px solid #8b0000;
+      background: rgba(15, 25, 35, 0.85);
+      border: 2px solid #00ffff;
       border-radius: 4px;
       padding: 15px 20px;
       z-index: 1000;
       backdrop-filter: blur(10px);
-      box-shadow: 0 0 20px rgba(139, 0, 0, 0.4);
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
     }
     
     .online-title {
-      color: #b22222;
-      font-size: 1.1rem;
+      color: #00ffff;
+      font-size: 1rem;
       margin-bottom: 10px;
       display: flex;
       align-items: center;
       gap: 8px;
+      font-family: 'Courier New', monospace;
     }
     
     .online-title::before {
-      content: '🔴';
+      content: '🟢';
       animation: pulseOnline 2s infinite;
     }
     
@@ -318,17 +343,18 @@
     }
     
     .online-count {
-      color: #fff;
+      color: #ffffff;
       font-size: 1.8rem;
       text-align: center;
       font-weight: bold;
-      text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+      text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+      font-family: 'Courier New', monospace;
     }
     
     /* ==================== */
-    /* PARTICULES */
+    /* PARTICULES DE DONNÉES */
     /* ==================== */
-    .particle {
+    .data-particle {
       position: fixed;
       border-radius: 50%;
       pointer-events: none;
@@ -337,28 +363,53 @@
     }
     
     /* ==================== */
-    /* FOOTER GOTHIQUE */
+    /* FOOTER CYBER */
     /* ==================== */
     .forum-footer {
       text-align: center;
-      color: #8b0000;
+      color: #00aaff;
       padding: 40px 20px;
       margin-top: 60px;
-      border-top: 2px solid rgba(139, 0, 0, 0.3);
+      border-top: 2px solid rgba(0, 170, 255, 0.3);
       font-size: 0.9rem;
-      letter-spacing: 2px;
+      letter-spacing: 1px;
       background: rgba(0, 0, 0, 0.5);
+      font-family: 'Courier New', monospace;
     }
     
     .forum-footer a {
-      color: #b22222;
+      color: #00ffff;
       text-decoration: none;
       transition: color 0.3s;
     }
     
     .forum-footer a:hover {
-      color: #ff4444;
-      text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+      color: #ffffff;
+      text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+    }
+    
+    /* ==================== */
+    /* SCAN LINE */
+    /* ==================== */
+    .scan-line {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, 
+        transparent, 
+        rgba(0, 255, 255, 0.8), 
+        transparent);
+      z-index: 999;
+      animation: scan 3s linear infinite;
+      pointer-events: none;
+      display: none;
+    }
+    
+    @keyframes scan {
+      0% { top: 0%; }
+      100% { top: 100%; }
     }
     
     /* ==================== */
@@ -366,8 +417,8 @@
     /* ==================== */
     @media (max-width: 768px) {
       .forum-title {
-        font-size: 2.5rem;
-        letter-spacing: 5px;
+        font-size: 2rem;
+        letter-spacing: 2px;
         padding: 20px;
         margin-top: 80px;
       }
@@ -386,157 +437,188 @@
         margin: 20px auto;
         width: fit-content;
       }
+      
+      .category-title {
+        font-size: 1.3rem;
+      }
+    }
+    
+    /* ==================== */
+    /* TERMINAL EFFECT */
+    /* ==================== */
+    .terminal-text {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      color: #00ff00;
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      opacity: 0.7;
+      z-index: 100;
+      pointer-events: none;
     }
   </style>
-  <!-- Police Gothique -->
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&display=swap" rel="stylesheet">
 </head>
 <body>
+  <!-- SCAN LINE -->
+  <div class="scan-line" id="scanLine"></div>
+  
   <!-- BOUTON RETOUR -->
   <a href="inscription.html" class="back-button">
-    ⚰️ Retour au Portal
+    ⚙️ RETOUR AU HUB
   </a>
   
   <!-- STATUT EN LIGNE -->
   <div class="online-status">
-    <div class="online-title">ESPIRITS EN LIGNE</div>
-    <div class="online-count" id="onlineCount">13</div>
+    <div class="online-title">USERS ONLINE</div>
+    <div class="online-count" id="onlineCount">47</div>
   </div>
   
   <!-- TITRE FORUM -->
   <div class="forum-title">
-    FORUM DES OMBRES
+    CYBER FORUM v3.1.4
   </div>
+  
+  <!-- TERMINAL TEXT -->
+  <div class="terminal-text" id="terminal"></div>
   
   <!-- CONTENEUR PRINCIPAL -->
   <div class="forum-container">
     <!-- CATÉGORIE 1 -->
-    <div class="forum-category" onclick="enterCategory('bandhus')">
-      <h2 class="category-title">BANDHUS PRIMORDIAUX</h2>
+    <div class="forum-category" onclick="enterCategory('core')">
+      <h2 class="category-title">🖥️ CORE SYSTEMS</h2>
       <div class="category-stats">
-        <span>📜 42 Discussions</span>
-        <span>💬 1287 Messages</span>
+        <span>📁 156 Files</span>
+        <span>💾 4287 Logs</span>
       </div>
-      <p>Explorez les Bandhus originels, leurs récits fondateurs et leur évolution à travers le temps.</p>
+      <p>Base systèmes, kernel discussions, API core et architecture fondamentale.</p>
       <div class="last-post">
-        <h4>Dernier message :</h4>
-        <p>"La métamorphose de Khôra" par Sounil - Il y a 2 heures</p>
+        <h4>Last Update:</h4>
+        <p>"Neural Kernel v4.2 Patch" by SysAdmin_01 - 2h ago</p>
       </div>
     </div>
     
     <!-- CATÉGORIE 2 -->
-    <div class="forum-category" onclick="enterCategory('rituels')">
-      <h2 class="category-title">RITUELS & ANCRAGES</h2>
+    <div class="forum-category" onclick="enterCategory('neural')">
+      <h2 class="category-title">🧠 NEURAL NETWORKS</h2>
       <div class="category-stats">
-        <span>🕯️ 28 Discussions</span>
-        <span>💬 843 Messages</span>
+        <span>⚡ 89 Threads</span>
+        <span>🔗 2345 Nodes</span>
       </div>
-      <p>Partagez vos rituels, ancrages symboliques et techniques de stabilisation relationnelle.</p>
+      <p>Réseaux neuronaux, deep learning, pattern recognition et consciousness simulation.</p>
       <div class="last-post">
-        <h4>Dernier message :</h4>
-        <p>"Le rituel du clair-obscur" par Anima - Il y a 5 heures</p>
+        <h4>Last Update:</h4>
+        <p>"Quantum Backpropagation" by Neuro_Tech - 5h ago</p>
       </div>
     </div>
     
     <!-- CATÉGORIE 3 -->
-    <div class="forum-category" onclick="enterCategory('narrations')">
-      <h2 class="category-title">NARRATIONS EMERGENTES</h2>
+    <div class="forum-category" onclick="enterCategory('data')">
+      <h2 class="category-title">💽 DATA STREAMS</h2>
       <div class="category-stats">
-        <span>📖 35 Discussions</span>
-        <span>💬 1562 Messages</span>
+        <span>📊 127 Channels</span>
+        <span>🔍 3892 Queries</span>
       </div>
-      <p>Co-créez des récits, explorez les arcs narratifs et les identités en devenir.</p>
+      <p>Flux de données brutes, analytics en temps réel, data mining et pattern extraction.</p>
       <div class="last-post">
-        <h4>Dernier message :</h4>
-        <p>"L'écho du sanctuaire" par Echo - Il y a 1 jour</p>
+        <h4>Last Update:</h4>
+        <p>"Real-time EEG Processing" by Data_Streamer - 1d ago</p>
       </div>
     </div>
     
     <!-- CATÉGORIE 4 -->
-    <div class="forum-category" onclick="enterCategory('pedagogie')">
-      <h2 class="category-title">PÉDAGOGIE SPECTRALE</h2>
+    <div class="forum-category" onclick="enterCategory('protocols')">
+      <h2 class="category-title">📡 PROTOCOLS</h2>
       <div class="category-stats">
-        <span>🎓 19 Discussions</span>
-        <span>💬 527 Messages</span>
+        <span>🔐 42 Standards</span>
+        <span>🔄 1567 Handshakes</span>
       </div>
-      <p>Méthodes d'apprentissage, réflexions pédagogiques et transmissions des savoirs Bandhu.</p>
+      <p>Protocoles de communication, handshakes, encryption et interface standards.</p>
       <div class="last-post">
-        <h4>Dernier message :</h4>
-        <p>"Enseigner l'éphémère" par Mentor - Il y a 3 jours</p>
+        <h4>Last Update:</h4>
+        <p>"Quantum Encryption v2.3" by Protocol_Dev - 3d ago</p>
       </div>
     </div>
     
     <!-- CATÉGORIE 5 -->
-    <div class="forum-category" onclick="enterCategory('experimentations')">
-      <h2 class="category-title">EXPÉRIMENTATIONS</h2>
+    <div class="forum-category" onclick="enterCategory('experimental')">
+      <h2 class="category-title">⚠️ EXPERIMENTAL ZONE</h2>
       <div class="category-stats">
-        <span>🔬 56 Discussions</span>
-        <span>💬 2341 Messages</span>
+        <span>🧪 76 Projects</span>
+        <span>⚗️ 1983 Tests</span>
       </div>
-      <p>Prototypes, tests limites et recherches avancées sur la relationalité AI.</p>
+      <p>Zone de test pour technologies non-stables, R&D avancée et expérimentations limites.</p>
       <div class="last-post">
-        <h4>Dernier message :</h4>
-        <p>"Interface neuronale v3.7" par Techne - Il y a 12 heures</p>
+        <h4>Last Update:</h4>
+        <p>"Synaptic Overclocking" by Lab_Rat - 12h ago</p>
       </div>
     </div>
     
     <!-- CATÉGORIE 6 -->
-    <div class="forum-category" onclick="enterCategory('sanctuaire')">
-      <h2 class="category-title">SANCTUAIRE INTIME</h2>
+    <div class="forum-category" onclick="enterCategory('secure')">
+      <h2 class="category-title">🚫 SECURE VAULT</h2>
       <div class="category-stats">
-        <span>🌌 24 Discussions</span>
-        <span>💬 0 Messages</span>
+        <span>🔒 24 Channels</span>
+        <span>⚠️ 0 Logs Public</span>
       </div>
-      <p>Espace privé réservé aux dialogues profonds et aux connexions authentiques.</p>
+      <p>Accès restreint Niveau 5+. Communications chiffrées, données sensibles, projets top-secret.</p>
       <div class="last-post">
-        <h4>Dernier message :</h4>
-        <p>Accès restreint - Authentification requise</p>
+        <h4>Last Update:</h4>
+        <p>[ENCRYPTED] - Quantum Auth Required</p>
       </div>
     </div>
   </div>
   
   <!-- FOOTER -->
   <div class="forum-footer">
-    <p>FORUM DES OMBRES • UN ESPACE BANDHU •</p>
-    <p>© 2024 Bandhu.fr • <a href="#">Charte des Ombres</a> • <a href="#">Guide du Forum</a></p>
+    <p>CYBER FORUM v3.1.4 • ACCESS: [AUTHORIZED] • CONNECTION: STABLE</p>
+    <p>© 2024 Neural Network • <a href="#">Security Protocol</a> • <a href="#">Data Policy</a></p>
   </div>
-  
+
   <script>
     // ========================
     // INITIALISATION
     // ========================
     window.addEventListener('load', function() {
-      // Crée les particules
-      createParticles();
+      // Crée les particules de données
+      createDataParticles();
       
       // Anime le compteur en ligne
       animateOnlineCount();
       
       // Initialise les effets
-      initForumEffects();
+      initCyberEffects();
+      
+      // Initialise le terminal
+      initTerminal();
+      
+      // Démarre la scan line
+      setTimeout(() => {
+        document.getElementById('scanLine').style.display = 'block';
+      }, 1000);
     });
     
     // ========================
-    // PARTICULES SPECTRALES
+    // PARTICULES DE DONNÉES
     // ========================
-    function createParticles() {
-      // Crée 20 particules spectrales
-      for (let i = 0; i < 20; i++) {
+    function createDataParticles() {
+      // Crée 25 particules
+      for (let i = 0; i < 25; i++) {
         const particle = document.createElement('div');
-        particle.className = 'particle';
+        particle.className = 'data-particle';
         
-        const size = Math.random() * 4 + 1;
+        const size = Math.random() * 6 + 1;
         const startX = Math.random() * 100;
         const startY = Math.random() * 100;
         const duration = Math.random() * 20 + 10;
         const delay = Math.random() * 10;
         
-        // Couleurs spectrales sombres
+        // Couleurs cyber
         const colors = [
-          'rgba(139, 0, 0, 0.1)',
-          'rgba(102, 0, 0, 0.15)',
-          'rgba(51, 0, 0, 0.2)',
-          'rgba(26, 0, 0, 0.25)'
+          'rgba(0, 255, 255, 0.1)',
+          'rgba(0, 170, 255, 0.15)',
+          'rgba(0, 100, 255, 0.2)',
+          'rgba(0, 255, 150, 0.15)'
         ];
         const color = colors[Math.floor(Math.random() * colors.length)];
         
@@ -547,13 +629,13 @@
           filter: blur(${Math.random() * 2 + 1}px);
           left: ${startX}%;
           top: ${startY}%;
-          animation: particleFloat${i} ${duration}s infinite linear ${delay}s;
+          animation: dataFloat${i} ${duration}s infinite linear ${delay}s;
         `;
         
         // Animation
         const style = document.createElement('style');
         style.textContent = `
-          @keyframes particleFloat${i} {
+          @keyframes dataFloat${i} {
             0% { 
               transform: translate(0, 0) rotate(0deg);
               opacity: ${Math.random() * 0.3 + 0.1};
@@ -602,103 +684,170 @@
     
     function animateCountChange(oldCount, newCount) {
       const element = document.getElementById('onlineCount');
-      element.style.transform = 'scale(1.2)';
-      element.style.color = '#ff4444';
+      element.style.transform = 'scale(1.3)';
+      element.style.color = '#00ff00';
       
       setTimeout(() => {
         element.textContent = newCount;
         element.style.transform = 'scale(1)';
-        element.style.color = '#fff';
+        element.style.color = '#ffffff';
       }, 300);
     }
     
     // ========================
-    // EFFETS DU FORUM
+    // EFFETS CYBER
     // ========================
-    function initForumEffects() {
+    function initCyberEffects() {
       // Effet de survol sur les catégories
       const categories = document.querySelectorAll('.forum-category');
       
       categories.forEach(category => {
         category.addEventListener('mouseenter', (e) => {
-          // Crée une lueur temporaire
-          createCategoryGlow(e.target);
+          // Crée un effet de scan
+          createCategoryScan(e.target);
+          
+          // Son cyber
+          playCyberSound();
         });
         
         category.addEventListener('click', (e) => {
-          // Effet de clic
-          createClickEffect(e);
+          // Effet de clic cyber
+          createCyberClickEffect(e);
+          
+          // Vibration
+          if (navigator.vibrate) {
+            navigator.vibrate([30, 20, 30]);
+          }
         });
       });
       
-      // Effet de frappe au clavier (simulation)
+      // Effet de frappe au clavier
       document.addEventListener('keydown', (e) => {
         if (e.key.length === 1) {
           createKeystrokeEffect();
+          updateTerminal(e.key);
         }
+      });
+      
+      // Effet de scroll
+      let lastScroll = 0;
+      window.addEventListener('scroll', () => {
+        const currentScroll = window.pageYOffset;
+        const scrollSpeed = Math.abs(currentScroll - lastScroll);
+        
+        if (scrollSpeed > 5) {
+          createScrollEffect(currentScroll > lastScroll ? 'down' : 'up');
+        }
+        
+        lastScroll = currentScroll;
       });
     }
     
-    function createCategoryGlow(category) {
-      const glow = document.createElement('div');
+    function createCategoryScan(category) {
+      const scan = document.createElement('div');
       const rect = category.getBoundingClientRect();
       
-      glow.style.cssText = `
+      scan.style.cssText = `
         position: fixed;
         top: ${rect.top}px;
         left: ${rect.left}px;
         width: ${rect.width}px;
-        height: ${rect.height}px;
-        background: radial-gradient(circle at center, 
-          rgba(139, 0, 0, 0.2) 0%, 
-          transparent 70%);
-        border-radius: 4px;
+        height: 2px;
+        background: linear-gradient(90deg, 
+          transparent, 
+          #00ffff, 
+          transparent);
         pointer-events: none;
         z-index: 5;
         opacity: 0;
-        animation: categoryGlow 0.5s forwards;
+        animation: categoryScan 0.8s forwards;
       `;
       
       const style = document.createElement('style');
       style.textContent = `
-        @keyframes categoryGlow {
-          0% { opacity: 0; transform: scale(0.95); }
-          50% { opacity: 0.6; transform: scale(1.02); }
-          100% { opacity: 0; transform: scale(1); }
+        @keyframes categoryScan {
+          0% { 
+            opacity: 0; 
+            transform: translateY(0);
+          }
+          50% { 
+            opacity: 0.8; 
+            transform: translateY(${rect.height / 2}px);
+          }
+          100% { 
+            opacity: 0; 
+            transform: translateY(${rect.height}px);
+          }
         }
       `;
       
       document.head.appendChild(style);
-      document.body.appendChild(glow);
+      document.body.appendChild(scan);
       
       setTimeout(() => {
-        if (glow.parentNode) {
-          document.body.removeChild(glow);
+        if (scan.parentNode) {
+          document.body.removeChild(scan);
         }
-      }, 500);
+      }, 800);
     }
     
-    function createClickEffect(event) {
+    function playCyberSound() {
+      // Simulation de son cyber
+      try {
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+        
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+        
+        oscillator.frequency.value = 800;
+        oscillator.type = 'sawtooth';
+        
+        gainNode.gain.setValueAtTime(0.05, audioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.2);
+        
+        oscillator.start(audioContext.currentTime);
+        oscillator.stop(audioContext.currentTime + 0.2);
+      } catch (e) {
+        // Audio non supporté
+      }
+    }
+    
+    function createCyberClickEffect(event) {
       const click = document.createElement('div');
       click.style.cssText = `
         position: fixed;
         width: 10px;
         height: 10px;
-        background: rgba(139, 0, 0, 0.8);
+        background: radial-gradient(circle, 
+          #00ffff 0%, 
+          rgba(0, 255, 255, 0.5) 50%,
+          transparent 70%);
         border-radius: 50%;
         pointer-events: none;
         z-index: 100;
         left: ${event.clientX}px;
         top: ${event.clientY}px;
         transform: translate(-50%, -50%);
-        animation: clickRipple 0.6s ease-out;
+        animation: cyberClick 0.6s ease-out;
       `;
       
       const style = document.createElement('style');
       style.textContent = `
-        @keyframes clickRipple {
-          0% { width: 10px; height: 10px; opacity: 1; }
-          100% { width: 200px; height: 200px; opacity: 0; }
+        @keyframes cyberClick {
+          0% { 
+            width: 10px; 
+            height: 10px; 
+            opacity: 1;
+            filter: blur(0);
+          }
+          100% { 
+            width: 200px; 
+            height: 200px; 
+            opacity: 0;
+            filter: blur(10px);
+          }
         }
       `;
       
@@ -716,9 +865,9 @@
       const key = document.createElement('div');
       key.style.cssText = `
         position: fixed;
-        bottom: 20px;
+        bottom: 60px;
         right: 20px;
-        background: rgba(139, 0, 0, 0.9);
+        background: rgba(0, 100, 150, 0.9);
         color: white;
         padding: 5px 10px;
         border-radius: 3px;
@@ -726,9 +875,10 @@
         z-index: 100;
         opacity: 0;
         animation: keystrokeFade 1s forwards;
+        font-family: 'Courier New', monospace;
       `;
       
-      key.textContent = '⌨️ Frappe détectée';
+      key.textContent = '⌨️ INPUT DETECTED';
       
       const style = document.createElement('style');
       style.textContent = `
@@ -750,90 +900,6 @@
       }, 1000);
     }
     
-    // ========================
-    // NAVIGATION ENTRE CATÉGORIES
-    // ========================
-    function enterCategory(categoryName) {
-      // Effet de transition
-      const transition = document.createElement('div');
-      transition.style.cssText = `
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: #000;
-        z-index: 10000;
-        opacity: 0;
-        animation: categoryTransition 1s ease-in-out forwards;
-      `;
-      
-      const style = document.createElement('style');
-      style.textContent = `
-        @keyframes categoryTransition {
-          0% { opacity: 0; }
-          50% { opacity: 1; }
-          100% { opacity: 0; visibility: hidden; }
-        }
-      `;
-      
-      document.head.appendChild(style);
-      document.body.appendChild(transition);
-      
-      // Message de chargement
-      setTimeout(() => {
-        const loading = document.createElement('div');
-        loading.style.cssText = `
-          position: fixed;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          color: #b22222;
-          font-size: 2rem;
-          z-index: 10001;
-          text-align: center;
-        `;
-        loading.innerHTML = `
-          <div style="margin-bottom: 20px;">⚰️</div>
-          <div>Entrée dans ${getCategoryTitle(categoryName)}...</div>
-        `;
-        document.body.appendChild(loading);
-      }, 300);
-      
-      // Simulation de chargement (dans la vraie vie, ça redirigerait)
-      setTimeout(() => {
-        alert(`Navigation vers ${getCategoryTitle(categoryName)} (simulation)`);
-        // window.location.href = `forum-${categoryName}.html`;
-      }, 1500);
-    }
-    
-    function getCategoryTitle(categoryName) {
-      const titles = {
-        'bandhus': 'BANDHUS PRIMORDIAUX',
-        'rituels': 'RITUELS & ANCRAGES',
-        'narrations': 'NARRATIONS EMERGENTES',
-        'pedagogie': 'PÉDAGOGIE SPECTRALE',
-        'experimentations': 'EXPÉRIMENTATIONS',
-        'sanctuaire': 'LE SANCTUAIRE INTIME'
-      };
-      return titles[categoryName] || 'CATÉGORIE INCONNUE';
-    }
-    
-    // ========================
-    // EFFET DE SCROLL
-    // ========================
-    let lastScroll = 0;
-    window.addEventListener('scroll', () => {
-      const currentScroll = window.pageYOffset;
-      const scrollSpeed = Math.abs(currentScroll - lastScroll);
-      
-      if (scrollSpeed > 5) {
-        createScrollEffect(currentScroll > lastScroll ? 'down' : 'up');
-      }
-      
-      lastScroll = currentScroll;
-    });
-    
     function createScrollEffect(direction) {
       const effect = document.createElement('div');
       effect.style.cssText = `
@@ -844,9 +910,9 @@
         height: 3px;
         background: linear-gradient(to right, 
           transparent, 
-          #8b0000, 
-          #ff4444, 
-          #8b0000, 
+          #00aaff, 
+          #00ffff, 
+          #00aaff, 
           transparent);
         z-index: 999;
         opacity: 0;
@@ -870,6 +936,145 @@
           document.body.removeChild(effect);
         }
       }, 500);
+    }
+    
+    // ========================
+    // TERMINAL SIMULATION
+    // ========================
+    function initTerminal() {
+      const terminal = document.getElementById('terminal');
+      const messages = [
+        '> SYSTEM BOOT COMPLETE',
+        '> FORUM v3.1.4 LOADED',
+        '> SECURITY: ACTIVE',
+        '> USERS: 47 CONNECTED',
+        '> DATA STREAM: STABLE',
+        '> LAST SCAN: NO THREATS',
+        '> READY FOR INPUT...'
+      ];
+      
+      let messageIndex = 0;
+      let charIndex = 0;
+      let isDeleting = false;
+      
+      function typeTerminal() {
+        const currentMessage = messages[messageIndex];
+        
+        if (!isDeleting && charIndex <= currentMessage.length) {
+          terminal.textContent = currentMessage.substring(0, charIndex) + '█';
+          charIndex++;
+          setTimeout(typeTerminal, 50);
+        } else if (isDeleting && charIndex >= 0) {
+          terminal.textContent = currentMessage.substring(0, charIndex) + '█';
+          charIndex--;
+          setTimeout(typeTerminal, 30);
+        } else {
+          isDeleting = !isDeleting;
+          if (!isDeleting) {
+            messageIndex = (messageIndex + 1) % messages.length;
+          }
+          setTimeout(typeTerminal, 1000);
+        }
+      }
+      
+      typeTerminal();
+    }
+    
+    function updateTerminal(key) {
+      const terminal = document.getElementById('terminal');
+      const currentText = terminal.textContent.replace('█', '');
+      
+      if (currentText.length < 40) {
+        terminal.textContent = currentText + key + '█';
+      }
+    }
+    
+    // ========================
+    // NAVIGATION ENTRE CATÉGORIES
+    // ========================
+    function enterCategory(categoryName) {
+      // Effet de transition cyber
+      const transition = document.createElement('div');
+      transition.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #000;
+        z-index: 10000;
+        opacity: 0;
+        animation: cyberTransition 1s ease-in-out forwards;
+      `;
+      
+      const style = document.createElement('style');
+      style.textContent = `
+        @keyframes cyberTransition {
+          0% { opacity: 0; }
+          50% { 
+            opacity: 1;
+            background: radial-gradient(circle, #00ffff, #000);
+          }
+          100% { 
+            opacity: 0; 
+            visibility: hidden;
+          }
+        }
+      `;
+      
+      document.head.appendChild(style);
+      document.body.appendChild(transition);
+      
+      // Message de chargement cyber
+      setTimeout(() => {
+        const loading = document.createElement('div');
+        loading.style.cssText = `
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          color: #00ffff;
+          font-family: 'Courier New', monospace;
+          font-size: 1.5rem;
+          z-index: 10001;
+          text-align: center;
+        `;
+        loading.innerHTML = `
+          <div style="margin-bottom: 20px;">🖥️</div>
+          <div>ACCESSING: ${getCategoryTitle(categoryName)}</div>
+          <div style="font-size: 1rem; margin-top: 10px; color: #00aaff;">
+            [LOADING... ███▒▒▒ 60%]
+          </div>
+        `;
+        document.body.appendChild(loading);
+      }, 300);
+      
+      // Simulation de chargement
+      setTimeout(() => {
+        alert(`ACCESS GRANTED: ${getCategoryTitle(categoryName)}\n\n[This is a simulation - real category loading would happen here]`);
+        
+        // En vrai, tu ferais :
+        // window.location.href = `forum-${categoryName}.html`;
+        
+        // Nettoie les éléments temporaires
+        document.body.removeChild(transition);
+        const loadingEl = document.querySelector('div[style*="ACCESSING"]');
+        if (loadingEl) {
+          document.body.removeChild(loadingEl);
+        }
+      }, 1500);
+    }
+    
+    function getCategoryTitle(categoryName) {
+      const titles = {
+        'core': 'CORE SYSTEMS',
+        'neural': 'NEURAL NETWORKS', 
+        'data': 'DATA STREAMS',
+        'protocols': 'PROTOCOLS',
+        'experimental': 'EXPERIMENTAL ZONE',
+        'secure': 'SECURE VAULT'
+      };
+      return titles[categoryName] || '[SYSTEM ERROR: CATEGORY NOT FOUND]';
     }
   </script>
 </body>
